@@ -1,4 +1,6 @@
+import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import ProfileCard from "../components/ProfileCard";
 
 function Home() {
   const [users, setUsers] = useState([]);
@@ -16,10 +18,11 @@ function Home() {
       <section>
         {users.map((item, key) => {
           return (
-            <div key={key}>
-              <h3>{item.firstname + " " + item.lastname}</h3>
-              <p>{item.email}</p>
-            </div>
+            <ProfileCard
+              key={key}
+              name={item.firstname + " " + item.lastname}
+              id={item._id}
+            />
           );
         })}
       </section>
