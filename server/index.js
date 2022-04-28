@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const routes = require("./routes/User");
 const approutes = require("./routes/App");
-dotenv.config();
+dotenv.config({ path: "./vars/.env" });
 const App = express();
 App.use(express.json());
 
