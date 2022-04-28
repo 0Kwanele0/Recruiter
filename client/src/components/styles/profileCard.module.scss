@@ -1,0 +1,22 @@
+.container {
+  background-color: rgb(187, 187, 224);
+  width: 300px;
+  padding: 20px;
+  border-radius: 12px;
+  h4,
+  h3,
+  p {
+    margin: 4px 0;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    li {
+      border: 1px solid rgba(80, 80, 202, 0.938);
+      padding: 2px 5px;
+    }
+  }
+}

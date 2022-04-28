@@ -24,6 +24,9 @@ const UserSchema = new mongoose.Schema({
   bio: {
     type: String,
   },
+  location: {
+    type: String,
+  },
   employmentstatus: {
     type: Boolean,
   },

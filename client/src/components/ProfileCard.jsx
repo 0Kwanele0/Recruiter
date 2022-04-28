@@ -1,11 +1,20 @@
-import React from "react";
+import styles from "./styles/profileCard.module.scss";
 import { useNavigate } from "react-router-dom";
 
 function ProfileCard(props) {
   let navigate = useNavigate();
   return (
-    <div>
-      <h4>{props.name}</h4>
+    <div className={styles.container}>
+      <h3>{props.name}</h3>
+      <p>Web developer</p>
+      <h4>{props.location}</h4>
+      <ul>
+        <li>Java</li>
+        <li>CSS</li>
+        <li>HTML</li>
+        <li>Python</li>
+        <li>C#</li>
+      </ul>
       <button
         onClick={() => {
           navigate(`/profile/${props.id}`);

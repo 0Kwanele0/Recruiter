@@ -1,3 +1,4 @@
+import styles from "./styles/home.module.scss";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import ProfileCard from "../components/ProfileCard";
@@ -10,18 +11,19 @@ function Home() {
       const data = await user.json();
       setUsers(data);
     });
-  }, [users]);
+  }, []);
 
   return (
-    <div>
+    <div className={styles.container}>
       <h1>This is the home page</h1>
-      <section>
+      <section className={styles.profiles}>
         {users.map((item, key) => {
           return (
             <ProfileCard
               key={key}
               name={item.firstname + " " + item.lastname}
               id={item._id}
+              location={item.location}
             />
           );
         })}

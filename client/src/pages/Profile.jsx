@@ -9,10 +9,11 @@ function Profile() {
     fetch(`http://localhost:3001/user/${params.id}`, { method: "GET" }).then(
       async (user) => {
         const data = await user.json();
+        console.log(data);
         setUsers(data);
       }
     );
-  }, [users]);
+  }, []);
   return <div>{users && <h1>Hello {users.firstname}</h1>}</div>;
 }
 

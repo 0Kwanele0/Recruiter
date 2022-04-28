@@ -44,11 +44,11 @@ router.post("/login", (req, res) => {
           if (done) {
             res.send(user[0]);
           } else {
-            res.send("Wrong password");
+            res.status(401).send({ msg: "Wrong password" });
           }
         });
       } else {
-        res.send("User doesnt exist");
+        res.status(404).send({ msg: "User doesnt exist" });
       }
     });
   } catch (err) {
