@@ -1,6 +1,7 @@
 import styles from "./styles/register.module.scss";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import CompleteProfile from "./CompleteProfile";
 
 function Register() {
   const {
@@ -66,6 +67,7 @@ function Register() {
         <button type="submit">Register</button>
         {responseError ? <small>{responseError}</small> : null}
       </form>
+      <CompleteProfile />
     </div>
   );
 }
