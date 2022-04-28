@@ -3,6 +3,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const routes = require("./routes/User");
+const approutes = require("./routes/App");
 dotenv.config();
 const App = express();
 App.use(express.json());
@@ -16,7 +17,8 @@ mongoose.connect(process.env.MONGO_URL, {}, (err) => {
     console.log(err);
   }
 });
-App.use(routes);
+App.use("/user/", routes);
+App.use(approutes);
 
 App.listen(3001, () => {
   console.log("Server Running...");

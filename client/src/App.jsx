@@ -1,31 +1,15 @@
-import { useState, useEffect } from "react";
+import Home from "./pages/Home";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 function App() {
-  const [img, setImg] = useState();
-  function changing(e) {
-    setImg(e.target.value);
-  }
-  function submit(e) {
-    e.preventDefault();
-    fetch("http://localhost:3001/", {
-      method: "POST",
-      body: { filename: img },
-    });
-    console.log(img);
-  }
-
   return (
-    <div>
-      <form onSubmit={submit} action="submit">
-        <input onChange={changing} value={img} name="image" type="file" />
-        <button
-          type="submit
-        "
-        >
-          send
-        </button>
-      </form>
-    </div>
+    <BrowserRouter>
+      //nav
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+      //footer
+    </BrowserRouter>
   );
 }
 

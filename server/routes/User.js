@@ -51,6 +51,37 @@ router.post("/login", (req, res) => {
         res.send("User doesnt exist");
       }
     });
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.get("/:id", (req, res) => {
+  try {
+    UserModel.findById(req.params.id, (err, user) => {
+      if (!user) {
+        res.send("User not found");
+      } else {
+        res.send(user);
+      }
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.delete("/:id", (req, res) => {
+  try {
+    UserModel.findByIdAndDelete(req.params.id, (err, done) => {
+      if (err) {
+        throw err;
+      } else {
+        res.send("Deleted user");
+      }
+    });
+  } catch (err) {
+    console.log(err);
+    res.send("Failed to delete user");
+  }
 });
 module.exports = router;
