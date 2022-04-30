@@ -9,9 +9,8 @@ import { useForm } from "react-hook-form";
 function CompleteProfile(props) {
   const [categories, setCategories] = useState([]);
   const [skills, setSkills] = useState([]);
-  const [hell, setHell] = useState(false);
 
-  const [listedCategories, setListedCategories] = useState([
+  const listedCategories = [
     "Web developer",
     "Mobile developer",
     "Frontend developer",
@@ -22,51 +21,35 @@ function CompleteProfile(props) {
     "Security developer",
     "Data science developer",
     "DevOps developer",
-  ]);
+  ];
 
   const { register, handleSubmit } = useForm();
 
   function addSkill(e) {
-    setHell(!hell);
     e.preventDefault();
-    const myArr = skills;
     let skill = e.target.skill.value;
-    if (skill.length > 0) {
-      if (myArr.includes(skill)) {
-        return;
-      } else {
-        myArr.push(skill);
-        setSkills(myArr);
-      }
+    if (skills.includes(skill)) {
+      return;
+    } else {
+      setSkills([...skills, skill]);
     }
   }
   function removeSkill(e) {
-    setHell(!hell);
-    const myArr = skills;
     const skill = e.target.innerText;
-    const index = myArr.indexOf(skill);
-    myArr.splice(index, 1);
-    console.log(skills);
+    setSkills(skills.filter((s) => s !== skill));
   }
 
   function addCategory(e) {
-    setHell(!hell);
-    const myArr = categories;
-    const vali = e.target.innerText;
-    if (myArr.includes(vali) || myArr.length >= 4) {
+    const value = e.target.innerText;
+    if (categories.includes(value) || categories.length >= 4) {
       return;
     } else {
-      myArr.push(vali);
-      setCategories(myArr);
+      setCategories([...categories, value]);
     }
   }
   function removeCategory(e) {
-    setHell(!hell);
-    let myArr = categories;
-    const val = e.target.innerText;
-    let index = myArr.indexOf(val);
-    myArr.splice(index, 1);
-    setCategories(myArr);
+    const value = e.target.innerText;
+    setCategories(categories.filter((t) => t !== value));
   }
 
   function submitLinks(e) {
@@ -79,8 +62,6 @@ function CompleteProfile(props) {
   function submitCategories() {
     console.log(categories);
   }
-
-  useEffect(() => {}, [hell]);
 
   return (
     <div className={styles.wrapper}>
