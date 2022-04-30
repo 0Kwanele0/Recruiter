@@ -33,7 +33,7 @@ function Register() {
   return (
     <div className={styles.container}>
       <h2>Register</h2>
-      <form onSubmit={handleSubmit(onSubmit)} action="submit">
+      {/* <form onSubmit={handleSubmit(onSubmit)} action="submit">
         <input
           {...register("firstname", { required: true })}
           type="text"
@@ -66,7 +66,7 @@ function Register() {
         )}
         <button type="submit">Register</button>
         {responseError ? <small>{responseError}</small> : null}
-      </form>
+      </form> */}
       <CompleteProfile />
     </div>
   );
