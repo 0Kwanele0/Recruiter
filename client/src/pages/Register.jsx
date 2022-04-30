@@ -1,4 +1,4 @@
-import styles from "./styles/register.module.scss";
+import regstyles from "./styles/register.module.scss";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import CompleteProfile from "./CompleteProfile";
@@ -11,6 +11,7 @@ function Register() {
   } = useForm();
 
   const [responseError, setRecponseError] = useState();
+  const [user, setUser] = useState();
 
   const onSubmit = (data) => {
     fetch("http://localhost:3001/user/register", {
@@ -21,6 +22,7 @@ function Register() {
       const response = await data.json();
       if (data.status == 200) {
         console.log(response);
+        setUser(response);
         setRecponseError();
       } else if (data.status == 401) {
         setRecponseError(response.msg);
@@ -29,11 +31,12 @@ function Register() {
       }
     });
   };
+  useEffect(() => {}, [user]);
 
   return (
-    <div className={styles.container}>
+    <div className={regstyles.container}>
       <h2>Register</h2>
-      {/* <form onSubmit={handleSubmit(onSubmit)} action="submit">
+      <form onSubmit={handleSubmit(onSubmit)} action="submit">
         <input
           {...register("firstname", { required: true })}
           type="text"
@@ -66,8 +69,8 @@ function Register() {
         )}
         <button type="submit">Register</button>
         {responseError ? <small>{responseError}</small> : null}
-      </form> */}
-      <CompleteProfile />
+      </form>
+      <CompleteProfile user={user} />
     </div>
   );
 }
