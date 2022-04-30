@@ -19,7 +19,7 @@ router.post("/register", (req, res) => {
         try {
           UserModel.find({ email: req.body.email }, (err, user) => {
             if (user.length > 0) {
-              res.send("User already exist");
+              res.status(401).send({ msg: "User already exist" });
             } else {
               const user = new UserModel(data);
               user.save().then((user) => {
