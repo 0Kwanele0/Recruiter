@@ -84,4 +84,40 @@ router.delete("/:id", (req, res) => {
     res.send("Failed to delete user");
   }
 });
+
+router.put("/field/:id", (req, res) => {
+  console.log(req.body.data);
+  UserModel.findByIdAndUpdate(req.params.id, {
+    $set: { field: req.body.data },
+  })
+    .then((value) => {
+      res.send(value);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+});
+router.put("/skills/:id", (req, res) => {
+  UserModel.findByIdAndUpdate(req.params.id, {
+    $set: { skills: req.body.data },
+  })
+    .then((value) => {
+      res.send(value);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+});
+router.put("/links/:id", (req, res) => {
+  UserModel.findByIdAndUpdate(req.params.id, {
+    $set: { links: req.body.data },
+  })
+    .then((value) => {
+      res.send(value);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+});
+
 module.exports = router;

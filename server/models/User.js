@@ -36,6 +36,9 @@ const UserSchema = new mongoose.Schema({
   skills: {
     type: Array,
   },
+  field: {
+    type: Array,
+  },
   projects: {
     type: Array,
   },

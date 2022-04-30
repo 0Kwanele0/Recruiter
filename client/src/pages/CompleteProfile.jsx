@@ -53,14 +53,62 @@ function CompleteProfile(props) {
   }
 
   function submitLinks(e) {
-    console.log(e);
+    let linkArray = [];
+    if (e.twitter.length > 1) {
+      linkArray.push({ name: "Twitter", link: e.twitter });
+    }
+    if (e.linkedin.length > 1) {
+      linkArray.push({ name: "Linkedin", link: e.linkedin });
+    }
+    if (e.github.length > 1) {
+      linkArray.push({ name: "GitHub", link: e.github });
+    }
+    if (e.portfolio.length > 1) {
+      linkArray.push({ name: "Portfolio", link: e.portfolio });
+    }
+    console.log(linkArray);
+
+    fetch(`http://localhost:3001/user/links/${props.user._id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "Application/json" },
+      body: JSON.stringify({ data: linkArray }),
+    })
+      .then(async (value) => {
+        const data = await value.json();
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
   function submitSkills(e) {
-    console.log(skills);
+    fetch(`http://localhost:3001/user/skills/${props.user._id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "Application/json" },
+      body: JSON.stringify({ data: skills }),
+    })
+      .then(async (value) => {
+        const data = await value.json();
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   function submitCategories() {
-    console.log(categories);
+    fetch(`http://localhost:3001/user/field/${props.user._id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "Application/json" },
+      body: JSON.stringify({ data: categories }),
+    })
+      .then(async (value) => {
+        const data = await value.json();
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   return (
