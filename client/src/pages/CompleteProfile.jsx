@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useReducer } from "react";
 import styles from "./styles/completeProfile.module.scss";
 import tw from "../assets/twitter.png";
 import github from "../assets/github.png";
@@ -8,7 +8,8 @@ import { useForm } from "react-hook-form";
 
 function CompleteProfile(props) {
   const [categories, setCategories] = useState([]);
-  const [skills, setSkills] = useState([]);
+  const [skill, setSkill] = useState("");
+  const [skills, dispatcher] = useReducer(skillsReducer, []);
 
   const listedCategories = [
     "Web developer",
@@ -27,16 +28,19 @@ function CompleteProfile(props) {
 
   function addSkill(e) {
     e.preventDefault();
-    let skill = e.target.skill.value;
-    if (skills.includes(skill)) {
-      return;
-    } else {
-      setSkills([...skills, skill]);
-    }
+    dispatcher({
+      type: "add-skill",
+      value: skill,
+    });
+    setSkill("");
   }
   function removeSkill(e) {
+    e.preventDefault();
     const skill = e.target.innerText;
-    setSkills(skills.filter((s) => s !== skill));
+    dispatcher({
+      type: "remove-skill",
+      value: skill,
+    });
   }
 
   function addCategory(e) {
@@ -66,8 +70,6 @@ function CompleteProfile(props) {
     if (e.portfolio.length > 1) {
       linkArray.push({ name: "Portfolio", link: e.portfolio });
     }
-    console.log(linkArray);
-
     fetch(`http://localhost:3001/user/links/${props.user._id}`, {
       method: "PUT",
       headers: { "Content-Type": "Application/json" },
@@ -190,6 +192,8 @@ function CompleteProfile(props) {
             <form onSubmit={addSkill} className={styles.inputAndbtn}>
               <input
                 name="skill"
+                value={skill}
+                onChange={(e) => setSkill(e.target.value)}
                 type="text"
                 placeholder="eg. C#, JavaScript, React"
               />
@@ -214,3 +218,22 @@ function CompleteProfile(props) {
 }
 
 export default CompleteProfile;
+
+function skillsReducer(state, action) {
+  switch (action.type) {
+    case "add-skill": {
+      if (!state.includes(action.value) && action.value.trim().length > 0)
+        return [...state, action.value];
+      else {
+        return [...state];
+      }
+    }
+    case "remove-skill": {
+      if (state.includes(action.value))
+        return state.filter((t) => t !== action.value);
+      else {
+        return;
+      }
+    }
+  }
+}
