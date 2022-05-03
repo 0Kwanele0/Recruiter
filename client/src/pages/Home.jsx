@@ -1,5 +1,8 @@
 import styles from "./styles/home.module.scss";
 import illustration from "../assets/illustration.svg";
+import fields from "../assets/fields.svg";
+import projects from "../assets/projects.svg";
+import links from "../assets/links.svg";
 
 function Home() {
   return (
@@ -53,7 +56,51 @@ function Home() {
         </div>
         <button>Find Talent</button>
       </section>
-      <section className={styles.developerDo}></section>
+      <section className={styles.developerDo}>
+        <h2>What can developers do:</h2>
+        <div className={styles.action}>
+          <div className={styles.image}>
+            <img src={fields} alt="" />
+          </div>
+          <div className={styles.text}>
+            <h3>List skills and fields</h3>
+            <p>
+              Urna, orci, convallis volutpat, nibh et velit, neque. Neque cras
+              posuere purus, mattis congue nisl. Urna, orci, convallis volutpat,
+              nibh et velit, neque. Neque cras posuere purus, mattis congue
+              nisl.{" "}
+            </p>
+          </div>
+        </div>
+        <div className={styles.action}>
+          <div className={styles.text}>
+            <h3>Display projects</h3>
+            <p>
+              Urna, orci, convallis volutpat, nibh et velit, neque. Neque cras
+              posuere purus, mattis congue nisl. Urna, orci, convallis volutpat,
+              nibh et velit, neque. Neque cras posuere purus, mattis congue
+              nisl.{" "}
+            </p>
+          </div>
+          <div className={styles.image}>
+            <img src={projects} alt="" />
+          </div>
+        </div>
+        <div className={styles.action}>
+          <div className={styles.image}>
+            <img src={links} alt="" />
+          </div>
+          <div className={styles.text}>
+            <h3>Pin their links</h3>
+            <p>
+              Urna, orci, convallis volutpat, nibh et velit, neque. Neque cras
+              posuere purus, mattis congue nisl. Urna, orci, convallis volutpat,
+              nibh et velit, neque. Neque cras posuere purus, mattis congue
+              nisl.{" "}
+            </p>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }
