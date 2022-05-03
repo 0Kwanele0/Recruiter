@@ -4,25 +4,35 @@ import { useNavigate } from "react-router-dom";
 function ProfileCard(props) {
   let navigate = useNavigate();
   return (
-    <div className={styles.container}>
-      <h3>{props.name}</h3>
-      <p>Web developer</p>
-      <h4>{props.location}</h4>
-      <ul>
+    <main
+      onClick={() => {
+        navigate(`/profile/${props.id}`);
+      }}
+      className={styles.container}
+    >
+      <section className={styles.profile}>
+        <div className={styles.image}></div>
+        <div className={styles.name}>
+          <h3>{props.name}</h3>
+          <p>Manzini, eSwatini</p>
+        </div>
+      </section>
+      <section className={styles.details}>
+        <h3>Web Developer</h3>
+        <p>
+          Odio sed sed interdum euismod mattis neque, metus eu. Vestibulum,
+          nunc, dolor nisi, risus, enim viverra neque.{" "}
+        </p>
+        <h4>Experience: 2 years</h4>
+      </section>
+      <ul className={styles.skills}>
         <li>Java</li>
         <li>CSS</li>
         <li>HTML</li>
         <li>Python</li>
         <li>C#</li>
       </ul>
-      <button
-        onClick={() => {
-          navigate(`/profile/${props.id}`);
-        }}
-      >
-        View Profile
-      </button>
-    </div>
+    </main>
   );
 }
 

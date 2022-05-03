@@ -70,7 +70,7 @@ function CompleteProfile(props) {
     if (e.portfolio.length > 1) {
       linkArray.push({ name: "Portfolio", link: e.portfolio });
     }
-    fetch(`http://localhost:3001/user/links/${props.user._id}`, {
+    return fetch(`http://localhost:3001/user/links/${props.user._id}`, {
       method: "PUT",
       headers: { "Content-Type": "Application/json" },
       body: JSON.stringify({ data: linkArray }),
@@ -84,7 +84,7 @@ function CompleteProfile(props) {
       });
   }
   function submitSkills(e) {
-    fetch(`http://localhost:3001/user/skills/${props.user._id}`, {
+    return fetch(`http://localhost:3001/user/skills/${props.user._id}`, {
       method: "PUT",
       headers: { "Content-Type": "Application/json" },
       body: JSON.stringify({ data: skills }),
@@ -99,7 +99,7 @@ function CompleteProfile(props) {
   }
 
   function submitCategories() {
-    fetch(`http://localhost:3001/user/field/${props.user._id}`, {
+    return fetch(`http://localhost:3001/user/field/${props.user._id}`, {
       method: "PUT",
       headers: { "Content-Type": "Application/json" },
       body: JSON.stringify({ data: categories }),

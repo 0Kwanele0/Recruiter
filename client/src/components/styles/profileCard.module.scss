@@ -1,22 +1,67 @@
 .container {
-  background-color: rgb(187, 187, 224);
-  width: 300px;
-  padding: 20px;
-  border-radius: 12px;
-  h4,
-  h3,
-  p {
-    margin: 4px 0;
+  background-color: #302e49;
+  width: 330px;
+  padding: 30px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  &:hover {
+    box-shadow: 7px 7px 0px 0 rgb(100, 100, 141);
   }
-  ul {
+  .profile {
+    display: flex;
+    gap: 15px;
+    .image {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: antiquewhite;
+    }
+    .name {
+      h3 {
+        font-weight: 500;
+        margin: 0;
+      }
+      p {
+        margin: 0;
+        color: #819fee;
+        font-size: 15px;
+      }
+    }
+  }
+  .details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    h4 {
+      margin: 0;
+      font-weight: 400;
+      color: #819fee;
+    }
+    h3 {
+      color: #da99f1;
+      margin: 0;
+    }
+    p {
+      margin: 0;
+      font-size: 14px;
+      color: #babde4;
+    }
+  }
+  .skills {
+    margin: 0;
     list-style: none;
     padding: 0;
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
     li {
-      border: 1px solid rgba(80, 80, 202, 0.938);
+      background-color: #5a5b85;
       padding: 2px 5px;
+      font-size: 13px;
     }
   }
 }

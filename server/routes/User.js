@@ -86,12 +86,15 @@ router.delete("/:id", (req, res) => {
 });
 
 router.put("/field/:id", (req, res) => {
-  console.log(req.body.data);
-  UserModel.findByIdAndUpdate(req.params.id, {
-    $set: { field: req.body.data },
-  })
-    .then((value) => {
-      res.send(value);
+  UserModel.findById(req.params.id)
+    .then(async (value) => {
+      const newData = await value
+        .updateOne({
+          $set: { field: req.body.data },
+        })
+        .then((value) => {
+          res.send(value);
+        });
     })
     .catch((err) => {
       res.send(err);
