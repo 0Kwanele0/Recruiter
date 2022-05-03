@@ -52,7 +52,11 @@ function Profile() {
                 <h4>Links</h4>
                 <ul>
                   {user.links.map((item, index) => {
-                    return <li key={index}>{item.name}</li>;
+                    return (
+                      <a href={item.link} target="_blank">
+                        <li key={index}>{item.name}</li>
+                      </a>
+                    );
                   })}
                 </ul>
               </div>
