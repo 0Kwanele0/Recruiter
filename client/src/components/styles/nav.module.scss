@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(20, 19, 31);
+  padding: 20px;
+  img {
+    width: 130px;
+    cursor: pointer;
+  }
+  ul {
+    width: 30%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    li {
+      list-style: none;
+      font-size: 20px;
+      font-weight: 400;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      &:hover {
+        transform: translate(-2px, -2px);
+        color: rgb(186, 91, 209);
+      }
+    }
+  }
+}
