@@ -21,9 +21,27 @@ function NavBar() {
         >
           Find
         </li>
-        <li>About</li>
-        <li>Login</li>
-        <li>SignUp</li>
+        <li
+          onClick={() => {
+            navigate("/about");
+          }}
+        >
+          About
+        </li>
+        <li
+          onClick={() => {
+            navigate("/login");
+          }}
+        >
+          Login
+        </li>
+        <li
+          onClick={() => {
+            navigate("/register");
+          }}
+        >
+          SignUp
+        </li>
       </ul>
     </div>
   );

@@ -3,8 +3,11 @@ import illustration from "../assets/illustration.svg";
 import fields from "../assets/fields.svg";
 import projects from "../assets/projects.svg";
 import links from "../assets/links.svg";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const navigate = useNavigate();
+
   return (
     <main className={styles.container}>
       <section className={styles.showcase}>
@@ -15,8 +18,20 @@ function Home() {
             filters to help your requirements
           </p>
           <div className={styles.buttons}>
-            <button>Find Talent</button>
-            <button>Create Dev Profile</button>
+            <button
+              onClick={() => {
+                navigate("/devs");
+              }}
+            >
+              Find Talent
+            </button>
+            <button
+              onClick={() => {
+                navigate("/register");
+              }}
+            >
+              Create Dev Profile
+            </button>
           </div>
         </div>
         <div className={styles.image}>
@@ -54,7 +69,13 @@ function Home() {
             </p>
           </div>
         </div>
-        <button>Find Talent</button>
+        <button
+          onClick={() => {
+            navigate("/devs");
+          }}
+        >
+          Find Talent
+        </button>
       </section>
       <section className={styles.developerDo}>
         <h2>What can developers do:</h2>
@@ -100,7 +121,13 @@ function Home() {
             </p>
           </div>
         </div>
-        <button>Create Dev Profile</button>
+        <button
+          onClick={() => {
+            navigate("/register");
+          }}
+        >
+          Create Dev Profile
+        </button>
       </section>
     </main>
   );
