@@ -1,0 +1,147 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .container {
+    margin-top: 50px;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    .profile {
+      display: flex;
+      justify-content: space-between;
+      .name {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        .image {
+          width: 60px;
+          height: 60px;
+          background-color: rgb(196, 99, 199);
+          border-radius: 50%;
+        }
+        .nameAndLocation {
+          display: flex;
+          gap: 8px;
+          flex-direction: column;
+          h3 {
+            margin: 0;
+          }
+          .location {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            img {
+              width: 20px;
+            }
+            p {
+              margin: 0;
+            }
+          }
+        }
+      }
+      .buttons {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        button:nth-of-type(1) {
+          border: none;
+          background-color: #6c63ff;
+          border-radius: 30px;
+          padding: 10px 40px;
+          color: white;
+          font-weight: 700;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          &:hover {
+            background-color: rgb(73, 42, 146);
+          }
+        }
+        button:nth-of-type(2) {
+          border: 2px solid white;
+          background-color: transparent;
+          border-radius: 30px;
+          padding: 10px 40px;
+          color: white;
+          font-weight: 700;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          &:hover {
+            color: rgb(146, 42, 124);
+          }
+        }
+      }
+    }
+    .details {
+      display: flex;
+      justify-content: space-between;
+      h4 {
+        margin: 0;
+        margin-bottom: 7px;
+        font-size: 1.7rem;
+      }
+      p {
+        margin: 0;
+        margin-bottom: 7px;
+      }
+      ul {
+        margin: 0;
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        li {
+          padding: 5px 9px;
+          font-size: 14px;
+        }
+      }
+      .leftSection {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        width: 30%;
+        .skills {
+          ul {
+            li {
+              background-color: #5a5b85;
+            }
+          }
+        }
+        .links {
+          ul {
+            li {
+              border-radius: 40px;
+              background-color: #7035ef;
+              cursor: pointer;
+              transition: all 0.2s ease;
+              &:hover {
+                transform: translateY(-2px);
+                opacity: 0.7;
+              }
+            }
+          }
+        }
+      }
+      .mainSection {
+        width: 65%;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        .bio {
+          .bioHearder {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            p {
+              background-color: #c4c4c436;
+              padding: 3px 9px;
+              border-radius: 30px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
