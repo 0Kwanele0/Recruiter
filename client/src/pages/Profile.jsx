@@ -5,29 +5,29 @@ import location from "../assets/location.png";
 
 function Profile() {
   let params = useParams();
-  const [users, setUsers] = useState();
+  const [user, setUser] = useState();
 
   useEffect(() => {
     fetch(`http://localhost:3001/user/${params.id}`, { method: "GET" }).then(
       async (user) => {
         const data = await user.json();
         console.log(data);
-        setUsers(data);
+        setUser(data);
       }
     );
   }, []);
   return (
     <main className={mystyles.wrapper}>
-      {users ? (
+      {user ? (
         <main className={mystyles.container}>
           <section className={mystyles.profile}>
             <div className={mystyles.name}>
               <div className={mystyles.image}></div>
               <div className={mystyles.nameAndLocation}>
-                <h3>{users.firstname + " " + users.lastname}</h3>
+                <h3>{user.firstname + " " + user.lastname}</h3>
                 <div className={mystyles.location}>
                   <img src={location} alt="" />
-                  <p>Manzini, eSwatini</p>
+                  <p>{user.location}</p>
                 </div>
               </div>
             </div>
@@ -41,18 +41,19 @@ function Profile() {
               <div className={mystyles.skills}>
                 <h4>Skills</h4>
                 <ul>
-                  <li>React js</li>
-                  <li>JavaScript</li>
-                  <li>Node js</li>
-                  <li>Python</li>
+                  {user.skills.length > 0 &&
+                    user.skills.map((item, index) => {
+                      <li key={index}>{item}</li>;
+                    })}
                 </ul>
               </div>
               <div className={mystyles.links}>
                 <h4>Links</h4>
                 <ul>
-                  <li>GitHub</li>
-                  <li>Twitter</li>
-                  <li>LinkedIn</li>
+                  {user.links.length > 0 &&
+                    user.links.map((item, index) => {
+                      <li key={index}>{item.name}</li>;
+                    })}
                 </ul>
               </div>
             </div>
@@ -60,16 +61,11 @@ function Profile() {
               <div className={mystyles.bio}>
                 <div className={mystyles.bioHearder}>
                   <h4>Web Developer</h4>
-                  <p>Experience: 2 years</p>
+                  <p>
+                    Experience: {user.experience ? user.experience : 0} years
+                  </p>
                 </div>
-                <p>
-                  Nunc eu urna id at vestibulum quisque lobortis et. Commodo
-                  tempor blandit erat gravida fermentum pellentesque habitant
-                  eget. Massa, aliquam sem ullamcorper faucibus pharetra
-                  faucibus sit sit metus. Lectus sit tristique nulla ac
-                  malesuada molestie velit commodo. Tortor egestas tempor
-                  integer iaculis.
-                </p>
+                <p>{user.bio}</p>
               </div>
               <div className={mystyles.projects}>
                 <h4>Projects</h4>
