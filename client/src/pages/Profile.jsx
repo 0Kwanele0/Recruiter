@@ -7,6 +7,7 @@ import ProjectCard from "../components/ProjectCard";
 function Profile() {
   let params = useParams();
   const [user, setUser] = useState();
+  const [emailLink, setEmailLink] = useState();
 
   useEffect(() => {
     fetch(`http://localhost:3001/user/${params.id}`, { method: "GET" }).then(
@@ -14,6 +15,7 @@ function Profile() {
         const data = await user.json();
         console.log(data);
         setUser(data);
+        setEmailLink(`mailto: ${data.email}`);
       }
     );
   }, []);
@@ -34,7 +36,7 @@ function Profile() {
             </div>
             <div className={mystyles.buttons}>
               <button>Resume</button>
-              <button>Send Email</button>
+              <a href={emailLink}>Send Email</a>
             </div>
           </section>
           <section className={mystyles.details}>
@@ -79,7 +81,7 @@ function Profile() {
                       <ProjectCard
                         title={item.title}
                         description={item.description}
-                        link={user.link}
+                        link={item.link}
                       />
                     );
                   })}

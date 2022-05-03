@@ -19,13 +19,15 @@
     font-size: 14px;
     margin: 0;
   }
-  button {
-    font-size: 18px;
+  a {
+    font-size: 16px;
+    text-align: center;
     color: white;
     background-color: dodgerblue;
     border: none;
-    padding: 4px 20px;
-    border-radius: 16px;
+    padding: 5px 20px;
+    border-radius: 8px;
+    text-decoration: none;
     cursor: pointer;
     transition: all 0.2s ease;
     &:hover {

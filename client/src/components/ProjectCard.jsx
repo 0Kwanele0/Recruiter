@@ -6,13 +6,9 @@ function ProjectCard(props) {
       <div className={styles.image}></div>
       <h3 className={styles.header}>{props.title}</h3>
       <p>{props.description}</p>
-      <button
-        onClick={() => {
-          console.log(props.title);
-        }}
-      >
+      <a href={props.link} target="_blank">
         View
-      </button>
+      </a>
     </div>
   );
 }
