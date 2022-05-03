@@ -14,7 +14,12 @@ router.post("/register", (req, res) => {
           email: req.body.email,
           password: hash,
           location: req.body.location,
+          experience: req.body.experience,
           skills: req.body.skills,
+          links: req.body.links,
+          field: req.body.field,
+          bio: req.body.bio,
+          projects: req.body.projects,
         };
         try {
           UserModel.find({ email: req.body.email }, (err, user) => {

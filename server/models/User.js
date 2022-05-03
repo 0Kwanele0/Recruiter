@@ -17,18 +17,14 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  profilephoto: {
-    data: Buffer,
-    type: String,
-  },
   bio: {
     type: String,
   },
+  experience: {
+    type: Number,
+  },
   location: {
     type: String,
-  },
-  employmentstatus: {
-    type: Boolean,
   },
   links: {
     type: Array,
@@ -37,7 +33,7 @@ const UserSchema = new mongoose.Schema({
     type: Array,
   },
   field: {
-    type: Array,
+    type: String,
   },
   projects: {
     type: Array,

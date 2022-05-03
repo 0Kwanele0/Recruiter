@@ -2,6 +2,7 @@ import mystyles from "./styles/profile.module.scss";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import location from "../assets/location.png";
+import ProjectCard from "../components/ProjectCard";
 
 function Profile() {
   let params = useParams();
@@ -43,24 +44,23 @@ function Profile() {
                 <ul>
                   {user.skills.length > 0 &&
                     user.skills.map((item, index) => {
-                      <li key={index}>{item}</li>;
+                      return <li key={index}>{item}</li>;
                     })}
                 </ul>
               </div>
               <div className={mystyles.links}>
                 <h4>Links</h4>
                 <ul>
-                  {user.links.length > 0 &&
-                    user.links.map((item, index) => {
-                      <li key={index}>{item.name}</li>;
-                    })}
+                  {user.links.map((item, index) => {
+                    return <li key={index}>{item.name}</li>;
+                  })}
                 </ul>
               </div>
             </div>
             <div className={mystyles.mainSection}>
               <div className={mystyles.bio}>
                 <div className={mystyles.bioHearder}>
-                  <h4>Web Developer</h4>
+                  <h4>{user.field}</h4>
                   <p>
                     Experience: {user.experience ? user.experience : 0} years
                   </p>
@@ -69,7 +69,17 @@ function Profile() {
               </div>
               <div className={mystyles.projects}>
                 <h4>Projects</h4>
-                <div className={mystyles.projectCards}></div>
+                <div className={mystyles.projectCards}>
+                  {user.projects.map((item, index) => {
+                    return (
+                      <ProjectCard
+                        title={item.title}
+                        description={item.description}
+                        link={user.link}
+                      />
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </section>

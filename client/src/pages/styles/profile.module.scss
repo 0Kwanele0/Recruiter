@@ -135,10 +135,19 @@
             align-items: center;
             gap: 15px;
             p {
-              background-color: #c4c4c436;
+              background-color: #2aa3489d;
               padding: 3px 9px;
               border-radius: 30px;
+              color: white;
+              margin: 0;
             }
+          }
+        }
+        .projects {
+          .projectCards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
           }
         }
       }
