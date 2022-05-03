@@ -2,7 +2,7 @@
   background-color: #302e49;
   width: 330px;
   padding: 30px;
-  border-radius: 8px;
+  border-radius: 15px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -29,6 +29,16 @@
         margin: 0;
         color: #819fee;
         font-size: 15px;
+      }
+      .location {
+        display: flex;
+        justify-content: flex-start;
+        gap: 8px;
+        align-items: center;
+        margin-top: 10px;
+        img {
+          width: 20px;
+        }
       }
     }
   }

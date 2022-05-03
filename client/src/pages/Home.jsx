@@ -15,7 +15,14 @@ function Home() {
 
   return (
     <div className={styles.container}>
-      <h1>This is the home page</h1>
+      <section className={styles.filter}>
+        <form action="submit">
+          <input type="text" />
+          <input type="text" />
+          <input type="text" />
+          <button>Filter</button>
+        </form>
+      </section>
       <section className={styles.profiles}>
         {users.map((item, key) => {
           return (

@@ -1,5 +1,6 @@
 import styles from "./styles/profileCard.module.scss";
 import { useNavigate } from "react-router-dom";
+import location from "../assets/location.png";
 
 function ProfileCard(props) {
   let navigate = useNavigate();
@@ -14,7 +15,10 @@ function ProfileCard(props) {
         <div className={styles.image}></div>
         <div className={styles.name}>
           <h3>{props.name}</h3>
-          <p>Manzini, eSwatini</p>
+          <div className={styles.location}>
+            <img src={location} alt="" />
+            <p>Manzini, eSwatini</p>
+          </div>
         </div>
       </section>
       <section className={styles.details}>
