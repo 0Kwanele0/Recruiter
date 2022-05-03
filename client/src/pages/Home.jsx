@@ -100,6 +100,7 @@ function Home() {
             </p>
           </div>
         </div>
+        <button>Create Dev Profile</button>
       </section>
     </main>
   );
