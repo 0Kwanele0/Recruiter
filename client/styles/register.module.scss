@@ -2,35 +2,70 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  .counter {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+    .paraCont {
+      background-color: rgba(27, 49, 66, 0.863);
+      width: 30px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+    }
+    p {
+      margin: 0;
+      padding: 10px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+  }
   form {
-    max-width: 400px;
-    width: 100%;
+    background-color: rgb(250, 250, 252);
+    padding: 30px;
     display: flex;
     flex-direction: column;
-    font-family: inherit;
-    gap: 10px;
-    input {
-      font-weight: 200;
-      font-size: 18px;
-      padding: 10px;
-      border-radius: 4px;
-      border: 2px solid rgba(3, 3, 5, 0.521);
-    }
-    button {
-      background-color: dodgerblue;
-      font-size: 20px;
-      color: white;
-      padding: 10px;
-      border: none;
-      cursor: pointer;
-      border-radius: 4px;
-      transition: all 0.2s ease;
-      &:hover {
-        transform: translateY(-2px);
+    align-items: center;
+    margin-top: 30px;
+    .register {
+      margin-top: 30px;
+      max-width: 500px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      font-family: inherit;
+      gap: 15px;
+      .countries,
+      .names {
+        display: flex;
+        gap: 10px;
       }
-    }
-    small {
-      color: tomato;
+      input {
+        font-weight: 200;
+        width: 100%;
+        font-size: 18px;
+        padding: 10px;
+        border-radius: 0px;
+        background-color: transparent;
+        border: 2px solid rgba(79, 79, 134, 0.329);
+      }
+      button {
+        background-color: dodgerblue;
+        font-size: 20px;
+        color: white;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        &:hover {
+          transform: translateY(-2px);
+        }
+      }
+      small {
+        color: tomato;
+      }
     }
   }
 }

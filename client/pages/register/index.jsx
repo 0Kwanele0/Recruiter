@@ -11,6 +11,9 @@ function Register() {
   const [lastname, setlastname] = useState("");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
+  const [city, setcity] = useState("");
+  const [country, setcountry] = useState("");
+  const [confirmpassword, setconfirmpassword] = useState("");
   const [profilephoto, setprofilephoto] = useState();
   function formChange(e) {
     switch (e.target.name) {
@@ -63,7 +66,6 @@ function Register() {
 
   return (
     <div className={regstyles.container}>
-      <h2>Register</h2>
       {!registered ? (
         <form
           onSubmit={onSubmit}
@@ -71,37 +73,82 @@ function Register() {
           // action="http://localhost:3001/user/register"
           encType="multipart/form-data"
         >
-          <input
-            onChange={formChange}
-            value={firstname}
-            name="firstname"
-            type="text"
-            placeholder="Firstname"
-          />
-          <input
-            onChange={formChange}
-            value={lastname}
-            name="lastname"
-            type="text"
-            placeholder="Lastname"
-          />
-          <input
-            onChange={formChange}
-            value={email}
-            name="email"
-            type="email"
-            placeholder="Email"
-          />
-          <input
-            onChange={formChange}
-            value={password}
-            name="password"
-            placeholder="Password"
-            type="text"
-          />
-          <input onChange={formChange} name="profilephoto" type="file" />
-          <button type="submit">Register</button>
-          {responseError ? <small>{responseError}</small> : null}
+          <div className={regstyles.counter}>
+            <div className={regstyles.paraCont}>
+              <p>1</p>
+            </div>
+            <div className={regstyles.paraCont}>
+              <p>2</p>
+            </div>
+            <div className={regstyles.paraCont}>
+              <p>3</p>
+            </div>
+          </div>
+          <div className={regstyles.register}>
+            <div className={regstyles.names}>
+              <input
+                onChange={formChange}
+                value={firstname}
+                name="firstname"
+                type="text"
+                placeholder="Firstname"
+                required={true}
+              />
+              <input
+                onChange={formChange}
+                value={lastname}
+                name="lastname"
+                type="text"
+                placeholder="Lastname"
+                required={true}
+              />
+            </div>
+            <input
+              onChange={formChange}
+              value={email}
+              name="email"
+              type="email"
+              placeholder="Email"
+              required={true}
+            />
+            <div className={regstyles.countries}>
+              <input
+                onChange={formChange}
+                value={country}
+                name="country"
+                type="text"
+                placeholder="Country"
+                required={true}
+              />
+              <input
+                onChange={formChange}
+                value={city}
+                name="city"
+                type="text"
+                placeholder="City"
+                required={true}
+              />
+            </div>
+            <input
+              onChange={formChange}
+              value={password}
+              name="password"
+              placeholder="Password"
+              type="text"
+              required={true}
+            />
+            <input
+              onChange={formChange}
+              value={confirmpassword}
+              name="confirmpassword"
+              placeholder="Confirm Password"
+              type="text"
+              required={true}
+            />
+            {/* <input onChange={formChange} name="profilephoto" type="file" /> */}
+            <button type="submit">Next</button>
+            {responseError ? <small>{responseError}</small> : null}
+          </div>
         </form>
       ) : (
         <CompleteProfile user={user} />
