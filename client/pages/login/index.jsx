@@ -31,8 +31,8 @@ function Login() {
 
   return (
     <div className={styles.container}>
-      <h2>Login</h2>
       <form onSubmit={handleSubmit(onSubmit)} action="submit">
+        <h3>Hey! welcome back!</h3>
         <input
           {...register("email", { required: true })}
           type="email"
