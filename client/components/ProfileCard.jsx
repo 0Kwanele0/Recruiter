@@ -1,6 +1,7 @@
 import styles from "./styles/profileCard.module.scss";
 import { useRouter } from "next/router";
 import location from "../public/assets/location.png";
+import Image from "next/image";
 
 function ProfileCard(props) {
   const router = useRouter();
@@ -16,12 +17,18 @@ function ProfileCard(props) {
     >
       <section className={styles.profile}>
         <div className={styles.image}>
-          <img src={imglink} alt="" />
+          <Image
+            width={50}
+            height={50}
+            src={imglink}
+            alt=""
+            objectFit="cover"
+          />
         </div>
         <div className={styles.name}>
           <h3>{props.name}</h3>
           <div className={styles.location}>
-            <img src={location} alt="" />
+            <Image src={location} alt="" width={20} height={20} />
             <p>Manzini, eSwatini</p>
           </div>
         </div>

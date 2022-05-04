@@ -8,15 +8,15 @@
       display: flex;
       gap: 15px;
       justify-content: space-between;
+      margin-top: 20px;
       input {
-        font-size: 16px;
+        font-size: 18px;
         outline: none;
         color: white;
-        padding: 8px;
+        padding: 12px 8px;
         background-color: transparent;
         border: 2px solid white;
         width: 25%;
-        border-radius: 8px;
         cursor: pointer;
         transition: all 0.2s ease;
         &:hover {
@@ -28,7 +28,6 @@
         }
       }
       button {
-        border-radius: 8px;
         background-color: dodgerblue;
         border: none;
         color: white;

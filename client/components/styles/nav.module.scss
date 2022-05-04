@@ -8,18 +8,20 @@
     width: 130px;
     cursor: pointer;
   }
-  ul {
+  .links {
     width: 30%;
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: space-between;
     gap: 20px;
-    li {
+    a {
       list-style: none;
-      font-size: 20px;
-      font-weight: 400;
-      cursor: pointer;
+      text-decoration: none;
+      font-family: inherit;
+      color: aliceblue;
+      font-size: 17px;
+      font-weight: 500;
       transition: all 0.2s ease;
       &:hover {
         transform: translate(-2px, -2px);

@@ -1,15 +1,15 @@
 .container {
-  background-color: #302e49;
+  background: rgba(94, 41, 124, 0.2);
   width: 330px;
   padding: 30px;
-  border-radius: 15px;
   display: flex;
   flex-direction: column;
   gap: 20px;
   cursor: pointer;
+  box-shadow: 0px 0px 30px 0 rgba(20, 20, 24, 0.329);
   transition: all 0.2s ease;
   &:hover {
-    box-shadow: 7px 7px 0px 0 rgb(100, 100, 141);
+    transform: translateY(-3px);
   }
   .profile {
     display: flex;
@@ -58,10 +58,11 @@
     h3 {
       color: #da99f1;
       margin: 0;
+      font-size: 1.4rem;
     }
     p {
       margin: 0;
-      font-size: 14px;
+      font-size: 13px;
       color: #babde4;
     }
   }
@@ -73,9 +74,11 @@
     gap: 10px;
     flex-wrap: wrap;
     li {
-      background-color: #5a5b85;
+      background-color: #ee2c46;
+      color: #fdfdfd;
       padding: 2px 5px;
       font-size: 13px;
+      font-weight: 200;
     }
   }
 }

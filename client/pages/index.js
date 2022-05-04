@@ -4,8 +4,6 @@ import fields from "../public/assets/fields.svg";
 import bylocation from "../public/assets/locationicon.png";
 import api from "../public/assets/apiicon.png";
 import laptop from "../public/assets/laptopicon.png";
-import projects from "../public/assets/projects.svg";
-import links from "../public/assets/links.svg";
 import { useRouter } from "next/router";
 import Image from "next/image";
 
