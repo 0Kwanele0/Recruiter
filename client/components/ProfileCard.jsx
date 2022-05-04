@@ -1,6 +1,6 @@
 import styles from "./styles/profileCard.module.scss";
 import { useRouter } from "next/router";
-import location from "../public/assets/location.png";
+import location from "../public/assets/icons/location.png";
 import Image from "next/image";
 
 function ProfileCard(props) {

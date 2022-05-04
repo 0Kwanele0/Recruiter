@@ -1,6 +1,6 @@
 import regstyles from "../../styles/register.module.scss";
 import { useState, useEffect, useRef } from "react";
-import plus from "../../public/assets/plus.png";
+import plus from "../../public/assets/icons/plus.png";
 import Image from "next/image";
 
 function Register() {
@@ -215,9 +215,11 @@ function Register() {
               </div>
               {fieldlist && (
                 <div ref={fieldList} className={regstyles.list}>
-                  {listedCategories.map((item, index) => {
-                    return <li>{item}</li>;
-                  })}
+                  <ul>
+                    {listedCategories.map((item, index) => {
+                      return <li>{item}</li>;
+                    })}
+                  </ul>
                 </div>
               )}
             </div>
@@ -237,9 +239,11 @@ function Register() {
               </div>
               {exlist && (
                 <div ref={experience} className={regstyles.list}>
-                  {experienceList.map((item, index) => {
-                    return <li>{item}</li>;
-                  })}
+                  <ul>
+                    {experienceList.map((item, index) => {
+                      return <li>{item}</li>;
+                    })}
+                  </ul>
                 </div>
               )}
             </div>

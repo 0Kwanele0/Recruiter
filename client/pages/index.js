@@ -1,9 +1,9 @@
 import styles from "../styles/home.module.scss";
-import illustration from "../public/assets/illustration.svg";
+import illustration from "../public/assets/fields.svg";
 import fields from "../public/assets/fields.svg";
-import bylocation from "../public/assets/locationicon.png";
-import api from "../public/assets/apiicon.png";
-import laptop from "../public/assets/laptopicon.png";
+import bylocation from "../public/assets/icons/locationicon.png";
+import api from "../public/assets/icons/apiicon.png";
+import laptop from "../public/assets/icons/laptopicon.png";
 import { useRouter } from "next/router";
 import Image from "next/image";
 
@@ -36,7 +36,7 @@ function Home() {
           </div>
         </div>
         <div className={styles.image}>
-          <Image src={illustration} alt="" width={400} />
+          <Image src={illustration} alt="" width={440} />
         </div>
       </section>
       <section className={styles.filters}>
