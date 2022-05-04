@@ -8,12 +8,14 @@ function Profile() {
   let params = useParams();
   const [user, setUser] = useState();
   const [emailLink, setEmailLink] = useState();
+  const [imglink, setImgLink] = useState();
 
   useEffect(() => {
     fetch(`http://localhost:3001/user/${params.id}`, { method: "GET" }).then(
       async (user) => {
         const data = await user.json();
         console.log(data);
+        setImgLink(`/uploads/profilephotos/${data.profilephoto}`);
         setUser(data);
         setEmailLink(`mailto: ${data.email}`);
       }
@@ -25,7 +27,9 @@ function Profile() {
         <main className={mystyles.container}>
           <section className={mystyles.profile}>
             <div className={mystyles.name}>
-              <div className={mystyles.image}></div>
+              <div className={mystyles.image}>
+                {imglink && <img src={imglink} alt="" />}
+              </div>
               <div className={mystyles.nameAndLocation}>
                 <h3>{user.firstname + " " + user.lastname}</h3>
                 <div className={mystyles.location}>

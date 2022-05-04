@@ -25,6 +25,10 @@
           height: 60px;
           background-color: rgb(196, 99, 199);
           border-radius: 50%;
+          overflow: hidden;
+          img {
+            width: 100%;
+          }
         }
         .nameAndLocation {
           display: flex;

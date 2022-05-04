@@ -5,22 +5,21 @@ const multer = require("multer");
 const router = express.Router();
 
 const Storage = multer.diskStorage({
-  destination: "../client/src/uploads",
+  destination: "../client/public/uploads/profilephotos",
   filename: (req, file, cb) => {
-    cb(null, file.originalname);
+    cb(null, new Date().getMilliseconds() + file.originalname);
   },
 });
 const upload = multer({ storage: Storage });
 
 router.post("/register", upload.single("profilephoto"), (req, res) => {
-  console.log(req.body.profilephoto);
   bcrypt.genSalt(10, (err, salt) => {
     if (!err) {
       bcrypt.hash(req.body.password, salt, (err, hash) => {
         const data = {
           firstname: req.body.firstname,
           lastname: req.body.lastname,
-          profilephoto: req.body.profilephoto.filename,
+          profilephoto: req.file.filename,
           email: req.body.email,
           password: hash,
           location: req.body.location,

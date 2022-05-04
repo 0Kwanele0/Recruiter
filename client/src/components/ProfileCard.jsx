@@ -4,6 +4,8 @@ import location from "../assets/location.png";
 
 function ProfileCard(props) {
   let navigate = useNavigate();
+  const imglink = `/uploads/profilephotos/${props.photo}`;
+  console.log(imglink);
   return (
     <main
       onClick={() => {
@@ -12,7 +14,9 @@ function ProfileCard(props) {
       className={styles.container}
     >
       <section className={styles.profile}>
-        <div className={styles.image}></div>
+        <div className={styles.image}>
+          <img src={imglink} alt="" />
+        </div>
         <div className={styles.name}>
           <h3>{props.name}</h3>
           <div className={styles.location}>

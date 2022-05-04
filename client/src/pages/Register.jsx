@@ -27,25 +27,24 @@ function Register() {
         setpassword(e.target.value);
         break;
       case "profilephoto":
-        setprofilephoto(e.target.value);
+        setprofilephoto(e.target.files[0]);
         break;
     }
   }
 
   const onSubmit = (data) => {
     data.preventDefault();
-    const info = {
-      firstname: firstname,
-      lastname: lastname,
-      profilephoto: profilephoto,
-      email: email,
-      password: password,
-    };
-    console.log(info);
+    const formData = new FormData();
+    formData.append("firstname", firstname);
+    formData.append("lastname", lastname);
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("profilephoto", profilephoto);
+
+    console.log(formData);
     fetch("http://localhost:3001/user/register", {
       method: "POST",
-      headers: { "Content-Type": "Application/json" },
-      body: JSON.stringify(info),
+      body: formData,
     }).then(async (data) => {
       const response = await data.json();
       if (data.status == 200) {
@@ -66,7 +65,12 @@ function Register() {
     <div className={regstyles.container}>
       <h2>Register</h2>
       {!registered ? (
-        <form onSubmit={onSubmit} action="submit" encType="multipart/form-data">
+        <form
+          onSubmit={onSubmit}
+          method="POST"
+          // action="http://localhost:3001/user/register"
+          encType="multipart/form-data"
+        >
           <input
             onChange={formChange}
             value={firstname}
@@ -95,12 +99,7 @@ function Register() {
             placeholder="Password"
             type="text"
           />
-          <input
-            onChange={formChange}
-            value={profilephoto}
-            name="profilephoto"
-            type="file"
-          />
+          <input onChange={formChange} name="profilephoto" type="file" />
           <button type="submit">Register</button>
           {responseError ? <small>{responseError}</small> : null}
         </form>

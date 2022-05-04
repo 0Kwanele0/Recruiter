@@ -29,6 +29,7 @@ function Devs() {
               key={key}
               name={item.firstname + " " + item.lastname}
               id={item._id}
+              photo={item.profilephoto}
               location={item.location}
             />
           );
