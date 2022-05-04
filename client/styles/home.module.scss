@@ -16,7 +16,8 @@
       p {
         margin: 0;
         max-width: 400px;
-        font-size: 18px;
+        font-size: 17px;
+        font-weight: 300;
       }
       .buttons {
         display: flex;
@@ -61,9 +62,8 @@
     }
     .image {
       width: 40%;
-      img {
-        width: 80%;
-      }
+      display: flex;
+      justify-content: center;
     }
   }
   .filters {
@@ -81,6 +81,7 @@
     .cards {
       display: flex;
       gap: 30px;
+      justify-content: center;
       flex-wrap: wrap;
       .card {
         max-width: 300px;
@@ -165,9 +166,6 @@
       margin-bottom: 30px;
       .image {
         width: 50%;
-        img {
-          width: 300px;
-        }
       }
       .text {
         width: 50%;
@@ -178,7 +176,8 @@
         p {
           max-width: 420px;
           color: #a4a1e7b4;
-          font-weight: 400;
+          font-weight: 300;
+          font-size: 15px;
         }
       }
     }

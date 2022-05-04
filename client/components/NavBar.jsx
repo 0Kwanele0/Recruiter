@@ -1,12 +1,13 @@
 import styles from "./styles/nav.module.scss";
 import logo from "../public/assets/logo.png";
 import Link from "next/link";
+import Image from "next/image";
 
 function NavBar() {
   return (
     <div className={styles.container}>
       <Link href="/">
-        <img src={logo} alt="Recruiter" />
+        <Image src={logo} alt="Recruiter" />
       </Link>
       <ul>
         <Link href="/devs">

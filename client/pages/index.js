@@ -4,6 +4,7 @@ import fields from "../public/assets/fields.svg";
 import projects from "../public/assets/projects.svg";
 import links from "../public/assets/links.svg";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 function Home() {
   const router = useRouter();
@@ -34,7 +35,7 @@ function Home() {
           </div>
         </div>
         <div className={styles.image}>
-          <img src={illustration} alt="" />
+          <Image src={illustration} alt="" width={400} />
         </div>
       </section>
       <section className={styles.filters}>
@@ -80,7 +81,7 @@ function Home() {
         <h2>What can developers do:</h2>
         <div className={styles.action}>
           <div className={styles.image}>
-            <img src={fields} alt="" />
+            <Image width={300} height={300} src={fields} alt="" />
           </div>
           <div className={styles.text}>
             <h3>List skills and fields</h3>
@@ -103,12 +104,12 @@ function Home() {
             </p>
           </div>
           <div className={styles.image}>
-            <img src={projects} alt="" />
+            <Image width={300} height={300} src={projects} alt="" />
           </div>
         </div>
         <div className={styles.action}>
           <div className={styles.image}>
-            <img src={links} alt="" />
+            <Image width={300} height={300} src={links} alt="" />
           </div>
           <div className={styles.text}>
             <h3>Pin their links</h3>
