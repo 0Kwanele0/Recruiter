@@ -2,7 +2,7 @@ import mystyles from "./styles/profile.module.scss";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import location from "../assets/location.png";
-import ProjectCard from "../components/ProjectCard";
+import ProjectCard from "../../components/ProjectCard";
 
 function Profile() {
   let params = useParams();

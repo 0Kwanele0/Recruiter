@@ -1,9 +1,9 @@
 import { useEffect, useState, useReducer } from "react";
-import styles from "./styles/completeProfile.module.scss";
-import tw from "../assets/twitter.png";
-import github from "../assets/github.png";
-import linkedin from "../assets/linkedin.png";
-import internet from "../assets/internet.png";
+import styles from "../styles/completeProfile.module.scss";
+import tw from "../public/assets/twitter.png";
+import github from "../public/assets/github.png";
+import linkedin from "../public/assets/linkedin.png";
+import internet from "../public/assets/internet.png";
 import { useForm } from "react-hook-form";
 
 function CompleteProfile(props) {

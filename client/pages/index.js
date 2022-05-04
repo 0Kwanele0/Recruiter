@@ -1,13 +1,12 @@
-import styles from "./styles/home.module.scss";
-import illustration from "../assets/illustration.svg";
-import fields from "../assets/fields.svg";
-import projects from "../assets/projects.svg";
-import links from "../assets/links.svg";
-import { useNavigate } from "react-router-dom";
+import styles from "../styles/home.module.scss";
+import illustration from "../public/assets/illustration.svg";
+import fields from "../public/assets/fields.svg";
+import projects from "../public/assets/projects.svg";
+import links from "../public/assets/links.svg";
+import { useRouter } from "next/router";
 
 function Home() {
-  const navigate = useNavigate();
-
+  const router = useRouter();
   return (
     <main className={styles.container}>
       <section className={styles.showcase}>
@@ -20,14 +19,14 @@ function Home() {
           <div className={styles.buttons}>
             <button
               onClick={() => {
-                navigate("/devs");
+                router.push("/devs");
               }}
             >
               Find Talent
             </button>
             <button
               onClick={() => {
-                navigate("/register");
+                router.push("/register");
               }}
             >
               Create Dev Profile
@@ -71,7 +70,7 @@ function Home() {
         </div>
         <button
           onClick={() => {
-            navigate("/devs");
+            router.push("/devs");
           }}
         >
           Find Talent
@@ -123,7 +122,7 @@ function Home() {
         </div>
         <button
           onClick={() => {
-            navigate("/register");
+            router.push("/register");
           }}
         >
           Create Dev Profile

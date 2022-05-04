@@ -1,7 +1,7 @@
-import regstyles from "./styles/register.module.scss";
+import regstyles from "../../styles/register.module.scss";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import CompleteProfile from "./CompleteProfile";
+import CompleteProfile from "../../components/CompleteProfile";
 
 function Register() {
   const [responseError, setRecponseError] = useState();

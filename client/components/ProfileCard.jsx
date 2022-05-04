@@ -1,15 +1,16 @@
 import styles from "./styles/profileCard.module.scss";
-import { useNavigate } from "react-router-dom";
-import location from "../assets/location.png";
+import { useRouter } from "next/router";
+import location from "../public/assets/location.png";
 
 function ProfileCard(props) {
-  let navigate = useNavigate();
+  const router = useRouter();
+
   const imglink = `/uploads/profilephotos/${props.photo}`;
   console.log(imglink);
   return (
     <main
       onClick={() => {
-        navigate(`/profile/${props.id}`);
+        router.push(`/profile/${props.id}`);
       }}
       className={styles.container}
     >
