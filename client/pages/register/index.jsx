@@ -1,12 +1,16 @@
 import regstyles from "../../styles/register.module.scss";
-import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import CompleteProfile from "../../components/CompleteProfile";
+import { useState, useEffect, useRef } from "react";
+import plus from "../../public/assets/plus.png";
+import Image from "next/image";
 
 function Register() {
   const [responseError, setRecponseError] = useState();
   const [user, setUser] = useState();
-  const [registered, setRegistered] = useState(false);
+  const [register, setRegister] = useState(true);
+  const [details, setdetails] = useState(false);
+  const [fieldlist, setFieldList] = useState(false);
+  const [exlist, setExList] = useState(false);
+  const [links, setlinks] = useState(false);
   const [firstname, setfirstname] = useState("");
   const [lastname, setlastname] = useState("");
   const [email, setemail] = useState("");
@@ -15,6 +19,57 @@ function Register() {
   const [country, setcountry] = useState("");
   const [confirmpassword, setconfirmpassword] = useState("");
   const [profilephoto, setprofilephoto] = useState();
+  const fieldList = useRef();
+  const experience = useRef();
+  const listedCategories = [
+    "Web developer",
+    "Mobile developer",
+    "Frontend developer",
+    "Backend developer",
+    "Fullstack developer",
+    "Game developer",
+    "DevOps developer",
+    "Security developer",
+    "Data science developer",
+    "DevOps developer",
+  ];
+  const experienceList = [
+    "1 Year",
+    "2 Years",
+    "3 Years",
+    "4 Years",
+    "+5 Years",
+  ];
+
+  function addSkill() {}
+
+  function showFieldList() {
+    setFieldList(!fieldlist);
+  }
+  function showExList() {
+    setExList(!exlist);
+  }
+
+  function changeVuew(e) {
+    switch (e.target.innerText) {
+      case "1":
+        setRegister(true);
+        setdetails(false);
+        setlinks(false);
+        return;
+      case "2":
+        setRegister(false);
+        setdetails(true);
+        setlinks(false);
+        return;
+      case "3":
+        setRegister(false);
+        setdetails(false);
+        setlinks(true);
+        return;
+    }
+  }
+
   function formChange(e) {
     switch (e.target.name) {
       case "firstname":
@@ -53,7 +108,6 @@ function Register() {
       if (data.status == 200) {
         console.log(response);
         setUser(response);
-        setRegistered(true);
         setRecponseError();
       } else if (data.status == 401) {
         setRecponseError(response.msg);
@@ -66,24 +120,24 @@ function Register() {
 
   return (
     <div className={regstyles.container}>
-      {!registered ? (
-        <form
-          onSubmit={onSubmit}
-          method="POST"
-          // action="http://localhost:3001/user/register"
-          encType="multipart/form-data"
-        >
-          <div className={regstyles.counter}>
-            <div className={regstyles.paraCont}>
-              <p>1</p>
-            </div>
-            <div className={regstyles.paraCont}>
-              <p>2</p>
-            </div>
-            <div className={regstyles.paraCont}>
-              <p>3</p>
-            </div>
+      <form
+        onSubmit={onSubmit}
+        method="POST"
+        // action="http://localhost:3001/user/register"
+        encType="multipart/form-data"
+      >
+        <div className={regstyles.counter}>
+          <div onClick={changeVuew} className={regstyles.paraCont}>
+            <p>1</p>
           </div>
+          <div onClick={changeVuew} className={regstyles.paraCont}>
+            <p>2</p>
+          </div>
+          <div onClick={changeVuew} className={regstyles.paraCont}>
+            <p>3</p>
+          </div>
+        </div>
+        {register && (
           <div className={regstyles.register}>
             <div className={regstyles.names}>
               <input
@@ -149,10 +203,58 @@ function Register() {
             <button type="submit">Next</button>
             {responseError ? <small>{responseError}</small> : null}
           </div>
-        </form>
-      ) : (
-        <CompleteProfile user={user} />
-      )}
+        )}
+        {details && (
+          <div className={regstyles.about}>
+            <div className={regstyles.field}>
+              <div onClick={showFieldList} className={regstyles.inner}>
+                <p>
+                  Select Field <span>e.g Web Developer..</span>
+                </p>
+                <Image src={plus} width={20} height={20} />
+              </div>
+              {fieldlist && (
+                <div ref={fieldList} className={regstyles.list}>
+                  {listedCategories.map((item, index) => {
+                    return <li>{item}</li>;
+                  })}
+                </div>
+              )}
+            </div>
+            <div className={regstyles.skillsfield}>
+              <input
+                placeholder="Type your skills e.g JavaScript, React js"
+                type="text"
+              />
+              <button onClick={addSkill}>add</button>
+            </div>
+            <div className={regstyles.field}>
+              <div onClick={showExList} className={regstyles.inner}>
+                <p>
+                  Experience <span>e.g 3 Years..</span>
+                </p>
+                <Image src={plus} width={20} height={20} />
+              </div>
+              {exlist && (
+                <div ref={experience} className={regstyles.list}>
+                  {experienceList.map((item, index) => {
+                    return <li>{item}</li>;
+                  })}
+                </div>
+              )}
+            </div>
+            <textarea
+              placeholder="Tell us a little about yourself.."
+              name="bio"
+              id=""
+              rows="4"
+            ></textarea>
+
+            <button type="submit">Next</button>
+            {responseError ? <small>{responseError}</small> : null}
+          </div>
+        )}
+      </form>
     </div>
   );
 }

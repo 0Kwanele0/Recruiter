@@ -14,6 +14,7 @@
       justify-content: center;
       align-items: center;
       border-radius: 50%;
+      cursor: pointer;
     }
     p {
       margin: 0;
@@ -29,9 +30,9 @@
     flex-direction: column;
     align-items: center;
     margin-top: 30px;
+    width: 500px;
     .register {
       margin-top: 30px;
-      max-width: 500px;
       width: 100%;
       display: flex;
       flex-direction: column;
@@ -51,6 +52,112 @@
         background-color: transparent;
         border: 2px solid rgba(79, 79, 134, 0.329);
       }
+      button {
+        background-color: dodgerblue;
+        font-size: 20px;
+        color: white;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        &:hover {
+          transform: translateY(-2px);
+        }
+      }
+      small {
+        color: tomato;
+      }
+    }
+    .about {
+      margin-top: 30px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      font-family: inherit;
+      gap: 15px;
+      .field {
+        position: relative;
+        .inner {
+          width: 100%;
+          border: 2px solid rgba(79, 79, 134, 0.329);
+          display: flex;
+          gap: 10px;
+          justify-content: space-between;
+          padding: 10px;
+          cursor: pointer;
+          p {
+            margin: 0;
+            span {
+              font-size: 12px;
+              color: rgba(248, 69, 123, 0.808);
+            }
+          }
+        }
+        .list {
+          /* From https://css.glass */
+          background: rgba(253, 252, 255, 0.253);
+          box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+          backdrop-filter: blur(3px);
+          -webkit-backdrop-filter: blur(3px);
+          border: 1px solid rgba(24, 23, 23, 0.932);
+          position: absolute;
+          margin-top: 5px;
+          // background-color: rgb(240, 238, 253);
+          width: 100%;
+          z-index: 12;
+          padding: 0 20px;
+          max-height: 220px;
+          overflow-y: scroll;
+          // box-shadow: 0 2px 22px 2px rgba(38, 61, 97, 0.411);
+          ul {
+            padding: 0;
+            list-style: none;
+            li {
+              margin: 2px 0;
+              padding: 4px 0;
+              color: rgb(38, 35, 46);
+              border-bottom: 1px solid rgba(104, 100, 99, 0.151);
+              cursor: pointer;
+              transition: all 0.2s ease;
+              &:hover {
+                color: rgb(233, 30, 124);
+              }
+            }
+          }
+        }
+      }
+      .skillsfield {
+        width: 100%;
+        border: 2px solid rgba(79, 79, 134, 0.329);
+        display: flex;
+        gap: 10px;
+        justify-content: space-between;
+        padding: 7px;
+        input {
+          width: 70%;
+          border: none;
+          outline: none;
+          background-color: transparent;
+        }
+        button {
+          font-size: 14px;
+          width: 20%;
+          background-color: rgb(129, 109, 175);
+        }
+      }
+      textarea {
+        font-weight: 200;
+        width: 100%;
+        font-size: 18px;
+        padding: 10px;
+        border-radius: 0px;
+        background-color: transparent;
+        border: 2px solid rgba(79, 79, 134, 0.329);
+        &::placeholder {
+          font-size: 12px;
+        }
+      }
+
       button {
         background-color: dodgerblue;
         font-size: 20px;
