@@ -4,21 +4,48 @@ import { useForm } from "react-hook-form";
 import CompleteProfile from "./CompleteProfile";
 
 function Register() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
   const [responseError, setRecponseError] = useState();
   const [user, setUser] = useState();
   const [registered, setRegistered] = useState(false);
+  const [firstname, setfirstname] = useState("");
+  const [lastname, setlastname] = useState("");
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
+  const [profilephoto, setprofilephoto] = useState();
+  function formChange(e) {
+    switch (e.target.name) {
+      case "firstname":
+        setfirstname(e.target.value);
+        break;
+      case "lastname":
+        setlastname(e.target.value);
+        break;
+      case "email":
+        setemail(e.target.value);
+        break;
+      case "password":
+        setpassword(e.target.value);
+        break;
+      case "profilephoto":
+        setprofilephoto(e.target.value);
+        break;
+    }
+  }
 
   const onSubmit = (data) => {
+    data.preventDefault();
+    const info = {
+      firstname: firstname,
+      lastname: lastname,
+      profilephoto: profilephoto,
+      email: email,
+      password: password,
+    };
+    console.log(info);
     fetch("http://localhost:3001/user/register", {
       method: "POST",
       headers: { "Content-Type": "Application/json" },
-      body: JSON.stringify(data),
+      body: JSON.stringify(info),
     }).then(async (data) => {
       const response = await data.json();
       if (data.status == 200) {
@@ -39,39 +66,41 @@ function Register() {
     <div className={regstyles.container}>
       <h2>Register</h2>
       {!registered ? (
-        <form onSubmit={handleSubmit(onSubmit)} action="submit">
+        <form onSubmit={onSubmit} action="submit" encType="multipart/form-data">
           <input
-            {...register("firstname", { required: true })}
+            onChange={formChange}
+            value={firstname}
+            name="firstname"
             type="text"
             placeholder="Firstname"
           />
-          {errors.firstname?.type === "required" && (
-            <small>Firstname is required</small>
-          )}
           <input
-            {...register("lastname", { required: true })}
+            onChange={formChange}
+            value={lastname}
+            name="lastname"
             type="text"
             placeholder="Lastname"
           />
-          {errors.lastname?.type === "required" && (
-            <small>Lastname is required</small>
-          )}
           <input
-            {...register("email", { required: true })}
+            onChange={formChange}
+            value={email}
+            name="email"
             type="email"
             placeholder="Email"
           />
-          {errors.email?.type === "required" && (
-            <small>Email is required</small>
-          )}
           <input
-            {...register("password", { required: true })}
+            onChange={formChange}
+            value={password}
+            name="password"
             placeholder="Password"
             type="text"
           />
-          {errors.password?.type === "required" && (
-            <small>Password is required</small>
-          )}
+          <input
+            onChange={formChange}
+            value={profilephoto}
+            name="profilephoto"
+            type="file"
+          />
           <button type="submit">Register</button>
           {responseError ? <small>{responseError}</small> : null}
         </form>
