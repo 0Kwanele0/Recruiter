@@ -1,6 +1,9 @@
 import styles from "../styles/home.module.scss";
 import illustration from "../public/assets/illustration.svg";
 import fields from "../public/assets/fields.svg";
+import bylocation from "../public/assets/locationicon.png";
+import api from "../public/assets/apiicon.png";
+import laptop from "../public/assets/laptopicon.png";
 import projects from "../public/assets/projects.svg";
 import links from "../public/assets/links.svg";
 import { useRouter } from "next/router";
@@ -48,21 +51,33 @@ function Home() {
         </div>
         <div className={styles.cards}>
           <div className={styles.card}>
-            <h4>By Location</h4>
+            <div className={styles.icon}>
+              <Image width={40} height={40} src={bylocation} alt="" />
+              <h4>By Location</h4>
+            </div>
+            <h3>Easly filter to see only local talent.</h3>
             <p>
               Urna, orci, convallis volutpat, nibh et velit, neque. Neque cras
               posuere purus, mattis congue nisl.{" "}
             </p>
           </div>
           <div className={styles.card}>
-            <h4>By Skill</h4>
+            <div className={styles.icon}>
+              <Image width={40} height={40} src={api} alt="" />
+              <h4>By Skill</h4>
+            </div>
+            <h3>Only go for the skills and talent your company desires</h3>
             <p>
               Urna, orci, convallis volutpat, nibh et velit, neque. Neque cras
               posuere purus, mattis congue nisl.{" "}
             </p>
           </div>
           <div className={styles.card}>
-            <h4>By Field</h4>
+            <div className={styles.icon}>
+              <Image width={40} height={40} src={laptop} alt="" />
+              <h4>By Field</h4>
+            </div>
+            <h3>Serach directly the type of developers you need</h3>
             <p>
               Urna, orci, convallis volutpat, nibh et velit, neque. Neque cras
               posuere purus, mattis congue nisl.{" "}
@@ -86,48 +101,28 @@ function Home() {
           <div className={styles.text}>
             <h3>List skills and fields</h3>
             <p>
-              Urna, orci, convallis volutpat, nibh et velit, neque. Neque cras
-              posuere purus, mattis congue nisl. Urna, orci, convallis volutpat,
-              nibh et velit, neque. Neque cras posuere purus, mattis congue
-              nisl.{" "}
+              Developers can display all their skills and field of programming
+              they are operating in.
             </p>
-          </div>
-        </div>
-        <div className={styles.action}>
-          <div className={styles.text}>
             <h3>Display projects</h3>
             <p>
-              Urna, orci, convallis volutpat, nibh et velit, neque. Neque cras
-              posuere purus, mattis congue nisl. Urna, orci, convallis volutpat,
-              nibh et velit, neque. Neque cras posuere purus, mattis congue
-              nisl.{" "}
+              The profile can also act as a portfolio. Devs are able to list
+              their projects for recruiters to see.
             </p>
-          </div>
-          <div className={styles.image}>
-            <Image width={300} height={300} src={projects} alt="" />
-          </div>
-        </div>
-        <div className={styles.action}>
-          <div className={styles.image}>
-            <Image width={300} height={300} src={links} alt="" />
-          </div>
-          <div className={styles.text}>
             <h3>Pin their links</h3>
             <p>
-              Urna, orci, convallis volutpat, nibh et velit, neque. Neque cras
-              posuere purus, mattis congue nisl. Urna, orci, convallis volutpat,
-              nibh et velit, neque. Neque cras posuere purus, mattis congue
-              nisl.{" "}
+              Dislaying social media and other links is a feature that will help
+              make contaction devs easy.
             </p>
+            <button
+              onClick={() => {
+                router.push("/register");
+              }}
+            >
+              Create Dev Profile
+            </button>
           </div>
         </div>
-        <button
-          onClick={() => {
-            router.push("/register");
-          }}
-        >
-          Create Dev Profile
-        </button>
       </section>
     </main>
   );
