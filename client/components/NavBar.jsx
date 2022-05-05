@@ -2,10 +2,8 @@ import styles from "./styles/nav.module.scss";
 import logo from "../public/assets/logo.png";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/router";
 
 function NavBar() {
-  const router = useRouter();
   return (
     <div className={styles.container}>
       <Link href="/">
