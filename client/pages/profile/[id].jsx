@@ -1,26 +1,14 @@
-import mystyles from "./styles/profile.module.scss";
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import location from "../assets/location.png";
+import mystyles from "../../styles/profile.module.scss";
+import location from "../../public/assets/icons/location.png";
 import ProjectCard from "../../components/ProjectCard";
+import Image from "next/image";
 
-function Profile() {
-  let params = useParams();
-  const [user, setUser] = useState();
-  const [emailLink, setEmailLink] = useState();
-  const [imglink, setImgLink] = useState();
+function Profile({ data }) {
+  const user = data;
+  console.log(user);
+  const emailLink = `mailto: ${data.email}`;
+  const imglink = `/uploads/profilephotos/${data.profilephoto}`;
 
-  useEffect(() => {
-    fetch(`http://localhost:3001/user/${params.id}`, { method: "GET" }).then(
-      async (user) => {
-        const data = await user.json();
-        console.log(data);
-        setImgLink(`/uploads/profilephotos/${data.profilephoto}`);
-        setUser(data);
-        setEmailLink(`mailto: ${data.email}`);
-      }
-    );
-  }, []);
   return (
     <main className={mystyles.wrapper}>
       {user ? (
@@ -28,7 +16,15 @@ function Profile() {
           <section className={mystyles.profile}>
             <div className={mystyles.name}>
               <div className={mystyles.image}>
-                {imglink && <img src={imglink} alt="" />}
+                {imglink && (
+                  <Image
+                    src={imglink}
+                    objectFit="cover"
+                    width={60}
+                    height={60}
+                    alt=""
+                  />
+                )}
               </div>
               <div className={mystyles.nameAndLocation}>
                 <h3>{user.firstname + " " + user.lastname}</h3>
@@ -83,6 +79,7 @@ function Profile() {
                   {user.projects.map((item, index) => {
                     return (
                       <ProjectCard
+                        key={index}
                         title={item.title}
                         description={item.description}
                         link={item.link}
@@ -95,10 +92,25 @@ function Profile() {
           </section>
         </main>
       ) : (
-        <></>
+        <> nothimg</>
       )}
     </main>
   );
 }
+
+export const getServerSideProps = async (context) => {
+  const data = await fetch(`http://localhost:3001/user/${context.params.id}`, {
+    method: "GET",
+  }).then(async (user) => {
+    const data = await user.json();
+    return data;
+  });
+
+  return {
+    props: {
+      data,
+    },
+  };
+};
 
 export default Profile;

@@ -1,16 +1,9 @@
 import styles from "../../styles/devs.module.scss";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import ProfileCard from "../../components/ProfileCard";
 
-function Devs() {
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    fetch("http://localhost:3001/", { method: "GET" }).then(async (user) => {
-      const data = await user.json();
-      setUsers(data);
-    });
-  }, []);
+function Devs({ data }) {
+  const [users, setUsers] = useState(data);
 
   return (
     <div className={styles.container}>
@@ -40,3 +33,17 @@ function Devs() {
 }
 
 export default Devs;
+
+export const getServerSideProps = async (context) => {
+  const data = await fetch("http://localhost:3001/", { method: "GET" }).then(
+    async (user) => {
+      const data = await user.json();
+      return data;
+    }
+  );
+  return {
+    props: {
+      data,
+    },
+  };
+};
