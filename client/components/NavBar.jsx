@@ -7,7 +7,7 @@ function NavBar() {
   return (
     <div className={styles.container}>
       <Link href="/">
-        <Image src={logo} alt="Recruiter" />
+        <img src="assets/logo.png" alt="Recruiter" />
       </Link>
       <div className={styles.links}>
         <Link href="/devs">Devs</Link>

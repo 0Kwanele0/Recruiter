@@ -1,11 +1,10 @@
 import regstyles from "../../styles/register.module.scss";
 import plus from "../../public/assets/icons/plus.png";
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 
 function Details() {
   const [exlist, setExList] = useState(false);
-
   const [fieldlist, setFieldList] = useState(false);
   const [responseError, setRecponseError] = useState();
 
@@ -42,7 +41,7 @@ function Details() {
   }
 
   return (
-    <div className={regstyles.about}>
+    <form className={regstyles.about}>
       <div className={regstyles.field}>
         <div onClick={showFieldList} className={regstyles.inner}>
           <p>
@@ -93,7 +92,7 @@ function Details() {
 
       <button type="submit">Next</button>
       {responseError ? <small>{responseError}</small> : null}
-    </div>
+    </form>
   );
 }
 

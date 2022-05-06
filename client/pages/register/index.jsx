@@ -31,7 +31,7 @@ function Index() {
 
   return (
     <div className={regstyles.container}>
-      <form>
+      <div className={regstyles.formsContainer}>
         <div className={regstyles.counter}>
           <div onClick={changeVuew} className={regstyles.paraCont}>
             <p>1</p>
@@ -46,7 +46,7 @@ function Index() {
         {register && <Register />}
         {details && <Details />}
         {links && <Links />}
-      </form>
+      </div>
     </div>
   );
 }

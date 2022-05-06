@@ -26,7 +26,10 @@ const UserSchema = new mongoose.Schema({
   experience: {
     type: Number,
   },
-  location: {
+  country: {
+    type: String,
+  },
+  city: {
     type: String,
   },
   links: {

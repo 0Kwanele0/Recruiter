@@ -18,7 +18,6 @@ mongoose.connect(process.env.MONGO_URL, {}, (err) => {
   }
 });
 App.use("/user/", routes);
-App.use(approutes);
 
 App.listen(3001, () => {
   console.log("Server Running...");

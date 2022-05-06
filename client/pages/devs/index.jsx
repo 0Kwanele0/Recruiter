@@ -3,8 +3,6 @@ import { useState } from "react";
 import ProfileCard from "../../components/ProfileCard";
 
 function Devs({ data }) {
-  const [users, setUsers] = useState(data);
-
   return (
     <div className={styles.container}>
       <section className={styles.filter}>
@@ -16,7 +14,7 @@ function Devs({ data }) {
         </form>
       </section>
       <section className={styles.profiles}>
-        {users.map((item, key) => {
+        {data.map((item, key) => {
           return (
             <ProfileCard
               key={key}
@@ -32,18 +30,18 @@ function Devs({ data }) {
   );
 }
 
-export default Devs;
-
-export const getServerSideProps = async (context) => {
-  const data = await fetch("http://localhost:3001/", { method: "GET" }).then(
-    async (user) => {
-      const data = await user.json();
-      return data;
-    }
-  );
+export const getServerSideProps = async () => {
+  const data = await fetch("http://localhost:3001/user/", {
+    method: "GET",
+  }).then(async (user) => {
+    const data = await user.json();
+    return data;
+  });
   return {
     props: {
       data,
     },
   };
 };
+
+export default Devs;

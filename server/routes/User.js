@@ -12,23 +12,22 @@ const Storage = multer.diskStorage({
 });
 const upload = multer({ storage: Storage });
 
-router.post("/register", upload.single("profilephoto"), (req, res) => {
+router.get("/", async (req, res) => {
+  const users = await UserModel.find();
+  res.send(users);
+});
+
+router.post("/register", (req, res) => {
   bcrypt.genSalt(10, (err, salt) => {
     if (!err) {
       bcrypt.hash(req.body.password, salt, (err, hash) => {
         const data = {
           firstname: req.body.firstname,
           lastname: req.body.lastname,
-          profilephoto: req.file.filename,
           email: req.body.email,
           password: hash,
-          location: req.body.location,
-          experience: req.body.experience,
-          skills: req.body.skills,
-          links: req.body.links,
-          field: req.body.field,
-          bio: req.body.bio,
-          projects: req.body.projects,
+          country: req.body.country,
+          city: req.body.city,
         };
         try {
           UserModel.find({ email: req.body.email }, (err, user) => {
@@ -74,7 +73,7 @@ router.get("/:id", (req, res) => {
   try {
     UserModel.findById(req.params.id, (err, user) => {
       if (!user) {
-        res.send("User not found");
+        res.send({ msg: "User not found" });
       } else {
         res.send(user);
       }
