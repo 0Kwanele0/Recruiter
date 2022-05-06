@@ -14,6 +14,7 @@ function Index() {
   const [registering, setRegistering] = useState(true);
   const [details, setdetails] = useState(false);
   const [links, setlinks] = useState(false);
+  const [user, setUser] = useState();
 
   //register state
   const [password, setPassword] = useState("");
@@ -22,15 +23,22 @@ function Index() {
   const [error, setError] = useState(false);
 
   //details states
+  const experience = useRef();
   const fieldList = useRef();
   const [fieldlist, setFieldList] = useState(false);
   const [skills, setSkills] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState();
   const [selectedExperience, setSelectedExperience] = useState();
+  const [bio, setBio] = useState("");
   const [detailsError, setDetailsError] = useState();
 
-  const experience = useRef();
+  //links
   const [exlist, setExList] = useState(false);
+  const [githubLink, setGithubLink] = useState("");
+  const [twitterLink, setTwitterLink] = useState("");
+  const [linkedinLink, setLinkedinLink] = useState("");
+  const [portfolioLink, setPortfolioLink] = useState("");
+  const [imageLink, setImageLink] = useState("");
   const [detailsResponseError, setDetailsResponseError] = useState();
   const [typedSkill, setTypedSkill] = useState("");
 
@@ -92,17 +100,93 @@ function Index() {
   function showExList() {
     setExList(!exlist);
   }
+
+  function changeBio(e) {
+    setBio(e.target.value);
+  }
+
   function submitDetails(e) {
     e.preventDefault();
     if (selectedCategory && selectedExperience && skills.length > 0) {
-      setDetailsError();
-      setRegistering(false);
-      setdetails(false);
-      setlinks(true);
+      const data = {
+        skills: skills,
+        bio: bio,
+        category: selectedCategory,
+        experience: selectedExperience,
+      };
+      fetch(`http://localhost:3001/user/details/${user._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      }).then(async (data) => {
+        const response = await data.json();
+        if (data.status == 200) {
+          console.log(response);
+          setDetailsError();
+          setRegistering(false);
+          setdetails(false);
+          setlinks(true);
+        } else if (data.status == 401) {
+          console.log(response.msg);
+        } else {
+          console.log(response.msg);
+        }
+      });
     }
     setDetailsError("all fields should be complete.");
   }
 
+  //links methods
+  function changeLink(e) {
+    switch (e.target.name) {
+      case "github":
+        setGithubLink(e.target.value);
+        return;
+      case "linkedin":
+        setLinkedinLink(e.target.value);
+        return;
+      case "twitter":
+        setTwitterLink(e.target.value);
+        return;
+      case "portfolio":
+        setPortfolioLink(e.target.value);
+        return;
+    }
+  }
+
+  function changeImage(e) {
+    setImageLink(e.target.files[0]);
+  }
+
+  function submitLinks(e) {
+    const links = [
+      { name: "GitHub", link: githubLink },
+      { name: "Twitter", link: twitterLink },
+      { name: "LinkeIn", link: linkedinLink },
+      { name: "Portfolio", link: portfolioLink },
+    ];
+
+    const formData = new FormData();
+    e.preventDefault();
+    formData.append("profilephoto", imageLink);
+    formData.append("links", JSON.stringify(links));
+    console.log(formData);
+    fetch(`http://localhost:3001/user/links/${user._id}`, {
+      method: "PUT",
+      body: formData,
+    }).then(async (data) => {
+      const response = await data.json();
+      if (data.status == 200) {
+        console.log(response);
+      } else if (data.status == 401) {
+        console.log(response.msg);
+      } else {
+        console.log(response.msg);
+      }
+    });
+  }
+
+  //register methods
   const {
     register,
     handleSubmit,
@@ -129,7 +213,7 @@ function Index() {
       const response = await data.json();
       if (data.status == 200) {
         setRecponseError();
-        console.log(response);
+        setUser(response);
         setRegistering(false);
         setdetails(true);
         setlinks(false);
@@ -260,7 +344,11 @@ function Index() {
                 <div ref={fieldList} className={regstyles.list}>
                   <ul>
                     {listedCategories.map((item, index) => {
-                      return <li onClick={addCategory}>{item}</li>;
+                      return (
+                        <li key={index} onClick={addCategory}>
+                          {item}
+                        </li>
+                      );
                     })}
                   </ul>
                 </div>
@@ -277,8 +365,12 @@ function Index() {
             </div>
             {skills.length > 0 && (
               <ul className={regstyles.skillList}>
-                {skills.map((item) => {
-                  return <li onClick={removeSkill}>{item}</li>;
+                {skills.map((item, index) => {
+                  return (
+                    <li key={index} onClick={removeSkill}>
+                      {item}
+                    </li>
+                  );
                 })}
               </ul>
             )}
@@ -299,7 +391,11 @@ function Index() {
                 <div ref={experience} className={regstyles.list}>
                   <ul>
                     {experienceList.map((item, index) => {
-                      return <li onClick={addExperience}>{item}</li>;
+                      return (
+                        <li key={index} onClick={addExperience}>
+                          {item}
+                        </li>
+                      );
                     })}
                   </ul>
                 </div>
@@ -308,6 +404,8 @@ function Index() {
             <textarea
               placeholder="Tell us a little about yourself.."
               name="bio"
+              onChange={changeBio}
+              value={bio}
               id=""
               rows="4"
               required={true}
@@ -321,31 +419,65 @@ function Index() {
           </form>
         )}
         {links && (
-          <div className={regstyles.links}>
+          <form
+            onSubmit={submitLinks}
+            encType="multipart/form-data"
+            className={regstyles.links}
+          >
             <div className={regstyles.file}>
               <Image src={avater} width={40} height={40} />
               <label>Upload a profile pic</label>
-              <input type="file" />
+              <input
+                onChange={changeImage}
+                name="profilephoto"
+                required={true}
+                accept=".png, .jpg, .jpeg"
+                type="file"
+              />
             </div>
             <div className={regstyles.skillsfield}>
               <Image src={github} width={30} height={30} />
-              <input placeholder="Add you GitHub Link" type="text" />
+              <input
+                value={githubLink}
+                onChange={changeLink}
+                name="github"
+                placeholder="Add you GitHub Link"
+                type="text"
+              />
             </div>
             <div className={regstyles.skillsfield}>
               <Image src={linkedin} width={30} height={30} />
-              <input placeholder="Add you LinkedIn Link" type="text" />
+              <input
+                value={linkedinLink}
+                onChange={changeLink}
+                name="linkedin"
+                placeholder="Add you LinkedIn Link"
+                type="text"
+              />
             </div>
             <div className={regstyles.skillsfield}>
               <Image src={twitter} width={30} height={30} />
-              <input placeholder="Add you Twitter Link" type="text" />
+              <input
+                value={twitterLink}
+                onChange={changeLink}
+                name="twitter"
+                placeholder="Add you Twitter Link"
+                type="text"
+              />
             </div>
             <div className={regstyles.skillsfield}>
               <Image src={internet} width={30} height={30} />
-              <input placeholder="Add you Website Link" type="text" />
+              <input
+                value={portfolioLink}
+                onChange={changeLink}
+                name="portfolio"
+                placeholder="Add your Portfolio Link"
+                type="text"
+              />
             </div>
             <button type="submit">Submit</button>
             {linksResponseError ? <small>{linksResponseError}</small> : null}
-          </div>
+          </form>
         )}
       </div>
     </div>

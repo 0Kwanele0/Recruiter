@@ -24,7 +24,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
   },
   experience: {
-    type: Number,
+    type: String,
   },
   country: {
     type: String,
@@ -38,7 +38,7 @@ const UserSchema = new mongoose.Schema({
   skills: {
     type: Array,
   },
-  field: {
+  category: {
     type: String,
   },
   projects: {

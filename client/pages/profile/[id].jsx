@@ -5,9 +5,10 @@ import Image from "next/image";
 
 function Profile({ data }) {
   const user = data;
-  console.log(user);
   const emailLink = `mailto: ${data.email}`;
   const imglink = `/uploads/profilephotos/${data.profilephoto}`;
+  const links = JSON.parse(user.links);
+  console.log(user);
 
   return (
     <main className={mystyles.wrapper}>
@@ -29,8 +30,8 @@ function Profile({ data }) {
               <div className={mystyles.nameAndLocation}>
                 <h3>{user.firstname + " " + user.lastname}</h3>
                 <div className={mystyles.location}>
-                  <img src={location} alt="" />
-                  <p>{user.location}</p>
+                  <Image width={20} height={20} src={location} alt="" />
+                  <p>{user.city + ", " + user.country}</p>
                 </div>
               </div>
             </div>
@@ -44,7 +45,8 @@ function Profile({ data }) {
               <div className={mystyles.skills}>
                 <h4>Skills</h4>
                 <ul>
-                  {user.skills.length > 0 &&
+                  {user.skills &&
+                    user.skills.length > 0 &&
                     user.skills.map((item, index) => {
                       return <li key={index}>{item}</li>;
                     })}
@@ -53,39 +55,41 @@ function Profile({ data }) {
               <div className={mystyles.links}>
                 <h4>Links</h4>
                 <ul>
-                  {user.links.map((item, index) => {
-                    return (
-                      <a href={item.link} target="_blank">
-                        <li key={index}>{item.name}</li>
-                      </a>
-                    );
-                  })}
+                  {user.links &&
+                    links.map((item, index) => {
+                      if (item.link.length > 0) {
+                        return (
+                          <a key={index} href={item.link} target="_blank">
+                            <li>{item.name}</li>
+                          </a>
+                        );
+                      }
+                    })}
                 </ul>
               </div>
             </div>
             <div className={mystyles.mainSection}>
               <div className={mystyles.bio}>
                 <div className={mystyles.bioHearder}>
-                  <h4>{user.field}</h4>
-                  <p>
-                    Experience: {user.experience ? user.experience : 0} years
-                  </p>
+                  <h4>{user.category}</h4>
+                  <p>Experience: {user.experience ? user.experience : 0}</p>
                 </div>
                 <p>{user.bio}</p>
               </div>
               <div className={mystyles.projects}>
                 <h4>Projects</h4>
                 <div className={mystyles.projectCards}>
-                  {user.projects.map((item, index) => {
-                    return (
-                      <ProjectCard
-                        key={index}
-                        title={item.title}
-                        description={item.description}
-                        link={item.link}
-                      />
-                    );
-                  })}
+                  {user.projects &&
+                    user.projects.map((item, index) => {
+                      return (
+                        <ProjectCard
+                          key={index}
+                          title={item.title}
+                          description={item.description}
+                          link={item.link}
+                        />
+                      );
+                    })}
                 </div>
               </div>
             </div>

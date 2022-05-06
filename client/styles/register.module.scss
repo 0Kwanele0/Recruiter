@@ -135,7 +135,7 @@
             li {
               margin: 2px 0;
               padding: 4px 0;
-              color: rgb(38, 35, 46);
+              color: rgb(119, 114, 133);
               border-bottom: 1px solid rgba(104, 100, 99, 0.151);
               cursor: pointer;
               transition: all 0.2s ease;
@@ -173,10 +173,11 @@
         flex-wrap: wrap;
         gap: 12px;
         li {
-          background-color: rgb(65, 56, 146);
-          padding: 2px 12px;
-          border-radius: 5px;
+          background-color: rgb(62, 53, 184);
+          padding: 4px 7px;
+          border-radius: 0px;
           font-size: 13px;
+          color: rgb(237, 225, 250);
           cursor: pointer;
           &:hover {
             background-color: rgb(133, 68, 158);

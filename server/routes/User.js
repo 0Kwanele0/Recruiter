@@ -98,31 +98,37 @@ router.delete("/:id", (req, res) => {
   }
 });
 
-router.put("/field/:id", (req, res) => {
-  UserModel.findById(req.params.id)
-    .then(async (value) => {
-      const newData = await value
-        .updateOne({
-          $set: { field: req.body.data },
-        })
-        .then((value) => {
-          res.send(value);
-        });
-    })
-    .catch((err) => {
-      res.send(err);
-    });
-});
-router.put("/skills/:id", (req, res) => {
+router.put("/details/:id", (req, res) => {
   UserModel.findByIdAndUpdate(req.params.id, {
-    $set: { skills: req.body.data },
-  })
-    .then((value) => {
+    $set: {
+      category: req.body.category,
+      skills: req.body.skills,
+      bio: req.body.bio,
+      experience: req.body.experience,
+    },
+  }).then((value) => {
+    if (value) {
       res.send(value);
-    })
-    .catch((err) => {
-      res.send(err);
-    });
+    } else {
+      res.status(404).send("no user");
+    }
+  });
+});
+router.put("/links/:id", upload.single("profilephoto"), (req, res) => {
+  console.log(req.file);
+  console.log(req.body.links);
+  UserModel.findByIdAndUpdate(req.params.id, {
+    $set: {
+      profilephoto: req.file.filename,
+      links: req.body.links,
+    },
+  }).then((value) => {
+    if (value) {
+      res.send(value);
+    } else {
+      res.status(404).send("no user");
+    }
+  });
 });
 router.put("/links/:id", (req, res) => {
   UserModel.findByIdAndUpdate(req.params.id, {

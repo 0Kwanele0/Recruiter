@@ -29,24 +29,19 @@ function ProfileCard(props) {
           <h3>{props.name}</h3>
           <div className={styles.location}>
             <Image src={location} alt="" width={20} height={20} />
-            <p>Manzini, eSwatini</p>
+            <p>{props.city + ", " + props.country}</p>
           </div>
         </div>
       </section>
       <section className={styles.details}>
-        <h3>Web Developer</h3>
-        <p>
-          Odio sed sed interdum euismod mattis neque, metus eu. Vestibulum,
-          nunc, dolor nisi, risus, enim viverra neque.{" "}
-        </p>
-        <h4>Experience: 2 years</h4>
+        <h3>{props.category}</h3>
+        <p>{props.bio}</p>
+        <h4>Experience: {props.experience}</h4>
       </section>
       <ul className={styles.skills}>
-        <li>Java</li>
-        <li>CSS</li>
-        <li>HTML</li>
-        <li>Python</li>
-        <li>C#</li>
+        {props.skills.map((item, key) => {
+          return <li key={key}>{item}</li>;
+        })}
       </ul>
     </main>
   );

@@ -21,7 +21,11 @@ function Devs({ data }) {
               name={item.firstname + " " + item.lastname}
               id={item._id}
               photo={item.profilephoto}
-              location={item.location}
+              city={item.city}
+              experience={item.experience}
+              country={item.country}
+              bio={item.bio}
+              skills={item.skills}
             />
           );
         })}
