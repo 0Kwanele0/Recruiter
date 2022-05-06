@@ -8,6 +8,42 @@ function Register() {
   const [confPassword, setConfPassword] = useState("");
   const [error, setError] = useState(false);
 
+  const [exlist, setExList] = useState(false);
+  const [fieldlist, setFieldList] = useState(false);
+  const [responseDetailsError, setDetailsRecponseError] = useState();
+
+  const fieldList = useRef();
+  const experience = useRef();
+
+  const listedCategories = [
+    "Web developer",
+    "Mobile developer",
+    "Frontend developer",
+    "Backend developer",
+    "Fullstack developer",
+    "Game developer",
+    "DevOps developer",
+    "Security developer",
+    "Data science developer",
+    "DevOps developer",
+  ];
+  const experienceList = [
+    "1 Year",
+    "2 Years",
+    "3 Years",
+    "4 Years",
+    "+5 Years",
+  ];
+
+  function addSkill() {}
+
+  function showFieldList() {
+    setFieldList(!fieldlist);
+  }
+  function showExList() {
+    setExList(!exlist);
+  }
+
   const {
     register,
     handleSubmit,
