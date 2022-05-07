@@ -204,43 +204,78 @@ function Index() {
     setError(false);
   }
 
+  const [recruiterCheckbox, setRecruiterCheckbox] = useState(false);
+  const [developerCheckbox, setDeveloperCheckbox] = useState(false);
+  const [checkboxError, setCheckboxError] = useState(false);
+  const recruiterBox = useRef();
+  const developerBox = useRef();
+
+  function labelClicked(e) {
+    switch (e.target.innerText) {
+      case "Developer":
+        setDeveloperCheckbox(true);
+        setRecruiterCheckbox(false);
+        recruiterBox.current.style.backgroundColor = "white";
+        developerBox.current.style.backgroundColor = "#7452d9";
+        return;
+      case "Recruiter":
+        setRecruiterCheckbox(true);
+        setDeveloperCheckbox(false);
+        recruiterBox.current.style.backgroundColor = "#7452d9";
+        developerBox.current.style.backgroundColor = "white";
+        return;
+    }
+  }
+
   async function registerUser(data) {
-    fetch("http://localhost:3001/user/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    }).then(async (data) => {
-      const response = await data.json();
-      if (data.status == 200) {
-        setRecponseError();
-        setUser(response);
-        setRegistering(false);
-        setdetails(true);
-        setlinks(false);
-      } else if (data.status == 401) {
-        setRecponseError(response.msg);
-        console.log(response.msg);
-      } else {
-        setRecponseError(response.msg);
-        console.log(response.msg);
-      }
-    });
+    if (developerCheckbox) {
+      fetch("http://localhost:3001/user/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      }).then(async (data) => {
+        const response = await data.json();
+        if (data.status == 200) {
+          setRecponseError();
+          setUser(response);
+          setRegistering(false);
+          setdetails(true);
+          setlinks(false);
+        } else if (data.status == 401) {
+          setRecponseError(response.msg);
+          console.log(response.msg);
+        } else {
+          setRecponseError(response.msg);
+          console.log(response.msg);
+        }
+      });
+    } else if (recruiterCheckbox) {
+      fetch("http://localhost:3001/recruiter/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      }).then(async (data) => {
+        const response = await data.json();
+        if (data.status == 200) {
+          setRecponseError();
+          setUser(response);
+          console.log(user);
+        } else if (data.status == 401) {
+          setRecponseError(response.msg);
+          console.log(response.msg);
+        } else {
+          setRecponseError(response.msg);
+          console.log(response.msg);
+        }
+      });
+    } else {
+      setCheckboxError(true);
+    }
   }
 
   return (
     <div className={regstyles.container}>
       <div className={regstyles.formsContainer}>
-        <div className={regstyles.counter}>
-          <div className={regstyles.paraCont}>
-            <p>1</p>
-          </div>
-          <div className={regstyles.paraCont}>
-            <p>2</p>
-          </div>
-          <div className={regstyles.paraCont}>
-            <p>3</p>
-          </div>
-        </div>
         {registering && (
           <form
             onSubmit={handleSubmit(registerUser)}
@@ -322,9 +357,25 @@ function Index() {
                 <span>{errors.confirm_password.message}</span>
               )}
             </div>
+            <div className={regstyles.recOrDev}>
+              <p>Are you a Develper or a recruiter?</p>
+              <div className={regstyles.checkboxContainer}>
+                <div className={regstyles.checkbox}>
+                  <div ref={recruiterBox} className={regstyles.check}></div>
+                  <p onClick={labelClicked}>Recruiter</p>
+                </div>
+                <div className={regstyles.checkbox}>
+                  <div ref={developerBox} className={regstyles.check}></div>
+                  <p onClick={labelClicked}>Developer</p>
+                </div>
+              </div>
+              {checkboxError ? <small>Please select one!</small> : null}
+            </div>
             {responseError ? <small>{responseError}</small> : null}
             {error ? <small>Passwords don't match!</small> : null}
-            <button type="submit">Next</button>
+            <button type="submit">
+              {developerCheckbox ? "Next" : "Register"}{" "}
+            </button>
           </form>
         )}
         {details && (
