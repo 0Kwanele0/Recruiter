@@ -36,13 +36,18 @@ function ProfileCard(props) {
       <section className={styles.details}>
         <h3>{props.category}</h3>
         <p>{props.bio}</p>
-        <h4>Experience: {props.experience}</h4>
+        <h4>
+          Experience: <span>{props.experience}</span>
+        </h4>
       </section>
-      <ul className={styles.skills}>
-        {props.skills.map((item, key) => {
-          return <li key={key}>{item}</li>;
-        })}
-      </ul>
+      <div className={styles.skillsContainer}>
+        <h4>Skills</h4>
+        <ul className={styles.skills}>
+          {props.skills.map((item, key) => {
+            return <li key={key}>{item}</li>;
+          })}
+        </ul>
+      </div>
     </main>
   );
 }

@@ -53,8 +53,12 @@
     gap: 10px;
     h4 {
       margin: 0;
-      font-weight: 400;
+      font-weight: 500;
       color: #819fee;
+      span {
+        font-weight: 700;
+        color: #fdfdfd;
+      }
     }
     h3 {
       color: #da99f1;
@@ -67,19 +71,25 @@
       color: #babde4;
     }
   }
-  .skills {
-    margin: 0;
-    list-style: none;
-    padding: 0;
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    li {
-      background-color: #2c3fee;
-      color: #fdfdfd;
-      padding: 2px 5px;
-      font-size: 13px;
-      font-weight: 200;
+  .skillsContainer {
+    h4 {
+      margin: 5px 0;
+      font-weight: 500;
+    }
+    .skills {
+      margin: 0;
+      list-style: none;
+      padding: 0;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      li {
+        background-color: #2c3fee;
+        color: #fdfdfd;
+        padding: 2px 5px;
+        font-size: 13px;
+        font-weight: 200;
+      }
     }
   }
 }
