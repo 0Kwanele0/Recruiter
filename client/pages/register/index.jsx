@@ -9,8 +9,11 @@ import avater from "../../public/assets/icons/avatar.png";
 import plus from "../../public/assets/icons/plus.png";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 function Index() {
+  const router = useRouter();
+
   const [registering, setRegistering] = useState(true);
   const [details, setdetails] = useState(false);
   const [links, setlinks] = useState(false);
@@ -216,12 +219,12 @@ function Index() {
         setDeveloperCheckbox(true);
         setRecruiterCheckbox(false);
         recruiterBox.current.style.backgroundColor = "white";
-        developerBox.current.style.backgroundColor = "#7452d9";
+        developerBox.current.style.backgroundColor = "#2fe032";
         return;
       case "Recruiter":
         setRecruiterCheckbox(true);
         setDeveloperCheckbox(false);
-        recruiterBox.current.style.backgroundColor = "#7452d9";
+        recruiterBox.current.style.backgroundColor = "#2fe032";
         developerBox.current.style.backgroundColor = "white";
         return;
     }
@@ -260,6 +263,7 @@ function Index() {
           setRecponseError();
           setUser(response);
           console.log(user);
+          // router.push("/devs");
         } else if (data.status == 401) {
           setRecponseError(response.msg);
           console.log(response.msg);
