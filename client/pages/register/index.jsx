@@ -7,7 +7,7 @@ import linkedin from "../../public/assets/icons/linkedin.png";
 import internet from "../../public/assets/icons/internet.png";
 import avater from "../../public/assets/icons/avatar.png";
 import plus from "../../public/assets/icons/plus.png";
-
+import Link from "next/link";
 import Image from "next/image";
 
 function Index() {
@@ -479,6 +479,13 @@ function Index() {
             {linksResponseError ? <small>{linksResponseError}</small> : null}
           </form>
         )}
+        <p className={regstyles.referParagraph}>
+          You already have an account?{" "}
+          <span>
+            <Link href="/login">Login here.</Link>
+          </span>
+          !
+        </p>
       </div>
     </div>
   );

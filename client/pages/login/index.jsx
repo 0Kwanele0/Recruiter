@@ -1,6 +1,7 @@
 import styles from "../../styles/login.module.scss";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import Link from "next/link";
 
 function Login() {
   const {
@@ -49,6 +50,13 @@ function Login() {
         )}
         <button type="submit">Login</button>
         {responseError ? <small>{responseError}</small> : null}
+        <p className={styles.referParagraph}>
+          You don't have an account?{" "}
+          <span>
+            <Link href="/register">Register here.</Link>
+          </span>
+          !
+        </p>
       </form>
     </div>
   );
