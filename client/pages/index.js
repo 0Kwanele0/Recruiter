@@ -11,7 +11,6 @@ import { UserDetails } from "../context/UserDetails";
 
 function Home() {
   const details = useContext(UserDetails);
-  console.log("hell", details);
 
   const router = useRouter();
   return (

@@ -4,6 +4,7 @@
   align-items: center;
   background-color: rgb(19, 11, 27);
   padding: 20px;
+  height: 70px;
   img {
     width: 130px;
     cursor: pointer;
@@ -13,8 +14,9 @@
     margin: 0;
     padding: 0;
     display: flex;
-    justify-content: space-between;
-    gap: 20px;
+    justify-content: flex-end;
+    gap: 30px;
+    align-items: center;
     a {
       list-style: none;
       text-decoration: none;
@@ -26,6 +28,41 @@
       &:hover {
         transform: translate(-2px, -2px);
         color: rgb(186, 91, 209);
+      }
+    }
+    .profile{
+      position: relative;
+      .miniNav{
+        z-index: 12;
+        position: absolute;
+        right: 0;
+        top: 53px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        background-color: rgb(38, 31, 46);
+        min-width: 150px;
+        width: 100%;
+        padding: 15px;
+        .icon{
+          cursor: pointer;
+          width: 100%;
+          display: flex;
+          height: fit-content;
+          gap: 10px;
+          align-items: center;
+          transition: all 0.2s ease;
+          p{
+            margin: 0;
+            transition: all 0.2s ease;
+          }
+            &:hover{
+              p{
+                color: rgb(152, 182, 212);
+              }
+            
+          }
+        }
       }
     }
   }

@@ -4,7 +4,6 @@ import ProjectCard from "../../components/ProjectCard";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useParams } from "react-router-dom";
 
 function Profile() {
   const [user, setUser] = useState();
@@ -13,13 +12,12 @@ function Profile() {
 
   const [links, setLinks] = useState();
   const router = useRouter();
-  async function fetchUser() {
+  async function fetchUser(token) {
     return fetch(`http://localhost:3001/user/${router.query.id}`, {
       method: "GET",
       headers: {
-        "recruiter-x-auth-token": localStorage.getItem(
-          "recruiter-x-auth-token"
-        ),
+        "recruiter-x-auth-token":token
+        ,
       },
     }).then(async (user) => {
       if (user.status === 200) {
@@ -27,7 +25,7 @@ function Profile() {
         setUser(data);
         setEmailLink(`mailto: ${data.email}`);
         setImgLink(`/uploads/profilephotos/${data.profilephoto}`);
-        const links =JSON.parse(data.links[0])
+        const links ="";
         setLinks(links);
       } else {
         router.push("/login");
@@ -38,7 +36,7 @@ function Profile() {
   useEffect(() => {
     const token = localStorage.getItem("recruiter-x-auth-token");
     if (token) {
-      fetchUser();
+      fetchUser(token);
     } else {
       router.push("/login");
     }

@@ -28,7 +28,6 @@ function Devs() {
 
   useEffect(() => {
     const token = localStorage.getItem("recruiter-x-auth-token");
-
     if (token) {
       fetchUsers();
     } else {
