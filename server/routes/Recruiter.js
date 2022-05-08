@@ -1,9 +1,12 @@
 const RecruiterModel = require("../models/Recruiter");
 const express = require("express");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const recruiterRouter = express.Router();
+require("dotenv").config({ path: "../vars/.env" });
+const authorize = require('../middleware/Authorize')
 
-recruiterRouter.get("/", async (req, res) => {
+recruiterRouter.get("/",authorize, async (req, res) => {
   const users = await RecruiterModel.find();
   res.send(users);
 });
@@ -27,7 +30,11 @@ recruiterRouter.post("/register", (req, res) => {
             } else {
               const user = new RecruiterModel(data);
               user.save().then((user) => {
-                res.send(user);
+                jwt.sign(user.id, process.env.JWT_TOKEN, (err, token) => {
+                  if (token) {
+                    res.send({ user: user, token: token });
+                  }
+                });
               });
             }
           });
@@ -46,7 +53,11 @@ recruiterRouter.post("/login", (req, res) => {
       if (user.length > 0) {
         bcrypt.compare(req.body.password, user[0].password, (err, done) => {
           if (done) {
-            res.send(user[0]);
+            jwt.sign(user[0].id, process.env.JWT_TOKEN, (err, token) => {
+              if (token) {
+                res.send({ user: user[0], token: token });
+              }
+            });
           } else {
             res.status(401).send({ msg: "Wrong password" });
           }

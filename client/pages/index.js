@@ -6,8 +6,13 @@ import api from "../public/assets/icons/apiicon.png";
 import laptop from "../public/assets/icons/laptopicon.png";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { useContext } from "react";
+import { UserDetails } from "../context/UserDetails";
 
 function Home() {
+  const details = useContext(UserDetails);
+  console.log("hell", details);
+
   const router = useRouter();
   return (
     <main className={styles.container}>

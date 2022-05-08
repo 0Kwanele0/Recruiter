@@ -1,5 +1,5 @@
 import regstyles from "../../styles/register.module.scss";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import twitter from "../../public/assets/icons/twitter.png";
 import github from "../../public/assets/icons/github.png";
@@ -229,6 +229,20 @@ function Index() {
         return;
     }
   }
+  function recboxClicked(e) {
+    setRecruiterCheckbox(true);
+    setDeveloperCheckbox(false);
+    recruiterBox.current.style.backgroundColor = "#2fe032";
+    developerBox.current.style.backgroundColor = "white";
+    return;
+  }
+  function devboxClicked(e) {
+    setDeveloperCheckbox(true);
+    setRecruiterCheckbox(false);
+    recruiterBox.current.style.backgroundColor = "white";
+    developerBox.current.style.backgroundColor = "#2fe032";
+    return;
+  }
 
   async function registerUser(data) {
     if (developerCheckbox) {
@@ -263,7 +277,7 @@ function Index() {
           setRecponseError();
           setUser(response);
           console.log(user);
-          // router.push("/devs");
+          router.push("/devs");
         } else if (data.status == 401) {
           setRecponseError(response.msg);
           console.log(response.msg);
@@ -365,11 +379,19 @@ function Index() {
               <p>Are you a Develper or a recruiter?</p>
               <div className={regstyles.checkboxContainer}>
                 <div className={regstyles.checkbox}>
-                  <div ref={recruiterBox} className={regstyles.check}></div>
+                  <div
+                    onClick={recboxClicked}
+                    ref={recruiterBox}
+                    className={regstyles.check}
+                  ></div>
                   <p onClick={labelClicked}>Recruiter</p>
                 </div>
                 <div className={regstyles.checkbox}>
-                  <div ref={developerBox} className={regstyles.check}></div>
+                  <div
+                    onClick={devboxClicked}
+                    ref={developerBox}
+                    className={regstyles.check}
+                  ></div>
                   <p onClick={labelClicked}>Developer</p>
                 </div>
               </div>
@@ -539,7 +561,6 @@ function Index() {
           <span>
             <Link href="/login">Login here.</Link>
           </span>
-          !
         </p>
       </div>
     </div>

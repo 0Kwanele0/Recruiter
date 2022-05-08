@@ -1,6 +1,7 @@
 import styles from "../../styles/devs.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProfileCard from "../../components/ProfileCard";
+import { useRouter } from "next/router";
 
 function Devs({ data }) {
   return (

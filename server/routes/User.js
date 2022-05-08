@@ -3,6 +3,8 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const multer = require("multer");
 const router = express.Router();
+const authorize = require('../middleware/Authorize')
+
 
 const Storage = multer.diskStorage({
   destination: "../client/public/uploads/profilephotos",
@@ -12,7 +14,7 @@ const Storage = multer.diskStorage({
 });
 const upload = multer({ storage: Storage });
 
-router.get("/", async (req, res) => {
+router.get("/",authorize, async (req, res) => {
   const users = await UserModel.find();
   res.send(users);
 });
@@ -69,7 +71,7 @@ router.post("/login", (req, res) => {
   }
 });
 
-router.get("/:id", (req, res) => {
+router.get("/:id",authorize, (req, res) => {
   try {
     UserModel.findById(req.params.id, (err, user) => {
       if (!user) {
@@ -83,7 +85,7 @@ router.get("/:id", (req, res) => {
   }
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id",authorize, (req, res) => {
   try {
     UserModel.findByIdAndDelete(req.params.id, (err, done) => {
       if (err) {
@@ -98,7 +100,7 @@ router.delete("/:id", (req, res) => {
   }
 });
 
-router.put("/details/:id", (req, res) => {
+router.put("/details/:id",authorize, (req, res) => {
   UserModel.findByIdAndUpdate(req.params.id, {
     $set: {
       category: req.body.category,
@@ -114,7 +116,7 @@ router.put("/details/:id", (req, res) => {
     }
   });
 });
-router.put("/links/:id", upload.single("profilephoto"), (req, res) => {
+router.put("/links/:id",authorize, upload.single("profilephoto"), (req, res) => {
   console.log(req.file);
   console.log(req.body.links);
   UserModel.findByIdAndUpdate(req.params.id, {
@@ -130,7 +132,7 @@ router.put("/links/:id", upload.single("profilephoto"), (req, res) => {
     }
   });
 });
-router.put("/links/:id", (req, res) => {
+router.put("/links/:id",authorize, (req, res) => {
   UserModel.findByIdAndUpdate(req.params.id, {
     $set: { links: req.body.data },
   })
