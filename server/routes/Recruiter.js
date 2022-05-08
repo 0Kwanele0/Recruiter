@@ -71,7 +71,7 @@ recruiterRouter.post("/login", (req, res) => {
   }
 });
 
-recruiterRouter.get("/:id", (req, res) => {
+recruiterRouter.get("/:id",authorize, (req, res) => {
   try {
     RecruiterModel.findById(req.params.id, (err, user) => {
       if (!user) {
@@ -85,7 +85,7 @@ recruiterRouter.get("/:id", (req, res) => {
   }
 });
 
-recruiterRouter.delete("/:id", (req, res) => {
+recruiterRouter.delete("/:id",authorize, (req, res) => {
   try {
     RecruiterModel.findByIdAndDelete(req.params.id, (err, done) => {
       if (err) {
@@ -100,7 +100,7 @@ recruiterRouter.delete("/:id", (req, res) => {
   }
 });
 
-recruiterRouter.put("/:id", (req, res) => {
+recruiterRouter.put("/:id",authorize, (req, res) => {
   RecruiterModel.findByIdAndUpdate(req.params.id, {
     $set: {
       firstname: req.body.firstname,
