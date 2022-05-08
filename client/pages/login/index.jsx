@@ -2,8 +2,12 @@ import styles from "../../styles/login.module.scss";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
+import {useRouter} from 'next/router'
 
 function Login() {
+
+  const router = useRouter()
+  
   const {
     register,
     handleSubmit,
@@ -21,6 +25,8 @@ function Login() {
       const response = await data.json();
       if (data.status == 200) {
         console.log(response);
+        localStorage.setItem('recruiter-x-auth-token', response.token)
+        router.push('/devs')
         setRecponseError();
       } else if (data.status == 401) {
         setRecponseError(response.msg);
