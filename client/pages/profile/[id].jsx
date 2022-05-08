@@ -2,13 +2,47 @@ import mystyles from "../../styles/profile.module.scss";
 import location from "../../public/assets/icons/location.png";
 import ProjectCard from "../../components/ProjectCard";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useParams } from "react-router-dom";
 
-function Profile({ data }) {
-  const user = data;
-  const emailLink = `mailto: ${data.email}`;
-  const imglink = `/uploads/profilephotos/${data.profilephoto}`;
-  const links = JSON.parse(user.links);
-  console.log(user);
+function Profile() {
+  const [user, setUser] = useState();
+  const [emailLink, setEmailLink] = useState();
+  const [imgLink, setImgLink] = useState();
+
+  const [links, setLinks] = useState();
+  const router = useRouter();
+  async function fetchUser() {
+    return fetch(`http://localhost:3001/user/${router.query.id}`, {
+      method: "GET",
+      headers: {
+        "recruiter-x-auth-token": localStorage.getItem(
+          "recruiter-x-auth-token"
+        ),
+      },
+    }).then(async (user) => {
+      if (user.status === 200) {
+        const data = await user.json();
+        setUser(data);
+        setEmailLink(`mailto: ${data.email}`);
+        setImgLink(`/uploads/profilephotos/${data.profilephoto}`);
+        const links =JSON.parse(data.links[0])
+        setLinks(links);
+      } else {
+        router.push("/login");
+      }
+    });
+  }
+
+  useEffect(() => {
+    const token = localStorage.getItem("recruiter-x-auth-token");
+    if (token) {
+      fetchUser();
+    } else {
+      router.push("/login");
+    }
+  }, []);
 
   return (
     <main className={mystyles.wrapper}>
@@ -17,9 +51,9 @@ function Profile({ data }) {
           <section className={mystyles.profile}>
             <div className={mystyles.name}>
               <div className={mystyles.image}>
-                {imglink && (
+                {imgLink && (
                   <Image
-                    src={imglink}
+                    src={imgLink}
                     objectFit="cover"
                     width={60}
                     height={60}
@@ -55,7 +89,7 @@ function Profile({ data }) {
               <div className={mystyles.links}>
                 <h4>Links</h4>
                 <ul>
-                  {user.links &&
+                  {links &&
                     links.map((item, index) => {
                       if (item.link.length > 0) {
                         return (
@@ -96,25 +130,10 @@ function Profile({ data }) {
           </section>
         </main>
       ) : (
-        <> nothimg</>
+        <> .....</>
       )}
     </main>
   );
 }
-
-export const getServerSideProps = async (context) => {
-  const data = await fetch(`http://localhost:3001/user/${context.params.id}`, {
-    method: "GET",
-  }).then(async (user) => {
-    const data = await user.json();
-    return data;
-  });
-
-  return {
-    props: {
-      data,
-    },
-  };
-};
 
 export default Profile;

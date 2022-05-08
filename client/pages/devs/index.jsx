@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import ProfileCard from "../../components/ProfileCard";
 import { useRouter } from "next/router";
 
-function Devs(/*{ data }*/) {
-  const router = useRouter()
+function Devs() {
+  const router = useRouter();
   const [data, setData] = useState();
 
-  useEffect(() => {
+  async function fetchUsers() {
     fetch("http://localhost:3001/user/", {
       method: "GET",
       headers: {
@@ -16,14 +16,25 @@ function Devs(/*{ data }*/) {
         ),
       },
     }).then(async (user) => {
-      console.log(user)
-      if(user.status ===200){
+      if (user.status === 200) {
         const data = await user.json();
+        console.log(data);
         setData(data);
-      }else{
-        router.push('/login')
+      } else {
+        router.push("/login");
       }
     });
+  }
+
+  useEffect(() => {
+    const token = localStorage.getItem("recruiter-x-auth-token");
+
+    if (token) {
+      fetchUsers();
+    } else {
+      router.push("/login");
+    }
+
   }, []);
 
   return (
@@ -63,19 +74,5 @@ function Devs(/*{ data }*/) {
   );
 }
 
-// export const getServerSideProps = async () => {
-//   const data = await fetch("http://localhost:3001/user/", {
-//     method: "GET",
-//     headers: {'recruiter-x-auth-token': localStorage.getItem('recruiter-x-auth-token')}
-//   }).then(async (user) => {
-//     const data = await user.json();
-//     return data;
-//   });
-//   return {
-//     props: {
-//       data,
-//     },
-//   };
-// };
 
 export default Devs;
