@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const multer = require("multer");
 const router = express.Router();
 const authorize = require("../middleware/Authorize");
-const jwt = require('jsonwebtoken')
+const jwt = require("jsonwebtoken");
 
 const Storage = multer.diskStorage({
   destination: "../client/public/uploads/profilephotos",
@@ -129,8 +129,6 @@ router.put(
   authorize,
   upload.single("profilephoto"),
   (req, res) => {
-    console.log(req.file);
-    console.log(req.body.links);
     UserModel.findByIdAndUpdate(req.params.id, {
       $set: {
         profilephoto: req.file.filename,

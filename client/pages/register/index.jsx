@@ -1,5 +1,5 @@
 import regstyles from "../../styles/register.module.scss";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import twitter from "../../public/assets/icons/twitter.png";
 import github from "../../public/assets/icons/github.png";
@@ -44,7 +44,6 @@ function Index() {
   const [imageLink, setImageLink] = useState("");
   const [detailsResponseError, setDetailsResponseError] = useState();
   const [typedSkill, setTypedSkill] = useState("");
-
   const [linksResponseError, setLinksResponseError] = useState();
 
   const listedCategories = [
@@ -77,6 +76,7 @@ function Index() {
     setTypedSkill("");
     console.log(skills);
   }
+
   function removeSkill(ev) {
     setSkills(
       skills.filter((e) => {
@@ -124,15 +124,12 @@ function Index() {
       }).then(async (data) => {
         const response = await data.json();
         if (data.status == 200) {
-          console.log(response);
           setDetailsError();
           setRegistering(false);
           setdetails(false);
           setlinks(true);
         } else if (data.status == 401) {
-          console.log(response.msg);
         } else {
-          console.log(response.msg);
         }
       });
     }
@@ -162,6 +159,8 @@ function Index() {
   }
 
   function submitLinks(e) {
+    e.preventDefault();
+
     const links = [
       { name: "GitHub", link: githubLink },
       { name: "Twitter", link: twitterLink },
@@ -170,7 +169,6 @@ function Index() {
     ];
 
     const formData = new FormData();
-    e.preventDefault();
     formData.append("profilephoto", imageLink);
     formData.append("links", JSON.stringify(links));
     console.log(formData);
@@ -180,11 +178,8 @@ function Index() {
     }).then(async (data) => {
       const response = await data.json();
       if (data.status == 200) {
-        console.log(response);
       } else if (data.status == 401) {
-        console.log(response.msg);
       } else {
-        console.log(response.msg);
       }
     });
   }
@@ -255,16 +250,17 @@ function Index() {
         if (data.status == 200) {
           setRecponseError();
           setUser(response);
-          localStorage.setItem('recruiter-x-auth-token', JSON.stringify(response))
+          localStorage.setItem(
+            "recruiter-x-auth-token",
+            JSON.stringify(response)
+          );
           setRegistering(false);
           setdetails(true);
           setlinks(false);
         } else if (data.status == 401) {
           setRecponseError(response.msg);
-          console.log(response.msg);
         } else {
           setRecponseError(response.msg);
-          console.log(response.msg);
         }
       });
     } else if (recruiterCheckbox) {
@@ -277,15 +273,15 @@ function Index() {
         if (data.status == 200) {
           setRecponseError();
           setUser(response);
-          console.log(user);
-          localStorage.setItem('recruiter-x-auth-token', JSON.stringify(response))
+          localStorage.setItem(
+            "recruiter-x-auth-token",
+            JSON.stringify(response)
+          );
           router.push("/devs");
         } else if (data.status == 401) {
           setRecponseError(response.msg);
-          console.log(response.msg);
         } else {
           setRecponseError(response.msg);
-          console.log(response.msg);
         }
       });
     } else {

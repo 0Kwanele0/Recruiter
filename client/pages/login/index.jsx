@@ -7,19 +7,18 @@ import { useRouter } from "next/router";
 function Login() {
   const router = useRouter();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
   const [responseError, setRecponseError] = useState();
-
   const [recruiterCheckbox, setRecruiterCheckbox] = useState(false);
   const [developerCheckbox, setDeveloperCheckbox] = useState(false);
   const [checkboxError, setCheckboxError] = useState(false);
   const recruiterBox = useRef();
   const developerBox = useRef();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   function labelClicked(e) {
     switch (e.target.innerText) {
@@ -37,6 +36,7 @@ function Login() {
         return;
     }
   }
+
   function recboxClicked(e) {
     setRecruiterCheckbox(true);
     setDeveloperCheckbox(false);
@@ -44,6 +44,7 @@ function Login() {
     developerBox.current.style.backgroundColor = "white";
     return;
   }
+
   function devboxClicked(e) {
     setDeveloperCheckbox(true);
     setRecruiterCheckbox(false);
@@ -61,7 +62,10 @@ function Login() {
       }).then(async (data) => {
         const response = await data.json();
         if (data.status == 200) {
-          localStorage.setItem("recruiter-x-auth-token", JSON.stringify(response));
+          localStorage.setItem(
+            "recruiter-x-auth-token",
+            JSON.stringify(response)
+          );
           router.push("/devs");
           setRecponseError();
         } else {
@@ -76,7 +80,10 @@ function Login() {
       }).then(async (data) => {
         const response = await data.json();
         if (data.status == 200) {
-          localStorage.setItem("recruiter-x-auth-token", JSON.stringify(response));
+          localStorage.setItem(
+            "recruiter-x-auth-token",
+            JSON.stringify(response)
+          );
           router.push("/devs");
           setRecponseError();
         } else {

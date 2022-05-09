@@ -11,9 +11,10 @@ function Profile() {
   const [user, setUser] = useState();
   const [emailLink, setEmailLink] = useState();
   const [imgLink, setImgLink] = useState();
-
   const [links, setLinks] = useState();
+  const profileEditor = useRef();
   const router = useRouter();
+
   async function fetchUser(token) {
     return fetch(`http://localhost:3001/user/${router.query.id}`, {
       method: "GET",
@@ -33,32 +34,12 @@ function Profile() {
       }
     });
   }
-  const profileEditor = useRef();
 
   function closeProfileEditor() {
     profileEditor.current.style.display = "none";
   }
   function openProfileEditor() {
     profileEditor.current.style.display = "flex";
-  }
-
-  function editProfile() {
-    setEditProfile(true);
-  }
-  function editSkills() {
-    setEditSkills(true);
-  }
-
-  function editLinks() {
-    setEditLinks(true);
-  }
-
-  function editField() {
-    setEditLinks(true);
-  }
-
-  function editProjects() {
-    setEditProjects(true);
   }
 
   useEffect(() => {

@@ -14,7 +14,6 @@ function MyProfile() {
   const router = useRouter();
 
   async function fetchUser() {
-    console.log(token)
     fetch(`http://localhost:3001/user/${router.query.id}`, {
       method: "GET",
       headers: {
@@ -34,21 +33,11 @@ function MyProfile() {
     });
   }
 
-  function editProfile(){
-    setEditProfile(true)
-  }
-  function editSkills(){
-    setEditSkills(true)
-  }
-  function editLinks(){
-    setEditLinks(true)
-  }
-  
-  function editProjects(){
-    setEditProjects(true)
+  function editProfile() {
+    setEditProfile(true);
   }
 
-  function deleteAccount(){
+  function deleteAccount() {
     fetch(`http://localhost:3001/user/${router.query.id}`, {
       method: "DELETE",
       headers: {
@@ -59,17 +48,16 @@ function MyProfile() {
         router.push("/login");
       } else {
         const data = await theuser.json();
-        console.log(data)
       }
     });
-    router.push('/')
+    router.push("/");
   }
 
   useEffect(() => {
     const details = localStorage.getItem("recruiter-x-auth-token");
     if (details) {
       const mytoken = JSON.parse(details);
-      setToken(mytoken)
+      setToken(mytoken);
       fetchUser();
     } else {
       router.push("/login");
