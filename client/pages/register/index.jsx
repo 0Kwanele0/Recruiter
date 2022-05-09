@@ -255,7 +255,7 @@ function Index() {
         if (data.status == 200) {
           setRecponseError();
           setUser(response);
-          localStorage.setItem('recruiter-x-auth-token', response.token)
+          localStorage.setItem('recruiter-x-auth-token', JSON.stringify(response))
           setRegistering(false);
           setdetails(true);
           setlinks(false);
@@ -278,7 +278,7 @@ function Index() {
           setRecponseError();
           setUser(response);
           console.log(user);
-          localStorage.setItem('recruiter-x-auth-token', response.token)
+          localStorage.setItem('recruiter-x-auth-token', JSON.stringify(response))
           router.push("/devs");
         } else if (data.status == 401) {
           setRecponseError(response.msg);

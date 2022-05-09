@@ -61,8 +61,7 @@ function Login() {
       }).then(async (data) => {
         const response = await data.json();
         if (data.status == 200) {
-          console.log(response);
-          localStorage.setItem("recruiter-x-auth-token", response.token);
+          localStorage.setItem("recruiter-x-auth-token", JSON.stringify(response));
           router.push("/devs");
           setRecponseError();
         } else {
@@ -77,8 +76,7 @@ function Login() {
       }).then(async (data) => {
         const response = await data.json();
         if (data.status == 200) {
-          console.log(response);
-          localStorage.setItem("recruiter-x-auth-token", response.token);
+          localStorage.setItem("recruiter-x-auth-token", JSON.stringify(response));
           router.push("/devs");
           setRecponseError();
         } else {

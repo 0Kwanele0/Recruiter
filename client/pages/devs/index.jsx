@@ -8,12 +8,13 @@ function Devs() {
   const [data, setData] = useState();
 
   async function fetchUsers() {
+    const details = localStorage.getItem("recruiter-x-auth-token");
+    const token = JSON.parse(details);
+
     fetch("http://localhost:3001/user/", {
       method: "GET",
       headers: {
-        "recruiter-x-auth-token": localStorage.getItem(
-          "recruiter-x-auth-token"
-        ),
+        "recruiter-x-auth-token": token.token,
       },
     }).then(async (user) => {
       if (user.status === 200) {
@@ -33,7 +34,6 @@ function Devs() {
     } else {
       router.push("/login");
     }
-
   }, []);
 
   return (
@@ -72,6 +72,5 @@ function Devs() {
     </>
   );
 }
-
 
 export default Devs;

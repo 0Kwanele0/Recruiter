@@ -34,9 +34,10 @@ function Profile() {
   }
 
   useEffect(() => {
-    const token = localStorage.getItem("recruiter-x-auth-token");
-    if (token) {
-      fetchUser(token);
+    const details = localStorage.getItem("recruiter-x-auth-token");
+    const token = JSON.parse(details);
+    if (details) {
+      fetchUser(token.token);
     } else {
       router.push("/login");
     }

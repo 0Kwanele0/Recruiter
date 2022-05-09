@@ -3,8 +3,8 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const multer = require("multer");
 const router = express.Router();
-const authorize = require('../middleware/Authorize')
-
+const authorize = require("../middleware/Authorize");
+const jwt = require('jsonwebtoken')
 
 const Storage = multer.diskStorage({
   destination: "../client/public/uploads/profilephotos",
@@ -14,7 +14,7 @@ const Storage = multer.diskStorage({
 });
 const upload = multer({ storage: Storage });
 
-router.get("/",authorize, async (req, res) => {
+router.get("/", authorize, async (req, res) => {
   const users = await UserModel.find();
   res.send(users);
 });
@@ -38,7 +38,11 @@ router.post("/register", (req, res) => {
             } else {
               const user = new UserModel(data);
               user.save().then((user) => {
-                res.send(user);
+                jwt.sign(user.id, process.env.JWT_TOKEN, (err, token) => {
+                  if (token) {
+                    res.send({ user: user, token: token });
+                  }
+                });
               });
             }
           });
@@ -57,7 +61,11 @@ router.post("/login", (req, res) => {
       if (user.length > 0) {
         bcrypt.compare(req.body.password, user[0].password, (err, done) => {
           if (done) {
-            res.send(user[0]);
+            jwt.sign(user[0].id, process.env.JWT_TOKEN, (err, token) => {
+              if (token) {
+                res.send({ user: user[0], token: token });
+              }
+            });
           } else {
             res.status(401).send({ msg: "Wrong password" });
           }
@@ -71,7 +79,7 @@ router.post("/login", (req, res) => {
   }
 });
 
-router.get("/:id",authorize, (req, res) => {
+router.get("/:id", authorize, (req, res) => {
   try {
     UserModel.findById(req.params.id, (err, user) => {
       if (!user) {
@@ -85,7 +93,7 @@ router.get("/:id",authorize, (req, res) => {
   }
 });
 
-router.delete("/:id",authorize, (req, res) => {
+router.delete("/:id", authorize, (req, res) => {
   try {
     UserModel.findByIdAndDelete(req.params.id, (err, done) => {
       if (err) {
@@ -100,7 +108,7 @@ router.delete("/:id",authorize, (req, res) => {
   }
 });
 
-router.put("/details/:id",authorize, (req, res) => {
+router.put("/details/:id", authorize, (req, res) => {
   UserModel.findByIdAndUpdate(req.params.id, {
     $set: {
       category: req.body.category,
@@ -116,23 +124,28 @@ router.put("/details/:id",authorize, (req, res) => {
     }
   });
 });
-router.put("/links/:id",authorize, upload.single("profilephoto"), (req, res) => {
-  console.log(req.file);
-  console.log(req.body.links);
-  UserModel.findByIdAndUpdate(req.params.id, {
-    $set: {
-      profilephoto: req.file.filename,
-      links: req.body.links,
-    },
-  }).then((value) => {
-    if (value) {
-      res.send(value);
-    } else {
-      res.status(404).send("no user");
-    }
-  });
-});
-router.put("/links/:id",authorize, (req, res) => {
+router.put(
+  "/links/:id",
+  authorize,
+  upload.single("profilephoto"),
+  (req, res) => {
+    console.log(req.file);
+    console.log(req.body.links);
+    UserModel.findByIdAndUpdate(req.params.id, {
+      $set: {
+        profilephoto: req.file.filename,
+        links: req.body.links,
+      },
+    }).then((value) => {
+      if (value) {
+        res.send(value);
+      } else {
+        res.status(404).send("no user");
+      }
+    });
+  }
+);
+router.put("/links/:id", authorize, (req, res) => {
   UserModel.findByIdAndUpdate(req.params.id, {
     $set: { links: req.body.data },
   })

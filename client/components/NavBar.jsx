@@ -12,12 +12,14 @@ function NavBar() {
   const [logged, setLogged] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [menu, setMenu] = useState(false);
+  const [details, setDetails] = useState();
 
   const router = useRouter()
 
   function settings(){
-  router.push('/myprofile/3232')
-  setMenu(!menu)
+    setMenu(!menu)
+  router.push(`/myprofile/${details.user._id}`)
+  return
   
 }
 
@@ -29,6 +31,7 @@ function logOut(){
   
   useEffect(() => {
     const token = localStorage.getItem("recruiter-x-auth-token");
+    setDetails(JSON.parse(token))
     if (token) {
       setLogged(true);
       setMounted(true);
@@ -36,7 +39,7 @@ function logOut(){
       setMounted(true);
       setLogged(false);
     }
-  });
+  },[]);
 
   function showMenu(){
     setMenu(!menu)
