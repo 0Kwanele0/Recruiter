@@ -11,7 +11,89 @@
     max-width: 980px;
     display: flex;
     flex-direction: column;
-    .edit{
+    position: relative;
+    .editProfile {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+    .editor {
+      position: absolute;
+      z-index: 22;
+      left: 140px;
+      background: rgb(221, 222, 235);
+      border-radius: 16px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.507);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      max-width: 700px;
+      padding: 40px;
+      display: none;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 20px;
+      .close {
+        transform: rotate(45deg);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.548);
+        padding: 5px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+      form {
+        width: 100%;
+        font-family: inherit;
+        gap: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        .inputContainer {
+          width: 100%;
+          display: flex;
+          gap: 10px;
+        }
+        .inputAndLabel {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+        }
+        label {
+          color: rgb(46, 32, 78);
+        }
+        input {
+          font-weight: 200;
+          color: #000000;
+          width: 100%;
+          font-size: 18px;
+          padding: 10px;
+          border-radius: 0px;
+          background-color: transparent;
+          border: 2px solid rgba(5, 4, 4, 0.514);
+        }
+        button {
+          width: 100%;
+          background-color: dodgerblue;
+          font-size: 20px;
+          color: white;
+          padding: 10px;
+          border: none;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          &:hover {
+            transform: translateY(-2px);
+          }
+        }
+      }
+    }
+    .edit {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -22,7 +104,7 @@
       border-radius: 50%;
       cursor: pointer;
       transition: all 0.2s ease;
-      &:hover{
+      &:hover {
         background-color: #445;
         transform: translate(-1px, -1px);
       }
@@ -129,7 +211,7 @@
         gap: 40px;
         width: 30%;
         .skills {
-          .heading{
+          .heading {
             display: flex;
             align-items: center;
             gap: 12px;
@@ -143,7 +225,7 @@
         .links {
           padding-top: 20px;
           border-top: 1px solid #445;
-          .heading{
+          .heading {
             display: flex;
             align-items: center;
             gap: 12px;
@@ -185,7 +267,7 @@
         }
         .projects {
           padding: 20px;
-          .heading{
+          .heading {
             display: flex;
             align-items: center;
             gap: 12px;
