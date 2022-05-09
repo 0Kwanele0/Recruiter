@@ -1,5 +1,7 @@
 import mystyles from "../../styles/profile.module.scss";
 import location from "../../public/assets/icons/location.png";
+import pen from "../../public/assets/icons/pen.png";
+import plus from "../../public/assets/icons/plus.png";
 import ProjectCard from "../../components/ProjectCard";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -33,6 +35,26 @@ function Profile() {
     });
   }
 
+
+
+  function editProfile(){
+    setEditProfile(true)
+  }
+  function editSkills(){
+    setEditSkills(true)
+  }
+  function editLinks(){
+    setEditLinks(true)
+  }
+  function editField(){
+    setEditLinks(true)
+  }
+  
+  function editProjects(){
+    setEditProjects(true)
+  }
+  
+
   useEffect(() => {
     const details = localStorage.getItem("recruiter-x-auth-token");
     const token = JSON.parse(details);
@@ -58,7 +80,7 @@ function Profile() {
                     height={60}
                     alt=""
                   />
-                )}
+                  )}
               </div>
               <div className={mystyles.nameAndLocation}>
                 <h3>{user.firstname + " " + user.lastname}</h3>
@@ -66,6 +88,14 @@ function Profile() {
                   <Image width={20} height={20} src={location} alt="" />
                   <p>{user.city + ", " + user.country}</p>
                 </div>
+              </div>
+              <div onClick={editProfile} className={mystyles.edit}>
+                  <Image
+                    src={pen}
+                    width={20}
+                    height={20}
+                    alt=""
+                  />
               </div>
             </div>
             <div className={mystyles.buttons}>
@@ -76,7 +106,17 @@ function Profile() {
           <section className={mystyles.details}>
             <div className={mystyles.leftSection}>
               <div className={mystyles.skills}>
-                <h4>Skills</h4>
+                <div className={mystyles.heading}>
+                  <h4>Skills</h4>
+                  <div onClick={editSkills} className={mystyles.edit}>
+                    <Image
+                      src={pen}
+                      width={20}
+                      height={20}
+                      alt=""
+                    />
+                    </div>
+                </div>
                 <ul>
                   {user.skills &&
                     user.skills.length > 0 &&
@@ -86,7 +126,17 @@ function Profile() {
                 </ul>
               </div>
               <div className={mystyles.links}>
-                <h4>Links</h4>
+              <div className={mystyles.heading}>
+                  <h4>Links</h4>
+                  <div onClick={editLinks} className={mystyles.edit}>
+                    <Image
+                      src={pen}
+                      width={20}
+                      height={20}
+                      alt=""
+                    />
+                    </div>
+                </div>
                 <ul>
                   {links &&
                     links.map((item, index) => {
@@ -106,11 +156,29 @@ function Profile() {
                 <div className={mystyles.bioHearder}>
                   <h4>{user.category}</h4>
                   <p>Experience: {user.experience ? user.experience : 0}</p>
+                  <div onClick={editField} className={mystyles.edit}>
+                    <Image
+                      src={pen}
+                      width={20}
+                      height={20}
+                      alt=""
+                    />
+                    </div>
                 </div>
                 <p>{user.bio}</p>
               </div>
               <div className={mystyles.projects}>
-                <h4>Projects</h4>
+              <div className={mystyles.heading}>
+                  <h4>Project</h4>
+                  <div onClick={editProjects} className={mystyles.edit}>
+                    <Image
+                      src={plus}
+                      width={20}
+                      height={20}
+                      alt="add project"
+                    />
+                    </div>
+                </div>
                 <div className={mystyles.projectCards}>
                   {user.projects &&
                     user.projects.map((item, index) => {

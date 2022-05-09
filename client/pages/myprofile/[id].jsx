@@ -67,9 +67,9 @@ function MyProfile() {
 
   useEffect(() => {
     const details = localStorage.getItem("recruiter-x-auth-token");
-    const mytoken = JSON.parse(details);
-    setToken(mytoken)
     if (details) {
+      const mytoken = JSON.parse(details);
+      setToken(mytoken)
       fetchUser();
     } else {
       router.push("/login");

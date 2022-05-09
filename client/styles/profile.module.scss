@@ -11,6 +11,22 @@
     max-width: 980px;
     display: flex;
     flex-direction: column;
+    .edit{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid white;
+      padding: 8px;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      &:hover{
+        background-color: #445;
+        transform: translate(-1px, -1px);
+      }
+    }
     .profile {
       display: flex;
       justify-content: space-between;
@@ -113,6 +129,11 @@
         gap: 40px;
         width: 30%;
         .skills {
+          .heading{
+            display: flex;
+            align-items: center;
+            gap: 12px;
+          }
           ul {
             li {
               background-color: #5a5b85;
@@ -122,7 +143,11 @@
         .links {
           padding-top: 20px;
           border-top: 1px solid #445;
-
+          .heading{
+            display: flex;
+            align-items: center;
+            gap: 12px;
+          }
           ul {
             li {
               border-radius: 40px;
@@ -160,6 +185,11 @@
         }
         .projects {
           padding: 20px;
+          .heading{
+            display: flex;
+            align-items: center;
+            gap: 12px;
+          }
           .projectCards {
             display: flex;
             flex-wrap: wrap;
