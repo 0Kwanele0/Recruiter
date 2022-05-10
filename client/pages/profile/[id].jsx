@@ -1,9 +1,13 @@
 import mystyles from "../../styles/profile.module.scss";
 import location from "../../public/assets/icons/location.png";
 import pen from "../../public/assets/icons/pen.png";
-import plus from "../../public/assets/icons/plus.png";
+import close from "../../public/assets/icons/close.png";
 import ProjectCard from "../../components/ProjectCard";
 import Image from "next/image";
+import twitter from "../../public/assets/icons/twitter.png";
+import github from "../../public/assets/icons/github.png";
+import linkedin from "../../public/assets/icons/linkedin.png";
+import internet from "../../public/assets/icons/internet.png";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 
@@ -13,6 +17,9 @@ function Profile() {
   const [imgLink, setImgLink] = useState();
   const [links, setLinks] = useState();
   const profileEditor = useRef();
+  const [editPersonalDetails, setEditPersonalDetails] = useState(true);
+  const [editLinks, setEditLinks] = useState(false);
+  const [editSkills, setEditSkills] = useState(false);
   const router = useRouter();
 
   async function fetchUser(token) {
@@ -42,6 +49,26 @@ function Profile() {
     profileEditor.current.style.display = "flex";
   }
 
+  function changeEditMenu(ev) {
+    switch (ev.target.innerText) {
+      case "Personal details":
+        setEditLinks(false);
+        setEditPersonalDetails(true);
+        setEditSkills(false);
+        return;
+      case "Links":
+        setEditLinks(true);
+        setEditPersonalDetails(false);
+        setEditSkills(false);
+        return;
+      case "Skills":
+        setEditLinks(false);
+        setEditPersonalDetails(false);
+        setEditSkills(true);
+        return;
+    }
+  }
+
   useEffect(() => {
     const details = localStorage.getItem("recruiter-x-auth-token");
     const token = JSON.parse(details);
@@ -63,40 +90,117 @@ function Profile() {
             </div>
           </div>
           <section ref={profileEditor} className={mystyles.editor}>
-            <div onClick={closeProfileEditor} className={mystyles.close}>
-              <Image src={plus} width={20} height={20} alt="add project" />
+            <div className={mystyles.close}>
+              <div onClick={closeProfileEditor} className={mystyles.closeBtn}>
+                <Image src={close} width={25} height={25} alt="add project" />
+              </div>
             </div>
-            <form action="">
-              <div className={mystyles.inputContainer}>
-                <div className={mystyles.inputAndLabel}>
-                  <label htmlFor="">FirstName</label>
-                  <input value={user.firstname} name="firstname" type="text" />
-                </div>
-                <div className={mystyles.inputAndLabel}>
-                  <label htmlFor="">LaststName</label>
-                  <input value={user.lastname} name="lastname" type="text" />
-                </div>
-              </div>
-              <div className={mystyles.inputAndLabel}>
-                <label htmlFor="">Profile photo</label>
-                <input
-                  value={user.laststname}
-                  name="profilephoto"
-                  type="file"
-                />
-              </div>
-              <div className={mystyles.inputContainer}>
-                <div className={mystyles.inputAndLabel}>
-                  <label htmlFor="">City</label>
-                  <input value={user.city} name="city" type="text" />
-                </div>
-                <div className={mystyles.inputAndLabel}>
-                  <label htmlFor="">Country</label>
-                  <input value={user.country} name="country" type="text" />
-                </div>
-              </div>
-              <button>Save</button>
-            </form>
+            <div className={mystyles.menu}>
+              <p onClick={changeEditMenu}>Personal details</p>
+              <p onClick={changeEditMenu}>Links</p>
+              <p onClick={changeEditMenu}>Skills</p>
+            </div>
+            <>
+              {editPersonalDetails && (
+                <form action="">
+                  <div className={mystyles.inputContainer}>
+                    <div className={mystyles.inputAndLabel}>
+                      <label htmlFor="">FirstName</label>
+                      <input
+                        value={user.firstname}
+                        name="firstname"
+                        type="text"
+                      />
+                    </div>
+                    <div className={mystyles.inputAndLabel}>
+                      <label htmlFor="">LaststName</label>
+                      <input
+                        value={user.lastname}
+                        name="lastname"
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                  <div className={mystyles.inputAndLabel}>
+                    <label htmlFor="">Profile photo</label>
+                    <input
+                      value={user.laststname}
+                      name="profilephoto"
+                      type="file"
+                    />
+                  </div>
+                  <div className={mystyles.inputContainer}>
+                    <div className={mystyles.inputAndLabel}>
+                      <label htmlFor="">City</label>
+                      <input value={user.city} name="city" type="text" />
+                    </div>
+                    <div className={mystyles.inputAndLabel}>
+                      <label htmlFor="">Country</label>
+                      <input value={user.country} name="country" type="text" />
+                    </div>
+                  </div>
+                  <button>Save</button>
+                </form>
+              )}
+              {editLinks && (
+                <form action="">
+                  <div className={mystyles.addSkills}>
+                    <input
+                      placeholder="Type you skill e.g React"
+                      type="text"
+                      name=""
+                      id=""
+                    />
+                    <button className={mystyles.addSkillsBtn}>Add</button>
+                  </div>
+                  <div className={mystyles.displaySkills}>
+                    <p>React</p>
+                    <p>PHP</p>
+                    <p>Node js</p>
+                    <p>Next js</p>
+                    <p>Next js</p>
+                  </div>
+                  <button>Save</button>
+                </form>
+              )}
+              {editSkills && (
+                <form action="">
+                  <div className={mystyles.skillsfield}>
+                    <Image src={github} width={40} height={40} />
+                    <input
+                      name="github"
+                      placeholder="Add you GitHub Link"
+                      type="text"
+                    />
+                  </div>
+                  <div className={mystyles.skillsfield}>
+                    <Image src={linkedin} width={40} height={40} />
+                    <input
+                      name="linkedin"
+                      placeholder="Add you LinkedIn Link"
+                      type="text"
+                    />
+                  </div>
+                  <div className={mystyles.skillsfield}>
+                    <Image src={twitter} width={40} height={40} />
+                    <input
+                      name="twitter"
+                      placeholder="Add you Twitter Link"
+                      type="text"
+                    />
+                  </div>
+                  <div className={mystyles.skillsfield}>
+                    <Image src={internet} width={40} height={40} />
+                    <input
+                      name="portfolio"
+                      placeholder="Add your Portfolio Link"
+                      type="text"
+                    />
+                  </div>
+                  <button type="submit">Save</button>
+                </form>
+              )}
+            </>
           </section>
           <section className={mystyles.profile}>
             <div className={mystyles.name}>
