@@ -290,7 +290,7 @@ function Profile() {
           </section>
         </main>
       ) : (
-        <> .....</>
+        <></>
       )}
     </main>
   );

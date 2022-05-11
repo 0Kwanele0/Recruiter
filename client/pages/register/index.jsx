@@ -129,11 +129,14 @@ function Index() {
           setdetails(false);
           setlinks(true);
         } else if (data.status == 401) {
+          setDetailsError("kaka");
         } else {
+          setDetailsError("kaka");
         }
       });
+    } else {
+      setDetailsError("all fields should be complete.");
     }
-    setDetailsError("all fields should be complete.");
   }
 
   //links methods
