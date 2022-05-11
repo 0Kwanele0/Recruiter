@@ -20,6 +20,8 @@ function Profile() {
   const [editPersonalDetails, setEditPersonalDetails] = useState(true);
   const [editLinks, setEditLinks] = useState(false);
   const [editSkills, setEditSkills] = useState(false);
+  const [skills, setSkills] = useState([]);
+  const [typedSkill, setTypedSkill] = useState("");
   const router = useRouter();
 
   async function fetchUser(token) {
@@ -34,10 +36,46 @@ function Profile() {
         setUser(data);
         setEmailLink(`mailto: ${data.email}`);
         setImgLink(`/uploads/profilephotos/${data.profilephoto}`);
+        setSkills(data.skills);
         const links = "";
         setLinks(links);
       } else {
         router.push("/login");
+      }
+    });
+  }
+
+  function addSkill(e) {
+    e.preventDefault();
+    if (!skills.includes(typedSkill)) {
+      setSkills([...skills, typedSkill]);
+      setTypedSkill("");
+    }
+    setTypedSkill("");
+  }
+  function removeSkill(e) {
+    const skill = e.target.innerText;
+    setSkills(
+      skills.filter((ee) => {
+        if (ee != skill) {
+          return ee;
+        }
+      })
+    );
+  }
+
+  function saveSkills(e) {
+    e.preventDefault();
+    fetch("", {
+      method: "POST",
+      headers: { "Content-Type": "Application/json" },
+      body: JSON.stringify(skills),
+    }).then(async (response) => {
+      const data = await response.json();
+      if (response.status == 200) {
+        console.log(data);
+      } else {
+        console.log(data);
       }
     });
   }
@@ -148,17 +186,30 @@ function Profile() {
                     <input
                       placeholder="Type you skill e.g React"
                       type="text"
+                      value={typedSkill}
+                      onChange={(e) => {
+                        setTypedSkill(e.target.value);
+                      }}
                       name=""
                       id=""
                     />
-                    <button className={mystyles.addSkillsBtn}>Add</button>
+                    <button
+                      onClick={addSkill}
+                      className={mystyles.addSkillsBtn}
+                    >
+                      Add
+                    </button>
                   </div>
                   <div className={mystyles.displaySkills}>
-                    <p>React</p>
-                    <p>PHP</p>
-                    <p>Node js</p>
-                    <p>Next js</p>
-                    <p>Next js</p>
+                    {skills &&
+                      skills.length > 0 &&
+                      skills.map((item, index) => {
+                        return (
+                          <p onClick={removeSkill} key={index}>
+                            {item}
+                          </p>
+                        );
+                      })}
                   </div>
                   <button>Save</button>
                 </form>
