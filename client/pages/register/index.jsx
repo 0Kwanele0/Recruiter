@@ -29,9 +29,9 @@ function Index() {
   const experience = useRef();
   const fieldList = useRef();
   const [fieldlist, setFieldList] = useState(false);
-  const [skills, setSkills] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState();
   const [selectedExperience, setSelectedExperience] = useState();
+  const [skills, setSkills] = useState([]);
   const [bio, setBio] = useState("");
   const [detailsError, setDetailsError] = useState();
 
