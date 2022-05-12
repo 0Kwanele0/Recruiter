@@ -1,16 +1,17 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../../styles/profile.module.scss";
 import twitter from "../../public/assets/icons/twitter.png";
 import github from "../../public/assets/icons/github.png";
 import linkedin from "../../public/assets/icons/linkedin.png";
 import internet from "../../public/assets/icons/internet.png";
 
-function LinksDetails() {
-  const [githubLink, setGithubLink] = useState("");
-  const [twitterLink, setTwitterLink] = useState("");
-  const [linkedinLink, setLinkedinLink] = useState("");
-  const [portfolioLink, setPortfolioLink] = useState("");
+function LinksDetails(props) {
+  const links = JSON.parse(props.user.links[0]);
+  const [githubLink, setGithubLink] = useState(links[0].link);
+  const [twitterLink, setTwitterLink] = useState(links[1].link);
+  const [linkedinLink, setLinkedinLink] = useState(links[2].link);
+  const [portfolioLink, setPortfolioLink] = useState(links[3].link);
 
   function changeLinks(e) {
     switch (e.target.name) {
@@ -28,6 +29,7 @@ function LinksDetails() {
         return;
     }
   }
+
   function saveLinks(e) {
     e.preventDefault();
     const links = [
@@ -50,6 +52,7 @@ function LinksDetails() {
       }
     });
   }
+
   return (
     <form>
       <div className={styles.skillsfield}>

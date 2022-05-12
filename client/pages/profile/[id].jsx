@@ -19,7 +19,6 @@ function Profile() {
   const [editPersonalDetails, setEditPersonalDetails] = useState(true);
   const [editLinks, setEditLinks] = useState(false);
   const [editSkills, setEditSkills] = useState(false);
-
   const router = useRouter();
 
   async function fetchUser(token) {
@@ -34,7 +33,6 @@ function Profile() {
         setUser(data);
         setEmailLink(`mailto: ${data.email}`);
         setImgLink(`/uploads/profilephotos/${data.profilephoto}`);
-
         setLinks(JSON.parse(data.links[0]));
         if (links.length > 0) {
           setGithubLink(links[0].link);
@@ -108,8 +106,8 @@ function Profile() {
             </div>
             <>
               {editPersonalDetails && <PersonalDetails user={user} />}
-              {editSkills && <SkillsDetails />}
-              {editLinks && <LinksDetails />}
+              {editSkills && <SkillsDetails user={user} />}
+              {editLinks && <LinksDetails user={user} />}
             </>
           </section>
           <section className={mystyles.profile}>

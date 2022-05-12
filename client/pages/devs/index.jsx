@@ -19,7 +19,6 @@ function Devs() {
     }).then(async (user) => {
       if (user.status === 200) {
         const data = await user.json();
-        console.log(data);
         setData(data);
       } else {
         router.push("/login");

@@ -1,23 +1,24 @@
-import { useState, useEffect, useRef } from "react";
-import mystyles from "../../styles/profile.module.scss";
+import { useState, useRef } from "react";
 import Image from "next/image";
-import { experienceList, listedCategories } from "../../data/Lists";
+import mystyles from "../../styles/profile.module.scss";
 import plus from "../../public/assets/icons/plus.png";
+import { experienceList, listedCategories } from "../../data/Lists";
 
-function SkillsDetails() {
-  const experience = useRef();
+function SkillsDetails(props) {
+  const { _id, experience, category, skills } = props.user;
+  const userExperience = useRef();
   const fieldList = useRef();
-  const [skills, setSkills] = useState([]);
+  const [userSkills, setSkills] = useState(skills);
   const [typedSkill, setTypedSkill] = useState("");
   const [fieldlist, setFieldList] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState();
-  const [selectedExperience, setSelectedExperience] = useState();
+  const [selectedCategory, setSelectedCategory] = useState(category);
+  const [selectedExperience, setSelectedExperience] = useState(experience);
   const [exlist, setExList] = useState(false);
 
   function addSkill(e) {
     e.preventDefault();
-    if (!skills.includes(typedSkill)) {
-      setSkills([...skills, typedSkill]);
+    if (!userSkills.includes(typedSkill)) {
+      setSkills([...userSkills, typedSkill]);
       setTypedSkill("");
     }
     setTypedSkill("");
@@ -25,7 +26,7 @@ function SkillsDetails() {
   function removeSkill(e) {
     const skill = e.target.innerText;
     setSkills(
-      skills.filter((ee) => {
+      userSkills.filter((ee) => {
         if (ee != skill) {
           return ee;
         }
@@ -51,10 +52,17 @@ function SkillsDetails() {
 
   function saveSkills(e) {
     e.preventDefault();
+
+    const data = {
+      skills: userSkills,
+      experience: selectedExperience,
+      category: selectedCategory,
+    };
+
     fetch("", {
       method: "POST",
       headers: { "Content-Type": "Application/json" },
-      body: JSON.stringify(skills),
+      body: JSON.stringify(data),
     }).then(async (response) => {
       const data = await response.json();
       if (response.status == 200) {
@@ -66,11 +74,38 @@ function SkillsDetails() {
   }
 
   return (
-    <form action="">
-      <div className={mystyles.addSkills}>
+    <form action="submit" onSubmit={saveSkills}>
+      <div className={mystyles.addField}>
+        <div onClick={showFieldList} className={mystyles.inner}>
+          {selectedCategory ? (
+            <p className={mystyles.selectedExperience}>{selectedCategory}</p>
+          ) : (
+            <p>
+              Cartegory <span>e.g 3 Web developer..</span>
+            </p>
+          )}
+          <Image src={plus} width={20} height={20} />
+        </div>
+        {fieldlist && (
+          <div ref={fieldList} className={mystyles.list}>
+            <ul>
+              {listedCategories.map((item, index) => {
+                return (
+                  <li key={index} onClick={addCategory}>
+                    {item}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
+      </div>
+      <div className={mystyles.addExperience}>
         <div onClick={showExList} className={mystyles.inner}>
           {selectedExperience ? (
-            <p className={mystyles.selectedExperience}>{selectedExperience}</p>
+            <p className={mystyles.selectedExperience}>
+              Experience : {selectedExperience}
+            </p>
           ) : (
             <p>
               Experience <span>e.g 3 Years..</span>
@@ -79,7 +114,7 @@ function SkillsDetails() {
           <Image src={plus} width={20} height={20} />
         </div>
         {exlist && (
-          <div ref={experience} className={mystyles.list}>
+          <div ref={userExperience} className={mystyles.list}>
             <ul>
               {experienceList.map((item, index) => {
                 return (
@@ -91,6 +126,8 @@ function SkillsDetails() {
             </ul>
           </div>
         )}
+      </div>
+      <div className={mystyles.addSkills}>
         <div className={mystyles.skillInput}>
           <input
             placeholder="Type you skill e.g React"
@@ -108,9 +145,9 @@ function SkillsDetails() {
         </div>
       </div>
       <div className={mystyles.displaySkills}>
-        {skills &&
-          skills.length > 0 &&
-          skills.map((item, index) => {
+        {userSkills &&
+          userSkills.length > 0 &&
+          userSkills.map((item, index) => {
             return (
               <p onClick={removeSkill} key={index}>
                 {item}

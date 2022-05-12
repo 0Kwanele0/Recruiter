@@ -7,9 +7,8 @@ import Link from "next/link";
 function ProfileCard(props) {
   const router = useRouter();
   const link = `profile/${props.id}`;
-
   const imglink = `/uploads/profilephotos/${props.photo}`;
-  console.log(imglink);
+
   return (
     <Link href={link}>
       <main className={styles.container}>
