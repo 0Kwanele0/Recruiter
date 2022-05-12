@@ -21,31 +21,6 @@ function Profile() {
   const [editSkills, setEditSkills] = useState(false);
   const router = useRouter();
 
-  async function fetchUser(token) {
-    return fetch(`http://localhost:3001/user/${router.query.id}`, {
-      method: "GET",
-      headers: {
-        "recruiter-x-auth-token": token,
-      },
-    }).then(async (user) => {
-      if (user.status === 200) {
-        const data = await user.json();
-        setUser(data);
-        setEmailLink(`mailto: ${data.email}`);
-        setImgLink(`/uploads/profilephotos/${data.profilephoto}`);
-        setLinks(JSON.parse(data.links[0]));
-        if (links.length > 0) {
-          setGithubLink(links[0].link);
-          setTwitterLink(links[1].link);
-          setLinkedinLink(links[2].link);
-          setPortfolioLink(links[3].link);
-        }
-      } else {
-        router.push("/login");
-      }
-    });
-  }
-
   function closeProfileEditor() {
     profileEditor.current.style.display = "none";
   }
@@ -73,11 +48,33 @@ function Profile() {
     }
   }
 
+  async function fetchingUser(token) {
+    const id = router.query.id;
+    return fetch(`http://localhost:3001/user/${id}`, {
+      method: "GET",
+      headers: {
+        "recruiter-x-auth-token": token,
+      },
+    }).then(async (user) => {
+      if (user.status === 200) {
+        const data = await user.json();
+        setUser(data);
+        setEmailLink(`mailto: ${data.email}`);
+        setImgLink(`/uploads/profilephotos/${data.profilephoto}`);
+        if (data.links) {
+          setLinks(JSON.parse(data.links[0]));
+        }
+      } else {
+        router.push("/login");
+      }
+    });
+  }
+
   useEffect(() => {
     const details = localStorage.getItem("recruiter-x-auth-token");
-    const token = JSON.parse(details);
     if (details) {
-      fetchUser(token.token);
+      const token = JSON.parse(details);
+      fetchingUser(token.token);
     } else {
       router.push("/login");
     }
