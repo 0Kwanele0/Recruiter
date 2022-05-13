@@ -30,8 +30,9 @@ function LinksDetails(props) {
     }
   }
 
-  function saveLinks(e) {
+  async function saveLinks(e) {
     e.preventDefault();
+
     const links = [
       { name: "GitHub", link: githubLink },
       { name: "Twitter", link: twitterLink },
@@ -39,10 +40,13 @@ function LinksDetails(props) {
       { name: "Portfolio", link: portfolioLink },
     ];
 
-    fetch("", {
-      method: "POST",
-      headers: { "Content-Type": "Application/json" },
-      body: JSON.stringify(links),
+    fetch(`http://localhost:3001/user/linksedit/${props.user._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "Application/json",
+        "recruiter-x-auth-token": props.user.token,
+      },
+      body: JSON.stringify({ links: links }),
     }).then(async (response) => {
       const data = await response.json();
       if (response.status == 200) {
@@ -54,7 +58,7 @@ function LinksDetails(props) {
   }
 
   return (
-    <form>
+    <form action="submit" onSubmit={saveLinks}>
       <div className={styles.skillsfield}>
         <Image src={github} width={40} height={40} />
         <input

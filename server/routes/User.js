@@ -143,6 +143,8 @@ router.put(
     });
   }
 );
+
+//not sure about this route
 router.put("/links/:id", authorize, (req, res) => {
   UserModel.findByIdAndUpdate(req.params.id, {
     $set: { links: req.body.data },
@@ -153,6 +155,71 @@ router.put("/links/:id", authorize, (req, res) => {
     .catch((err) => {
       res.send(err);
     });
+});
+
+router.put("/linksedit/:id", authorize, (req, res) => {
+  console.log("value");
+  UserModel.findByIdAndUpdate(req.params.id, {
+    $set: { links: req.body.links },
+  })
+    .then((value) => {
+      res.send(value);
+      console.log("value");
+      console.log(value);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+});
+
+router.put("/skillssedit/:id", authorize, (req, res) => {
+  UserModel.findByIdAndUpdate(req.params.id, {
+    $set: {
+      category: req.body.category,
+      skills: req.body.skills,
+      experience: req.body.experience,
+    },
+  }).then((value) => {
+    if (value) {
+      res.send(value);
+    } else {
+      res.status(404).send("no user");
+    }
+  });
+});
+
+router.put("/detailsedit/:id", authorize, (req, res) => {
+  UserModel.findByIdAndUpdate(req.params.id, {
+    $set: {
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      country: req.body.country,
+      city: req.body.city,
+    },
+  }).then((value) => {
+    if (value) {
+      res.send(value);
+    } else {
+      res.status(404).send("no user");
+    }
+  });
+});
+
+router.put("/addprojects/:id", authorize, (req, res) => {
+  UserModel.findByIdAndUpdate(req.params.id, {
+    $set: {
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      country: req.body.country,
+      city: req.body.city,
+    },
+  }).then((value) => {
+    if (value) {
+      res.send(value);
+    } else {
+      res.status(404).send("no user");
+    }
+  });
 });
 
 module.exports = router;

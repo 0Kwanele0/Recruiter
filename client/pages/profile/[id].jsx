@@ -13,6 +13,7 @@ import LinksDetails from "../../components/EditProfile/linksDetails";
 
 function Profile() {
   const [user, setUser] = useState();
+
   const [emailLink, setEmailLink] = useState();
   const [imgLink, setImgLink] = useState();
   const [links, setLinks] = useState([]);
