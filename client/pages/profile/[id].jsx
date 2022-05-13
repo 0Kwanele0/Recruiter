@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import mystyles from "../../styles/profile.module.scss";
 import location from "../../public/assets/icons/location.png";
 import pen from "../../public/assets/icons/pen.png";
+import plus from "../../public/assets/icons/plus.png";
 import close from "../../public/assets/icons/close.png";
 import ProjectCard from "../../components/ProjectCard";
 import PersonalDetails from "../../components/EditProfile/PersonalDetails";
@@ -19,6 +20,7 @@ function Profile() {
   const [editPersonalDetails, setEditPersonalDetails] = useState(true);
   const [editLinks, setEditLinks] = useState(false);
   const [editSkills, setEditSkills] = useState(false);
+  const [editProject, setEditProject] = useState(false);
   const router = useRouter();
 
   function closeProfileEditor() {
@@ -26,6 +28,10 @@ function Profile() {
   }
   function openProfileEditor() {
     profileEditor.current.style.display = "flex";
+  }
+
+  function showProjectEditor() {
+    setEditProject(!editProject);
   }
 
   function changeEditMenu(ev) {
@@ -176,7 +182,28 @@ function Profile() {
               <div className={mystyles.projects}>
                 <div className={mystyles.heading}>
                   <h4>Project</h4>
+                  <div onClick={showProjectEditor} className={mystyles.edit}>
+                    <Image src={plus} width={20} height={20} alt="" />
+                  </div>
                 </div>
+                {editProject && (
+                  <div className={mystyles.addProject}>
+                    <form action="">
+                      <div className={mystyles.addProjectNames}>
+                        <input type="text" placeholder="Project name" />
+                        <input type="url" placeholder="Project link" />
+                      </div>
+                      <textarea
+                        name=""
+                        id=""
+                        cols="30"
+                        rows="5"
+                        placeholder="Project description"
+                      ></textarea>
+                      <button>Add project</button>
+                    </form>
+                  </div>
+                )}
                 <div className={mystyles.projectCards}>
                   {user.projects &&
                     user.projects.map((item, index) => {

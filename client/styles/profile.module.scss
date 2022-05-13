@@ -471,6 +471,40 @@
             flex-wrap: wrap;
             gap: 20px;
           }
+          .addProject {
+            form {
+              display: flex;
+              flex-direction: column;
+              gap: 12px;
+            }
+            input,
+            textarea {
+              width: 100%;
+              background-color: transparent;
+              font-family: inherit;
+              font-size: 16px;
+              padding: 8px 6px;
+              border: 1px solid white;
+              color: white;
+            }
+            .addProjectNames {
+              display: flex;
+              gap: 12px;
+            }
+            button {
+              font-size: 16px;
+              padding: 12px;
+              background-color: #63ff92;
+              border: none;
+              color: black;
+              cursor: pointer;
+              transition: all 0.2s ease;
+              &:hover {
+                transform: translateY(-2px);
+                opacity: 0.7;
+              }
+            }
+          }
         }
       }
     }
