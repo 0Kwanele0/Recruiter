@@ -54,9 +54,16 @@ function Index() {
   }
   function addSkill(e) {
     e.preventDefault();
-    setSkills([...skills, typedSkill]);
+    const str = typedSkill.trim();
+    if (str.length > 0) {
+      if (!skills.includes(str)) {
+        setSkills([...skills, typedSkill]);
+        setTypedSkill("");
+      }
+    }
     setTypedSkill("");
   }
+
   function removeSkill(ev) {
     setSkills(
       skills.filter((e) => {
@@ -162,7 +169,12 @@ function Index() {
   function submitDetails(e) {
     e.preventDefault();
 
-    if (selectedCategory && selectedExperience && skills.length > 0) {
+    if (
+      selectedCategory &&
+      selectedExperience &&
+      skills.length > 0 &&
+      bio.trim().length > 0
+    ) {
       const data = {
         skills: skills,
         bio: bio,
@@ -219,6 +231,7 @@ function Index() {
       const response = await data.json();
       if (data.status == 200) {
         router.push("/devs");
+        router.reload();
       } else if (data.status == 401) {
       } else {
       }
@@ -264,8 +277,8 @@ function Index() {
             "recruiter-x-auth-token",
             JSON.stringify(response)
           );
-          router.reload();
           router.push("/devs");
+          router.reload();
         } else if (data.status == 401) {
           setRecponseError(response.msg);
         } else {

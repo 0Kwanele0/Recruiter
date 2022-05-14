@@ -5,7 +5,7 @@ import plus from "../../public/assets/icons/plus.png";
 import { experienceList, listedCategories } from "../../data/Lists";
 
 function SkillsDetails(props) {
-  const { _id, experience, category, skills } = props.user;
+  const { experience, category, skills } = props.user;
   const userExperience = useRef();
   const fieldList = useRef();
   const [userSkills, setSkills] = useState(skills);
@@ -17,19 +17,23 @@ function SkillsDetails(props) {
 
   function addSkill(e) {
     e.preventDefault();
-    if (!userSkills.includes(typedSkill)) {
-      setSkills([...userSkills, typedSkill]);
-      setTypedSkill("");
+    const str = typedSkill.trim();
+    if (str.length > 0) {
+      if (!userSkills.includes(typedSkill)) {
+        setSkills([...userSkills, typedSkill]);
+        setTypedSkill("");
+      }
     }
     setTypedSkill("");
   }
   function removeSkill(e) {
     const skill = e.target.innerText;
     setSkills(
-      userSkills.filter((ee) => {
-        if (ee != skill) {
-          return ee;
+      userSkills.filter((item) => {
+        if (item != skill) {
+          return item;
         }
+        return null;
       })
     );
   }
@@ -129,7 +133,7 @@ function SkillsDetails(props) {
         )}
       </div>
       <div className={mystyles.addSkills}>
-        <div className={mystyles.skillInput}>
+        <form className={mystyles.skillInput}>
           <input
             placeholder="Type you skill e.g React"
             type="text"
@@ -143,11 +147,10 @@ function SkillsDetails(props) {
           <button onClick={addSkill} className={mystyles.addSkillsBtn}>
             Add
           </button>
-        </div>
+        </form>
       </div>
       <div className={mystyles.displaySkills}>
         {userSkills &&
-          userSkills.length > 0 &&
           userSkills.map((item, index) => {
             return (
               <p onClick={removeSkill} key={index}>

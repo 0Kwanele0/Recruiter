@@ -246,14 +246,16 @@
           position: relative;
           .skillInput {
             display: flex;
+            flex-direction: row;
             gap: 12px;
+            width: 100%;
           }
           button {
             font-size: 16px;
             width: fit-content;
-            background-color: transparent;
+            background-color: rgb(92, 92, 202);
             border: 1px solid #4454;
-            color: black;
+            color: rgb(252, 237, 237);
             transition: all 0.2s ease;
             &:hover {
               transform: translate(-1px, -1px);
