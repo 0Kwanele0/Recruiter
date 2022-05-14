@@ -57,7 +57,7 @@ function Login() {
     if (developerCheckbox) {
       fetch("http://localhost:3001/user/login", {
         method: "POST",
-        headers: { "Content-Type": "Application/json" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       }).then(async (data) => {
         const response = await data.json();

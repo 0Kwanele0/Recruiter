@@ -124,6 +124,7 @@ router.put("/details/:id", authorize, (req, res) => {
     }
   });
 });
+
 router.put(
   "/links/:id",
   authorize,

@@ -22,6 +22,7 @@ function Profile() {
   const [editLinks, setEditLinks] = useState(false);
   const [editSkills, setEditSkills] = useState(false);
   const [editProject, setEditProject] = useState(false);
+  const [token, setToken] = useState();
   const router = useRouter();
 
   function closeProfileEditor() {
@@ -66,6 +67,7 @@ function Profile() {
       if (user.status === 200) {
         const data = await user.json();
         setUser(data);
+        console.log(data);
         setEmailLink(`mailto: ${data.email}`);
         setImgLink(`/uploads/profilephotos/${data.profilephoto}`);
         if (data.links) {
@@ -81,11 +83,12 @@ function Profile() {
     const details = localStorage.getItem("recruiter-x-auth-token");
     if (details) {
       const token = JSON.parse(details);
+      setToken(token.token);
       fetchingUser(token.token);
     } else {
       router.push("/login");
     }
-  }, []);
+  }, [token]);
 
   return (
     <main className={mystyles.wrapper}>
@@ -110,8 +113,8 @@ function Profile() {
             </div>
             <>
               {editPersonalDetails && <PersonalDetails user={user} />}
-              {editSkills && <SkillsDetails user={user} />}
-              {editLinks && <LinksDetails user={user} />}
+              {editSkills && <SkillsDetails user={user} token={token} />}
+              {editLinks && <LinksDetails user={user} token={token} />}
             </>
           </section>
           <section className={mystyles.profile}>

@@ -30,9 +30,8 @@ function LinksDetails(props) {
     }
   }
 
-  async function saveLinks(e) {
+  function saveLinks(e) {
     e.preventDefault();
-
     const links = [
       { name: "GitHub", link: githubLink },
       { name: "Twitter", link: twitterLink },
@@ -44,9 +43,9 @@ function LinksDetails(props) {
       method: "PUT",
       headers: {
         "Content-Type": "Application/json",
-        "recruiter-x-auth-token": props.user.token,
+        "recruiter-x-auth-token": props.token,
       },
-      body: JSON.stringify({ links: links }),
+      body: JSON.stringify(links),
     }).then(async (response) => {
       const data = await response.json();
       if (response.status == 200) {

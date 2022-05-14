@@ -18,6 +18,7 @@ function Index() {
   const [details, setdetails] = useState(false);
   const [links, setlinks] = useState(false);
   const [user, setUser] = useState();
+  const [token, setToken] = useState();
 
   //register state
   const [password, setPassword] = useState("");
@@ -74,7 +75,6 @@ function Index() {
     e.preventDefault();
     setSkills([...skills, typedSkill]);
     setTypedSkill("");
-    console.log(skills);
   }
 
   function removeSkill(ev) {
@@ -117,9 +117,13 @@ function Index() {
         category: selectedCategory,
         experience: selectedExperience,
       };
-      fetch(`http://localhost:3001/user/details/${user._id}`, {
+      fetch(`http://localhost:3001/user/details/${user.user._id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "recruiter-x-auth-token": token,
+        },
+
         body: JSON.stringify(data),
       }).then(async (data) => {
         const response = await data.json();
@@ -175,12 +179,16 @@ function Index() {
     formData.append("profilephoto", imageLink);
     formData.append("links", JSON.stringify(links));
     console.log(formData);
-    fetch(`http://localhost:3001/user/links/${user._id}`, {
+    fetch(`http://localhost:3001/user/links/${user.user._id}`, {
       method: "PUT",
+      headers: {
+        "recruiter-x-auth-token": token,
+      },
       body: formData,
     }).then(async (data) => {
       const response = await data.json();
       if (data.status == 200) {
+        router.push("/devs");
       } else if (data.status == 401) {
       } else {
       }
@@ -253,6 +261,7 @@ function Index() {
         if (data.status == 200) {
           setRecponseError();
           setUser(response);
+          setToken(response.token);
           localStorage.setItem(
             "recruiter-x-auth-token",
             JSON.stringify(response)
