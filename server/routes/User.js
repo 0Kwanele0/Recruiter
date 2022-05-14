@@ -194,6 +194,7 @@ router.put("/detailsedit/:id", authorize, (req, res) => {
       lastname: req.body.lastname,
       country: req.body.country,
       city: req.body.city,
+      bio: req.body.bio,
     },
   }).then((value) => {
     if (value) {

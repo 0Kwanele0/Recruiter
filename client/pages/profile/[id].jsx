@@ -115,7 +115,9 @@ function Profile() {
               <p onClick={changeEditMenu}>Links</p>
             </div>
             <>
-              {editPersonalDetails && <PersonalDetails user={user} />}
+              {editPersonalDetails && (
+                <PersonalDetails user={user} token={token} />
+              )}
               {editSkills && <SkillsDetails user={user} token={token} />}
               {editLinks && <LinksDetails user={user} token={token} />}
             </>

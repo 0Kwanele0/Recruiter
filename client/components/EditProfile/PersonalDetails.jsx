@@ -6,6 +6,7 @@ function PersonalDetails(props) {
   const [lastname, setLastname] = useState(props.user.lastname);
   const [city, setCity] = useState(props.user.city);
   const [country, setCountry] = useState(props.user.country);
+  const [bio, setBio] = useState(props.user.bio);
 
   function changingValues(e) {
     switch (e.target.name) {
@@ -21,23 +22,52 @@ function PersonalDetails(props) {
       case "city":
         setCity(e.target.value);
         return;
+      case "bio":
+        setBio(e.target.value);
+        return;
     }
   }
 
   function saveDetails(e) {
     e.preventDefault();
+
     const data = {
-      firstname,
-      lastname,
-      city,
-      country,
+      firstname: firstname,
+      lastname: lastname,
+      country: country,
+      city: city,
+      bio: bio,
     };
 
-    console.log(data);
+    fetch(`http://localhost:3001/user/detailsedit/${props.user._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "Application/json",
+        "recruiter-x-auth-token": props.token,
+      },
+      body: JSON.stringify(data),
+    }).then(async (response) => {
+      const data = await response.json();
+      if (response.status == 200) {
+      } else {
+      }
+    });
   }
 
   return (
     <form onSubmit={saveDetails} action="submit">
+      <div className={mystyles.inputContainer}>
+        <div className={mystyles.inputAndLabel}>
+          <label htmlFor="">Bio</label>
+          <textarea
+            rows="3"
+            value={bio}
+            onChange={changingValues}
+            name="bio"
+            type="text"
+          />
+        </div>
+      </div>
       <div className={mystyles.inputContainer}>
         <div className={mystyles.inputAndLabel}>
           <label htmlFor="">FirstName</label>
