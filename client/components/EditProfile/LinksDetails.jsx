@@ -7,7 +7,7 @@ import linkedin from "../../public/assets/icons/linkedin.png";
 import internet from "../../public/assets/icons/internet.png";
 
 function LinksDetails(props) {
-  const links = JSON.parse(props.user.links[0]);
+  const links = props.user.links;
   const [githubLink, setGithubLink] = useState(links[0].link);
   const [twitterLink, setTwitterLink] = useState(links[1].link);
   const [linkedinLink, setLinkedinLink] = useState(links[2].link);
@@ -38,7 +38,6 @@ function LinksDetails(props) {
       { name: "LinkeIn", link: linkedinLink },
       { name: "Portfolio", link: portfolioLink },
     ];
-
     fetch(`http://localhost:3001/user/linksedit/${props.user._id}`, {
       method: "PUT",
       headers: {
@@ -51,7 +50,7 @@ function LinksDetails(props) {
       if (response.status == 200) {
         console.log(data);
       } else {
-        console.log(data);
+        console.log("nonon", data);
       }
     });
   }

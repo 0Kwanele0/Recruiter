@@ -10,6 +10,7 @@ import plus from "../../public/assets/icons/plus.png";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { listedCategories, experienceList } from "../../data/Lists";
 
 function Index() {
   const router = useRouter();
@@ -47,26 +48,6 @@ function Index() {
   const [typedSkill, setTypedSkill] = useState("");
   const [linksResponseError, setLinksResponseError] = useState();
 
-  const listedCategories = [
-    "Web developer",
-    "Mobile developer",
-    "Frontend developer",
-    "Backend developer",
-    "Fullstack developer",
-    "Game developer",
-    "DevOps developer",
-    "Security developer",
-    "Data science developer",
-    "DevOps developer",
-  ];
-  const experienceList = [
-    "1 Year",
-    "2 Years",
-    "3 Years",
-    "4 Years",
-    "+5 Years",
-  ];
-
   //details methods
   function changeTypedSkill(e) {
     setTypedSkill(e.target.value);
@@ -76,7 +57,6 @@ function Index() {
     setSkills([...skills, typedSkill]);
     setTypedSkill("");
   }
-
   function removeSkill(ev) {
     setSkills(
       skills.filter((e) => {
@@ -86,11 +66,9 @@ function Index() {
       })
     );
   }
-
   function showFieldList() {
     setFieldList(!fieldlist);
   }
-
   function addCategory(ev) {
     setSelectedCategory(ev.target.innerText);
     showFieldList();
@@ -99,50 +77,12 @@ function Index() {
     setSelectedExperience(ev.target.innerText);
     showExList();
   }
-
   function showExList() {
     setExList(!exlist);
   }
-
   function changeBio(e) {
     setBio(e.target.value);
   }
-
-  function submitDetails(e) {
-    e.preventDefault();
-    if (selectedCategory && selectedExperience && skills.length > 0) {
-      const data = {
-        skills: skills,
-        bio: bio,
-        category: selectedCategory,
-        experience: selectedExperience,
-      };
-      fetch(`http://localhost:3001/user/details/${user.user._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "recruiter-x-auth-token": token,
-        },
-
-        body: JSON.stringify(data),
-      }).then(async (data) => {
-        const response = await data.json();
-        if (data.status == 200) {
-          setDetailsError();
-          setRegistering(false);
-          setdetails(false);
-          setlinks(true);
-        } else if (data.status == 401) {
-          setDetailsError("kaka");
-        } else {
-          setDetailsError("kaka");
-        }
-      });
-    } else {
-      setDetailsError("all fields should be complete.");
-    }
-  }
-
   //links methods
   function changeLink(e) {
     switch (e.target.name) {
@@ -160,39 +100,8 @@ function Index() {
         return;
     }
   }
-
   function changeImage(e) {
     setImageLink(e.target.files[0]);
-  }
-
-  function submitLinks(e) {
-    e.preventDefault();
-
-    const links = [
-      { name: "GitHub", link: githubLink },
-      { name: "Twitter", link: twitterLink },
-      { name: "LinkeIn", link: linkedinLink },
-      { name: "Portfolio", link: portfolioLink },
-    ];
-
-    const formData = new FormData();
-    formData.append("profilephoto", imageLink);
-    formData.append("links", JSON.stringify(links));
-    console.log(formData);
-    fetch(`http://localhost:3001/user/links/${user.user._id}`, {
-      method: "PUT",
-      headers: {
-        "recruiter-x-auth-token": token,
-      },
-      body: formData,
-    }).then(async (data) => {
-      const response = await data.json();
-      if (data.status == 200) {
-        router.push("/devs");
-      } else if (data.status == 401) {
-      } else {
-      }
-    });
   }
 
   //register methods
@@ -248,6 +157,72 @@ function Index() {
     recruiterBox.current.style.backgroundColor = "white";
     developerBox.current.style.backgroundColor = "#2fe032";
     return;
+  }
+
+  function submitDetails(e) {
+    e.preventDefault();
+
+    if (selectedCategory && selectedExperience && skills.length > 0) {
+      const data = {
+        skills: skills,
+        bio: bio,
+        category: selectedCategory,
+        experience: selectedExperience,
+      };
+
+      fetch(`http://localhost:3001/user/details/${user.user._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "recruiter-x-auth-token": token,
+        },
+        body: JSON.stringify(data),
+      }).then(async (data) => {
+        const response = await data.json();
+        if (data.status == 200) {
+          setDetailsError();
+          setRegistering(false);
+          setdetails(false);
+          setlinks(true);
+        } else if (data.status == 401) {
+          setDetailsError("kaka");
+        } else {
+          setDetailsError("kaka");
+        }
+      });
+    } else {
+      setDetailsError("all fields should be complete.");
+    }
+  }
+
+  function submitLinks(e) {
+    e.preventDefault();
+
+    const links = [
+      { name: "GitHub", link: githubLink },
+      { name: "Twitter", link: twitterLink },
+      { name: "LinkeIn", link: linkedinLink },
+      { name: "Portfolio", link: portfolioLink },
+    ];
+
+    const formData = new FormData();
+    formData.append("profilephoto", imageLink);
+    formData.append("links", JSON.stringify(links));
+    console.log(formData);
+    fetch(`http://localhost:3001/user/links/${user.user._id}`, {
+      method: "PUT",
+      headers: {
+        "recruiter-x-auth-token": token,
+      },
+      body: formData,
+    }).then(async (data) => {
+      const response = await data.json();
+      if (data.status == 200) {
+        router.push("/devs");
+      } else if (data.status == 401) {
+      } else {
+      }
+    });
   }
 
   async function registerUser(data) {

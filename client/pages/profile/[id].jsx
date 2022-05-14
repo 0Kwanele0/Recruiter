@@ -61,6 +61,7 @@ function Profile() {
     return fetch(`http://localhost:3001/user/${id}`, {
       method: "GET",
       headers: {
+        "Content-Type": "application/json",
         "recruiter-x-auth-token": token,
       },
     }).then(async (user) => {
@@ -71,7 +72,7 @@ function Profile() {
         setEmailLink(`mailto: ${data.email}`);
         setImgLink(`/uploads/profilephotos/${data.profilephoto}`);
         if (data.links) {
-          setLinks(JSON.parse(data.links[0]));
+          setLinks(data.links);
         }
       } else {
         router.push("/login");
@@ -81,6 +82,7 @@ function Profile() {
 
   useEffect(() => {
     const details = localStorage.getItem("recruiter-x-auth-token");
+
     if (details) {
       const token = JSON.parse(details);
       setToken(token.token);

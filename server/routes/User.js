@@ -133,7 +133,7 @@ router.put(
     UserModel.findByIdAndUpdate(req.params.id, {
       $set: {
         profilephoto: req.file.filename,
-        links: req.body.links,
+        links: JSON.parse(req.body.links),
       },
     }).then((value) => {
       if (value) {
@@ -159,14 +159,12 @@ router.put("/links/:id", authorize, (req, res) => {
 });
 
 router.put("/linksedit/:id", authorize, (req, res) => {
-  console.log("value");
+  console.log("body: ", req.body);
   UserModel.findByIdAndUpdate(req.params.id, {
-    $set: { links: req.body.links },
+    $set: { links: req.body },
   })
     .then((value) => {
       res.send(value);
-      console.log("value");
-      console.log(value);
     })
     .catch((err) => {
       res.send(err);
