@@ -1,22 +1,67 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import mystyles from "../../styles/profile.module.scss";
 import location from "../../public/assets/icons/location.png";
+import pen from "../../public/assets/icons/pen.png";
+import plus from "../../public/assets/icons/plus.png";
+import close from "../../public/assets/icons/close.png";
 import ProjectCard from "../../components/ProjectCard";
+import PersonalDetails from "../../components/EditProfile/PersonalDetails";
+import SkillsDetails from "../../components/EditProfile/SkillsDetails";
+import LinksDetails from "../../components/EditProfile/linksDetails";
 
-function Profile() {
+function MyProfile() {
   const [user, setUser] = useState();
   const [id, setId] = useState();
   const [emailLink, setEmailLink] = useState();
   const [imgLink, setImgLink] = useState();
   const [links, setLinks] = useState([]);
+  const profileEditor = useRef();
+  const [editPersonalDetails, setEditPersonalDetails] = useState(true);
+  const [editLinks, setEditLinks] = useState(false);
+  const [editSkills, setEditSkills] = useState(false);
+  const [editProject, setEditProject] = useState(false);
+  const [closing, setClosing] = useState(false);
+  const [token, setToken] = useState();
   const router = useRouter();
+
+  function closeProfileEditor() {
+    setClosing(!closing);
+    profileEditor.current.style.display = "none";
+  }
+  function openProfileEditor() {
+    profileEditor.current.style.display = "flex";
+  }
+
+  function showProjectEditor() {
+    setEditProject(!editProject);
+  }
+
+  function changeEditMenu(ev) {
+    switch (ev.target.innerText) {
+      case "Personal details":
+        setEditLinks(false);
+        setEditPersonalDetails(true);
+        setEditSkills(false);
+        return;
+      case "Links":
+        setEditLinks(true);
+        setEditPersonalDetails(false);
+        setEditSkills(false);
+        return;
+      case "Skills":
+        setEditLinks(false);
+        setEditPersonalDetails(false);
+        setEditSkills(true);
+        return;
+    }
+  }
 
   async function fetchingUser() {
     const details = localStorage.getItem("recruiter-x-auth-token");
     const token = JSON.parse(details);
-    return fetch(`http://localhost:3001/user/${id}`, {
+    return fetch(`http://localhost:3001/user/${token.user._id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -37,19 +82,46 @@ function Profile() {
   }
 
   useEffect(() => {
-    setId(router.query.id);
     const token = localStorage.getItem("recruiter-x-auth-token");
     if (token) {
       fetchingUser();
+      const parsed = JSON.parse(token);
+      setToken(parsed.token);
+      setId(parsed.user._id);
     } else {
       router.push("/login");
     }
-  }, [id, router]);
+  }, [id, router, closing]);
 
   return (
     <main className={mystyles.wrapper}>
       {user ? (
         <main className={mystyles.container}>
+          <div className={mystyles.editProfile}>
+            <p>Edit profile</p>
+            <div onClick={openProfileEditor} className={mystyles.edit}>
+              <Image src={pen} width={20} height={20} alt="" />
+            </div>
+          </div>
+          <section ref={profileEditor} className={mystyles.editor}>
+            <div className={mystyles.close}>
+              <div onClick={closeProfileEditor} className={mystyles.closeBtn}>
+                <Image src={close} width={25} height={25} alt="add project" />
+              </div>
+            </div>
+            <div className={mystyles.menu}>
+              <p onClick={changeEditMenu}>Personal details</p>
+              <p onClick={changeEditMenu}>Skills</p>
+              <p onClick={changeEditMenu}>Links</p>
+            </div>
+            <>
+              {editPersonalDetails && (
+                <PersonalDetails user={user} token={token} />
+              )}
+              {editSkills && <SkillsDetails user={user} token={token} />}
+              {editLinks && <LinksDetails user={user} token={token} />}
+            </>
+          </section>
           <section className={mystyles.profile}>
             <div className={mystyles.name}>
               <div className={mystyles.image}>
@@ -119,7 +191,28 @@ function Profile() {
               <div className={mystyles.projects}>
                 <div className={mystyles.heading}>
                   <h4>Project</h4>
+                  <div onClick={showProjectEditor} className={mystyles.edit}>
+                    <Image src={plus} width={20} height={20} alt="" />
+                  </div>
                 </div>
+                {editProject && (
+                  <div className={mystyles.addProject}>
+                    <form action="">
+                      <div className={mystyles.addProjectNames}>
+                        <input type="text" placeholder="Project name" />
+                        <input type="url" placeholder="Project link" />
+                      </div>
+                      <textarea
+                        name=""
+                        id=""
+                        cols="30"
+                        rows="5"
+                        placeholder="Project description"
+                      ></textarea>
+                      <button>Add project</button>
+                    </form>
+                  </div>
+                )}
                 <div className={mystyles.projectCards}>
                   {user.projects &&
                     user.projects.map((item, index) => {
@@ -144,4 +237,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default MyProfile;
