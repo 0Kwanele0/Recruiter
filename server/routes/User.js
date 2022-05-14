@@ -145,7 +145,7 @@ router.put(
   }
 );
 
-//not sure about this route
+//Add links without image
 router.put("/links/:id", authorize, (req, res) => {
   UserModel.findByIdAndUpdate(req.params.id, {
     $set: { links: req.body.data },
@@ -171,20 +171,20 @@ router.put("/linksedit/:id", authorize, (req, res) => {
     });
 });
 
-router.put("/skillssedit/:id", authorize, (req, res) => {
+router.put("/skillsedit/:id", authorize, (req, res) => {
   UserModel.findByIdAndUpdate(req.params.id, {
     $set: {
       category: req.body.category,
       skills: req.body.skills,
       experience: req.body.experience,
     },
-  }).then((value) => {
-    if (value) {
+  })
+    .then((value) => {
       res.send(value);
-    } else {
-      res.status(404).send("no user");
-    }
-  });
+    })
+    .catch((err) => {
+      res.status(401).send({ msg: err.message });
+    });
 });
 
 router.put("/detailsedit/:id", authorize, (req, res) => {

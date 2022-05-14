@@ -59,16 +59,17 @@ function SkillsDetails(props) {
       category: selectedCategory,
     };
 
-    fetch("", {
-      method: "POST",
-      headers: { "Content-Type": "Application/json" },
+    fetch(`http://localhost:3001/user/skillsedit/${props.user._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "Application/json",
+        "recruiter-x-auth-token": props.token,
+      },
       body: JSON.stringify(data),
     }).then(async (response) => {
       const data = await response.json();
       if (response.status == 200) {
-        console.log(data);
       } else {
-        console.log(data);
       }
     });
   }
