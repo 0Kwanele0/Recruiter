@@ -83,7 +83,7 @@ router.get("/:id", authorize, (req, res) => {
   try {
     UserModel.findById(req.params.id, (err, user) => {
       if (!user) {
-        res.send({ msg: "User not found" });
+        res.status(404).send({ msg: "User not found" });
       } else {
         res.send(user);
       }

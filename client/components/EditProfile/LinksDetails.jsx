@@ -48,9 +48,7 @@ function LinksDetails(props) {
     }).then(async (response) => {
       const data = await response.json();
       if (response.status == 200) {
-        console.log(data);
       } else {
-        console.log("nonon", data);
       }
     });
   }

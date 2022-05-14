@@ -13,7 +13,7 @@ import LinksDetails from "../../components/EditProfile/linksDetails";
 
 function Profile() {
   const [user, setUser] = useState();
-
+  const [id, setId] = useState();
   const [emailLink, setEmailLink] = useState();
   const [imgLink, setImgLink] = useState();
   const [links, setLinks] = useState([]);
@@ -22,10 +22,12 @@ function Profile() {
   const [editLinks, setEditLinks] = useState(false);
   const [editSkills, setEditSkills] = useState(false);
   const [editProject, setEditProject] = useState(false);
+  const [closing, setClosing] = useState(false);
   const [token, setToken] = useState();
   const router = useRouter();
 
   function closeProfileEditor() {
+    setClosing(!closing);
     profileEditor.current.style.display = "none";
   }
   function openProfileEditor() {
@@ -56,41 +58,40 @@ function Profile() {
     }
   }
 
-  async function fetchingUser(token) {
-    const id = router.query.id;
+  async function fetchingUser() {
+    const details = localStorage.getItem("recruiter-x-auth-token");
+    const token = JSON.parse(details);
     return fetch(`http://localhost:3001/user/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "recruiter-x-auth-token": token,
+        "recruiter-x-auth-token": token.token,
       },
     }).then(async (user) => {
       if (user.status === 200) {
         const data = await user.json();
         setUser(data);
-        console.log(data);
         setEmailLink(`mailto: ${data.email}`);
         setImgLink(`/uploads/profilephotos/${data.profilephoto}`);
         if (data.links) {
           setLinks(data.links);
         }
       } else {
-        router.push("/login");
       }
     });
   }
 
   useEffect(() => {
-    const details = localStorage.getItem("recruiter-x-auth-token");
-
-    if (details) {
-      const token = JSON.parse(details);
-      setToken(token.token);
-      fetchingUser(token.token);
+    setId(router.query.id);
+    const token = localStorage.getItem("recruiter-x-auth-token");
+    if (token) {
+      fetchingUser();
+      const parsed = JSON.parse(token);
+      setToken(parsed.token);
     } else {
       router.push("/login");
     }
-  }, [token]);
+  }, [id, router, closing]);
 
   return (
     <main className={mystyles.wrapper}>
