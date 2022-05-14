@@ -264,6 +264,7 @@ function Index() {
             "recruiter-x-auth-token",
             JSON.stringify(response)
           );
+          router.reload();
           router.push("/devs");
         } else if (data.status == 401) {
           setRecponseError(response.msg);

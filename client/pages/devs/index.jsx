@@ -60,6 +60,7 @@ function Devs() {
                   country={item.country}
                   bio={item.bio}
                   skills={item.skills}
+                  category={item.category}
                 />
               );
             })}

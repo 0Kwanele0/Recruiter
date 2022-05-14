@@ -25,6 +25,7 @@ function NavBar() {
   function logOut() {
     localStorage.removeItem("recruiter-x-auth-token");
     router.push("/");
+    router.reload();
     setMenu(!menu);
   }
 
