@@ -17,6 +17,10 @@ const RecruiterModel = new mongoose.Schema({
     type: String,
     required: true,
   },
+  type: {
+    type: String,
+    default: "Recruiter",
+  },
   city: {
     type: String,
     required: true,

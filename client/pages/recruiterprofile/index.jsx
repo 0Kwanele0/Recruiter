@@ -4,42 +4,48 @@ import { useRouter } from "next/router";
 import styles from "../../styles/recruiterProfile.module.scss";
 import location from "../../public/assets/icons/location.png";
 import close from "../../public/assets/icons/close.png";
-import PersonalDetails from "../../components/EditProfile/PersonalDetails";
+import RecruiterDetails from "../../components/EditProfile/PersonalDetails";
 
 function MyProfile() {
   const [user, setUser] = useState();
   const [id, setId] = useState();
-  const profileEditor = useRef();
+  const profileEditorCard = useRef();
   const [closing, setClosing] = useState(false);
   const [token, setToken] = useState();
   const router = useRouter();
 
-  function closeProfileEditor() {
+  function closeEditor() {
     setClosing(!closing);
-    profileEditor.current.style.display = "none";
+    profileEditorCard.current.style.display = "none";
   }
-  function openProfileEditor() {
-    profileEditor.current.style.display = "flex";
+
+  function openEditor() {
+    profileEditorCard.current.style.display = "flex";
   }
 
   async function fetchingUser() {
     const details = localStorage.getItem("recruiter-x-auth-token");
     const token = JSON.parse(details);
-    return fetch(`http://localhost:3001/user/${token.user._id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "recruiter-x-auth-token": token.token,
-      },
-    }).then(async (user) => {
-      if (user.status === 200) {
-        const data = await user.json();
-        setUser(data);
-        if (data.links) {
+    if (token.user.type == "Recruiter") {
+      return fetch(`http://localhost:3001/user/${token.user._id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "recruiter-x-auth-token": token.token,
+        },
+      }).then(async (user) => {
+        if (user.status === 200) {
+          const data = await user.json();
+
+          setUser(data);
+          if (data.links) {
+          }
+        } else {
         }
-      } else {
-      }
-    });
+      });
+    } else {
+      router.push("/developerprofile");
+    }
   }
 
   useEffect(() => {
@@ -58,14 +64,14 @@ function MyProfile() {
     <main className={styles.wrapper}>
       {user ? (
         <main className={styles.container}>
-          <section ref={profileEditor} className={styles.editor}>
+          <section ref={profileEditorCard} className={styles.editor}>
             <div className={styles.close}>
-              <div onClick={closeProfileEditor} className={styles.closeBtn}>
+              <div onClick={closeEditor} className={styles.closeBtn}>
                 <Image src={close} width={25} height={25} alt="add project" />
               </div>
             </div>
             <>
-              <PersonalDetails user={user} token={token} />
+              <RecruiterDetails user={user} token={token} />
             </>
           </section>
           <section className={styles.profile}>
@@ -77,7 +83,7 @@ function MyProfile() {
               </div>
             </div>
             <div className={styles.buttons}>
-              <button onClick={openProfileEditor}>Edit profile</button>
+              <button onClick={openEditor}>Edit profile</button>
             </div>
           </section>
           <section className={styles.details}>

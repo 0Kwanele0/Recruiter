@@ -18,8 +18,17 @@ function NavBar() {
 
   function settings() {
     setMenu(!menu);
-    router.push(`/myprofile`);
-    return;
+    if (details.user.type) {
+      if (details.user.type == "Recruiter") {
+        router.push(`/recruiterprofile`);
+        return;
+      } else {
+        router.push(`/developerprofile`);
+        return;
+      }
+    } else {
+      console.log("daaa");
+    }
   }
 
   function logOut() {
@@ -31,8 +40,9 @@ function NavBar() {
 
   useEffect(() => {
     const token = localStorage.getItem("recruiter-x-auth-token");
-    setDetails(JSON.parse(token));
+    const parsed = JSON.parse(token);
     if (token) {
+      setDetails(parsed);
       setLogged(true);
       setMounted(true);
     } else {

@@ -61,24 +61,28 @@ function MyProfile() {
   async function fetchingUser() {
     const details = localStorage.getItem("recruiter-x-auth-token");
     const token = JSON.parse(details);
-    return fetch(`http://localhost:3001/user/${token.user._id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "recruiter-x-auth-token": token.token,
-      },
-    }).then(async (user) => {
-      if (user.status === 200) {
-        const data = await user.json();
-        setUser(data);
-        setEmailLink(`mailto: ${data.email}`);
-        setImgLink(`/uploads/profilephotos/${data.profilephoto}`);
-        if (data.links) {
-          setLinks(data.links);
+    if (token.user.type == "Developer") {
+      return fetch(`http://localhost:3001/user/${token.user._id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "recruiter-x-auth-token": token.token,
+        },
+      }).then(async (user) => {
+        if (user.status === 200) {
+          const data = await user.json();
+          setUser(data);
+          setEmailLink(`mailto: ${data.email}`);
+          setImgLink(`/uploads/profilephotos/${data.profilephoto}`);
+          if (data.links) {
+            setLinks(data.links);
+          }
+        } else {
         }
-      } else {
-      }
-    });
+      });
+    } else {
+      router.push("/recruiterprofile");
+    }
   }
 
   useEffect(() => {
