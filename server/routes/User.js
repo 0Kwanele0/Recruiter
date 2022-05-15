@@ -26,6 +26,7 @@ router.get("/", async (req, res) => {
       experience: item.experience,
       bio: item.bio,
       country: item.country,
+      category: item.category,
       city: item.city,
     };
     return changed;
