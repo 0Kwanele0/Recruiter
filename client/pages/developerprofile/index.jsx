@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { useRouter } from "next/router";
+import Image from "next/image";
 import mystyles from "../../styles/profile.module.scss";
 import location from "../../public/assets/icons/location.png";
 import pen from "../../public/assets/icons/pen.png";
 import plus from "../../public/assets/icons/plus.png";
 import close from "../../public/assets/icons/close.png";
 import ProjectCard from "../../components/ProjectCard";
-import PersonalDetails from "../../components/EditProfile/PersonalDetails";
-import SkillsDetails from "../../components/EditProfile/SkillsDetails";
-import LinksDetails from "../../components/EditProfile/linksDetails";
+import PersonalDetails from "../../components/EditProfile/developer/PersonalDetails";
+import SkillsDetails from "../../components/EditProfile/developer/SkillsDetails";
+import LinksDetails from "../../components/EditProfile/developer/LinksDetails";
 
 function MyProfile() {
   const [user, setUser] = useState();

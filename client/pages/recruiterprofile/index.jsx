@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import styles from "../../styles/recruiterProfile.module.scss";
 import location from "../../public/assets/icons/location.png";
 import close from "../../public/assets/icons/close.png";
-import RecruiterDetails from "../../components/EditProfile/PersonalDetails";
+import RecruiterDetails from "../../components/EditProfile//recruiter/RecruiterDetails";
 
 function MyProfile() {
   const [user, setUser] = useState();
@@ -27,7 +27,7 @@ function MyProfile() {
     const details = localStorage.getItem("recruiter-x-auth-token");
     const token = JSON.parse(details);
     if (token.user.type == "Recruiter") {
-      return fetch(`http://localhost:3001/user/${token.user._id}`, {
+      return fetch(`http://localhost:3001/recruiter/${token.user._id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -36,7 +36,6 @@ function MyProfile() {
       }).then(async (user) => {
         if (user.status === 200) {
           const data = await user.json();
-
           setUser(data);
           if (data.links) {
           }

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useState } from "react";
-import styles from "./styles/editProfile.module.scss";
+import styles from "../styles/editProfile.module.scss";
 import twitter from "../../public/assets/icons/twitter.png";
 import github from "../../public/assets/icons/github.png";
 import linkedin from "../../public/assets/icons/linkedin.png";
