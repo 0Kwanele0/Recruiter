@@ -14,9 +14,23 @@ const Storage = multer.diskStorage({
 });
 const upload = multer({ storage: Storage });
 
-router.get("/", authorize, async (req, res) => {
+router.get("/", async (req, res) => {
   const users = await UserModel.find();
-  res.send(users);
+  const filtered = users.map((item) => {
+    const changed = {
+      _id: item._id,
+      firstname: item.firstname,
+      lastname: item.lastname,
+      profilephoto: item.profilephoto,
+      skills: item.skills,
+      experience: item.experience,
+      bio: item.bio,
+      country: item.country,
+      city: item.city,
+    };
+    return changed;
+  });
+  res.send(filtered);
 });
 
 router.post("/register", (req, res) => {
@@ -85,7 +99,23 @@ router.get("/:id", authorize, (req, res) => {
       if (!user) {
         res.status(404).send({ msg: "User not found" });
       } else {
-        res.send(user);
+        const filtered = user.map((item) => {
+          const changed = {
+            _id: item._id,
+            firstname: item.firstname,
+            email: item.email,
+            profilephoto: item.profilephoto,
+            lastname: item.lastname,
+            skills: item.skills,
+            experience: item.experience,
+            bio: item.bio,
+            projects: item.projects,
+            country: item.country,
+            city: item.city,
+          };
+          return changed;
+        });
+        res.send(filtered);
       }
     });
   } catch (err) {

@@ -1,8 +1,8 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import mystyles from "../styles/editProfile.module.scss";
-import plus from "../../public/assets/icons/plus.png";
-import { experienceList, listedCategories } from "../../data/Lists";
+import plus from "../../../public/assets/icons/plus.png";
+import { experienceList, listedCategories } from "../../../data/Lists";
 
 function SkillsDetails(props) {
   const { experience, category, skills } = props.user;

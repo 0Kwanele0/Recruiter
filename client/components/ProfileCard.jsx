@@ -3,11 +3,21 @@ import { useRouter } from "next/router";
 import location from "../public/assets/icons/location.png";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 function ProfileCard(props) {
   const router = useRouter();
-  const link = `profile/${props.id}`;
+  const [link, setLink] = useState("");
   const imglink = `/uploads/profilephotos/${props.photo}`;
+
+  useEffect(() => {
+    const token = localStorage.getItem("recruiter-x-auth-token");
+    if (token) {
+      setLink(`profile/${props.id}`);
+    } else {
+      setLink("/login");
+    }
+  }, []);
 
   return (
     <Link href={link}>

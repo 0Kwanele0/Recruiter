@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { useState } from "react";
 import styles from "../styles/editProfile.module.scss";
-import twitter from "../../public/assets/icons/twitter.png";
-import github from "../../public/assets/icons/github.png";
-import linkedin from "../../public/assets/icons/linkedin.png";
-import internet from "../../public/assets/icons/internet.png";
+import twitter from "../../../public/assets/icons/twitter.png";
+import github from "../../../public/assets/icons/github.png";
+import linkedin from "../../../public/assets/icons/linkedin.png";
+import internet from "../../../public/assets/icons/internet.png";
 
 function LinksDetails(props) {
   const links = props.user.links;

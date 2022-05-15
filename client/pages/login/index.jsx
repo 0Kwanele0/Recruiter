@@ -1,12 +1,12 @@
 import styles from "../../styles/login.module.scss";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
 function Login() {
   const router = useRouter();
-
+  const [notLoggedIn, setNotLoggedIn] = useState(false);
   const [responseError, setRecponseError] = useState();
   const [recruiterCheckbox, setRecruiterCheckbox] = useState(false);
   const [developerCheckbox, setDeveloperCheckbox] = useState(false);
@@ -94,57 +94,73 @@ function Login() {
       setCheckboxError(true);
     }
   };
+  useEffect(() => {
+    const token = localStorage.getItem("recruiter-x-auth-token");
+    if (token) {
+      router.push("/developerprofile");
+    } else {
+      setNotLoggedIn(true);
+    }
+  }, []);
 
   return (
-    <div className={styles.container}>
-      <form onSubmit={handleSubmit(onSubmit)} action="submit">
-        <h3>Hey! welcome back!</h3>
-        <input
-          {...register("email", { required: true })}
-          type="email"
-          placeholder="Email"
-        />
-        {errors.email?.type === "required" && <small>Email is required</small>}
-        <input
-          {...register("password", { required: true })}
-          placeholder="Password"
-          type="text"
-        />
-        {errors.password?.type === "required" && (
-          <small>Password is required</small>
-        )}
-        <div className={styles.recOrDev}>
-          <p>Are you a Develper or a recruiter?</p>
-          <div className={styles.checkboxContainer}>
-            <div className={styles.checkbox}>
-              <div
-                onClick={recboxClicked}
-                ref={recruiterBox}
-                className={styles.check}
-              ></div>
-              <p onClick={labelClicked}>Recruiter</p>
+    <div>
+      {notLoggedIn ? (
+        <div className={styles.container}>
+          <form onSubmit={handleSubmit(onSubmit)} action="submit">
+            <h3>Hey! welcome back!</h3>
+            <input
+              {...register("email", { required: true })}
+              type="email"
+              placeholder="Email"
+            />
+            {errors.email?.type === "required" && (
+              <small>Email is required</small>
+            )}
+            <input
+              {...register("password", { required: true })}
+              placeholder="Password"
+              type="text"
+            />
+            {errors.password?.type === "required" && (
+              <small>Password is required</small>
+            )}
+            <div className={styles.recOrDev}>
+              <p>Are you a Develper or a recruiter?</p>
+              <div className={styles.checkboxContainer}>
+                <div className={styles.checkbox}>
+                  <div
+                    onClick={recboxClicked}
+                    ref={recruiterBox}
+                    className={styles.check}
+                  ></div>
+                  <p onClick={labelClicked}>Recruiter</p>
+                </div>
+                <div className={styles.checkbox}>
+                  <div
+                    onClick={devboxClicked}
+                    ref={developerBox}
+                    className={styles.check}
+                  ></div>
+                  <p onClick={labelClicked}>Developer</p>
+                </div>
+              </div>
+              {checkboxError ? <small>Please select one!</small> : null}
             </div>
-            <div className={styles.checkbox}>
-              <div
-                onClick={devboxClicked}
-                ref={developerBox}
-                className={styles.check}
-              ></div>
-              <p onClick={labelClicked}>Developer</p>
-            </div>
-          </div>
-          {checkboxError ? <small>Please select one!</small> : null}
+            <button type="submit">Login</button>
+            {responseError ? <small>{responseError}</small> : null}
+            <p className={styles.referParagraph}>
+              You don't have an account?{" "}
+              <span>
+                <Link href="/register">Register here.</Link>
+              </span>
+              !
+            </p>
+          </form>
         </div>
-        <button type="submit">Login</button>
-        {responseError ? <small>{responseError}</small> : null}
-        <p className={styles.referParagraph}>
-          You don't have an account?{" "}
-          <span>
-            <Link href="/register">Register here.</Link>
-          </span>
-          !
-        </p>
-      </form>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

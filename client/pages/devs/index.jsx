@@ -18,16 +18,16 @@ function Devs() {
 
     fetch("http://localhost:3001/user/", {
       method: "GET",
-      headers: {
-        "recruiter-x-auth-token": token.token,
-      },
     }).then(async (user) => {
       if (user.status === 200) {
         const data = await user.json();
         const filtered = data.filter((item) => {
-          if (item._id !== token.user._id) {
-            return item;
+          if (token) {
+            if (item._id !== token.user._id) {
+              return item;
+            }
           }
+          return item;
         });
         setData(filtered);
       } else {
@@ -89,12 +89,7 @@ function Devs() {
   }
 
   useEffect(() => {
-    const token = localStorage.getItem("recruiter-x-auth-token");
-    if (token) {
-      fetchUsers();
-    } else {
-      router.push("/login");
-    }
+    fetchUsers();
   }, []);
 
   return (
