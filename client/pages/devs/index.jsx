@@ -6,6 +6,11 @@ import { useRouter } from "next/router";
 function Devs() {
   const router = useRouter();
   const [data, setData] = useState();
+  const [filteredData, setFilteredData] = useState();
+
+  //filter states
+  const [country, setCountry] = useState("");
+  const [field, setField] = useState("");
 
   async function fetchUsers() {
     const details = localStorage.getItem("recruiter-x-auth-token");
@@ -31,6 +36,58 @@ function Devs() {
     });
   }
 
+  function filterInputsChanging(e) {
+    switch (e.target.name) {
+      case "country":
+        setCountry(e.target.value);
+        return;
+      case "field":
+        setField(e.target.value);
+        return;
+    }
+  }
+
+  function filter(e) {
+    e.preventDefault();
+    const mydata = {
+      country,
+      field,
+    };
+    const trimmedCountry = mydata.country.trim();
+    const trimmedField = mydata.field.trim();
+
+    if (trimmedCountry.length > 0) {
+      if (trimmedField.length > 0) {
+        setFilteredData(
+          data.filter((item) => {
+            if (item.country == trimmedCountry && item.category == trimmedField)
+              return item;
+          })
+        );
+      } else {
+        setFilteredData(
+          data.filter((item) => {
+            if (item.country == trimmedCountry) return item;
+          })
+        );
+      }
+    } else if (trimmedField.length > 0) {
+      setFilteredData(
+        data.filter((item) => {
+          if (item.category == trimmedField) return item;
+        })
+      );
+    } else {
+      return;
+    }
+  }
+
+  function resetFilter() {
+    setFilteredData();
+    setCountry("");
+    setField("");
+  }
+
   useEffect(() => {
     const token = localStorage.getItem("recruiter-x-auth-token");
     if (token) {
@@ -45,30 +102,59 @@ function Devs() {
       {data ? (
         <div className={styles.container}>
           <section className={styles.filter}>
-            <form action="submit">
-              <input placeholder="Location" type="text" />
-              <input placeholder="Field" type="text" />
-              <input placeholder="Skills" type="text" />
-              <button>Filter</button>
+            <form onSubmit={filter} action="submit">
+              <input
+                value={country}
+                onChange={filterInputsChanging}
+                name="country"
+                placeholder="Location"
+                type="text"
+              />
+              <input
+                value={field}
+                onChange={filterInputsChanging}
+                name="field"
+                placeholder="Field"
+                type="text"
+              />
+              <button type="submit">Filter</button>
+              <button onClick={resetFilter}>Reset</button>
             </form>
           </section>
           <section className={styles.profiles}>
-            {data.map((item, key) => {
-              return (
-                <ProfileCard
-                  key={key}
-                  name={item.firstname + " " + item.lastname}
-                  id={item._id}
-                  photo={item.profilephoto}
-                  city={item.city}
-                  experience={item.experience}
-                  country={item.country}
-                  bio={item.bio}
-                  skills={item.skills}
-                  category={item.category}
-                />
-              );
-            })}
+            {filteredData
+              ? filteredData.map((item, key) => {
+                  return (
+                    <ProfileCard
+                      key={key}
+                      name={item.firstname + " " + item.lastname}
+                      id={item._id}
+                      photo={item.profilephoto}
+                      city={item.city}
+                      experience={item.experience}
+                      country={item.country}
+                      bio={item.bio}
+                      skills={item.skills}
+                      category={item.category}
+                    />
+                  );
+                })
+              : data.map((item, key) => {
+                  return (
+                    <ProfileCard
+                      key={key}
+                      name={item.firstname + " " + item.lastname}
+                      id={item._id}
+                      photo={item.profilephoto}
+                      city={item.city}
+                      experience={item.experience}
+                      country={item.country}
+                      bio={item.bio}
+                      skills={item.skills}
+                      category={item.category}
+                    />
+                  );
+                })}
           </section>
         </div>
       ) : (

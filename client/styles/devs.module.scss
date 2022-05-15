@@ -10,13 +10,14 @@
       justify-content: space-between;
       margin-top: 20px;
       input {
+        border-radius: 12px;
         font-size: 18px;
         outline: none;
         color: white;
-        padding: 12px 8px;
+        padding: 8px 8px;
         background-color: transparent;
         border: 2px solid white;
-        width: 25%;
+        width: 50%;
         cursor: pointer;
         transition: all 0.2s ease;
         &:hover {
@@ -31,12 +32,18 @@
         background-color: dodgerblue;
         border: none;
         color: white;
+        border-radius: 12px;
         width: 25%;
         cursor: pointer;
         transition: all 0.2s ease;
         &:hover {
-          box-shadow: 6px 6px 0px 0 rgb(90, 51, 116);
+          transform: translate(-1px, -1px);
+          opacity: 0.8;
         }
+      }
+      button:nth-of-type(2) {
+        background-color: transparent;
+        border: 1px solid white;
       }
     }
   }
