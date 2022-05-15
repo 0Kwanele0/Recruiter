@@ -19,7 +19,12 @@ function Devs() {
     }).then(async (user) => {
       if (user.status === 200) {
         const data = await user.json();
-        setData(data);
+        const filtered = data.filter((item) => {
+          if (item._id !== token.user._id) {
+            return item;
+          }
+        });
+        setData(filtered);
       } else {
         router.push("/login");
       }

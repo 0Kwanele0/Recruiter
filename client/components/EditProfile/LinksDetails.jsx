@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import styles from "../../styles/profile.module.scss";
+import { useState } from "react";
+import styles from "./styles/editProfile.module.scss";
 import twitter from "../../public/assets/icons/twitter.png";
 import github from "../../public/assets/icons/github.png";
 import linkedin from "../../public/assets/icons/linkedin.png";
@@ -54,7 +54,7 @@ function LinksDetails(props) {
   }
 
   return (
-    <form action="submit" onSubmit={saveLinks}>
+    <form className={styles.form} action="submit" onSubmit={saveLinks}>
       <div className={styles.skillsfield}>
         <Image src={github} width={40} height={40} />
         <input

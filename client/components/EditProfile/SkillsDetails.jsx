@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
-import mystyles from "../../styles/profile.module.scss";
+import mystyles from "./styles/editProfile.module.scss";
 import plus from "../../public/assets/icons/plus.png";
 import { experienceList, listedCategories } from "../../data/Lists";
 
@@ -79,7 +79,7 @@ function SkillsDetails(props) {
   }
 
   return (
-    <form action="submit" onSubmit={saveSkills}>
+    <form className={mystyles.form} action="submit" onSubmit={saveSkills}>
       <div className={mystyles.addField}>
         <div onClick={showFieldList} className={mystyles.inner}>
           {selectedCategory ? (
