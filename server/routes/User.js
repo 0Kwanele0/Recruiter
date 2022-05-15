@@ -99,22 +99,19 @@ router.get("/:id", authorize, (req, res) => {
       if (!user) {
         res.status(404).send({ msg: "User not found" });
       } else {
-        const filtered = user.map((item) => {
-          const changed = {
-            _id: item._id,
-            firstname: item.firstname,
-            email: item.email,
-            profilephoto: item.profilephoto,
-            lastname: item.lastname,
-            skills: item.skills,
-            experience: item.experience,
-            bio: item.bio,
-            projects: item.projects,
-            country: item.country,
-            city: item.city,
-          };
-          return changed;
-        });
+        const filtered = {
+          _id: user._id,
+          firstname: user.firstname,
+          email: user.email,
+          profilephoto: user.profilephoto,
+          lastname: user.lastname,
+          skills: user.skills,
+          experience: user.experience,
+          bio: user.bio,
+          projects: user.projects,
+          country: user.country,
+          city: user.city,
+        };
         res.send(filtered);
       }
     });
