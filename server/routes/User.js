@@ -5,6 +5,8 @@ const multer = require("multer");
 const router = express.Router();
 const authorize = require("../middleware/Authorize");
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
+const dotenv = require("dotenv").config({ path: "../vars/.env" });
 
 const Storage = multer.diskStorage({
   destination: "../client/public/uploads/profilephotos",
@@ -248,6 +250,68 @@ router.put("/addprojects/:id", authorize, (req, res) => {
       res.send(value);
     } else {
       res.status(404).send("no user");
+    }
+  });
+});
+router.put("/userpassword/:id", (req, res) => {
+  bcrypt.genSalt(10, (err, salt) => {
+    if (!err) {
+      bcrypt.hash(req.body.password, salt, (err, hash) => {
+        const data = {
+          password: hash,
+        };
+        try {
+          UserModel.findByIdAndUpdate(req.params.id, {
+            $set: {
+              password: data.password,
+            },
+          }).then((value) => {
+            if (value) {
+              res.send(value);
+              console.log("hello");
+            } else {
+              res.status(404).send("no user");
+            }
+          });
+        } catch (err) {
+          console.log(err);
+          res.send("Cant save user");
+        }
+      });
+    }
+  });
+});
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "photizotradinginstitution@gmail.com",
+    pass: "kfzuroluicokeaij",
+  },
+});
+
+router.post("/resetpassword/", (req, res) => {
+  UserModel.find({ email: req.body.email }).then((value) => {
+    if (value.length > 0) {
+      const mailOptions = {
+        from: "photizotradinginstitution@gmail.com",
+        to: value[0].email,
+        subject: "Password reset - Recriter",
+        html: `<div><h3>Hello! You're about to reset your password</h3><a href="http://localhost:3000/userpassword/${value[0]._id}">Reset Your Password</a></div>`,
+      };
+
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+          res.status(401).send({ msg: "opps" });
+        } else {
+          console.log("Email sent: " + info.response);
+          res.status(200).send(info.response);
+        }
+      });
+    } else {
+      console.log("nopps");
+      res.send({ msg: "opps" });
     }
   });
 });

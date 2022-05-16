@@ -151,10 +151,13 @@ function Login() {
             </div>
             <button type="submit">Login</button>
             {responseError ? <small>{responseError}</small> : null}
+
+            <Link href="/resetpassword">Forgot password?</Link>
+
             <p className={styles.referParagraph}>
               You don't have an account?{" "}
               <span>
-                <Link href="/register">Register here.</Link>
+                <Link href="/register">Register here</Link>
               </span>
               !
             </p>
