@@ -19,6 +19,7 @@ function MyProfile() {
   const [imgLink, setImgLink] = useState();
   const [links, setLinks] = useState([]);
   const profileEditor = useRef();
+  const plusBtn = useRef();
   const [editPersonalDetails, setEditPersonalDetails] = useState(true);
   const [editLinks, setEditLinks] = useState(false);
   const [editSkills, setEditSkills] = useState(false);
@@ -38,6 +39,11 @@ function MyProfile() {
 
   function showProjectEditor() {
     setEditProject(!editProject);
+    if (editProject) {
+      plusBtn.current.style.transform = "rotate(0)";
+    } else {
+      plusBtn.current.style.transform = "rotate(45deg)";
+    }
   }
 
   function changeEditMenu(ev) {
@@ -208,7 +214,11 @@ function MyProfile() {
               <div className={mystyles.projects}>
                 <div className={mystyles.heading}>
                   <h4>Project</h4>
-                  <div onClick={showProjectEditor} className={mystyles.edit}>
+                  <div
+                    onClick={showProjectEditor}
+                    ref={plusBtn}
+                    className={mystyles.edit}
+                  >
                     <Image src={plus} width={20} height={20} alt="" />
                   </div>
                 </div>
