@@ -64,7 +64,6 @@ function NavBar() {
           </Link>
           <div className={styles.links}>
             <Link href="/devs">Find Developers</Link>
-            <Link href="/about">About</Link>
             {!logged ? (
               <>
                 <Link href="/login">Login</Link>

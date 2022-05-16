@@ -15,8 +15,8 @@ function Home() {
         <div className={styles.text}>
           <h1>The place where recruiters find talent.</h1>
           <p>
-            Find the type of developers your company needs. detailed search
-            filters to help your requirements
+            Find the exact talent your company needs. Detailed search filters to
+            help your requirements
           </p>
           <div className={styles.buttons}>
             <button
@@ -55,8 +55,8 @@ function Home() {
             </div>
             <h3>Easly filter to see only local talent.</h3>
             <p>
-              Urna, orci, convallis volutpat, nibh et velit, neque. Neque cras
-              posuere purus, mattis congue nisl.{" "}
+              You want to see only local talent? We've got you , just filter by
+              lacation.
             </p>
           </div>
           <div className={styles.card}>
@@ -66,8 +66,8 @@ function Home() {
             </div>
             <h3>Only go for the skills and talent your company desires</h3>
             <p>
-              Urna, orci, convallis volutpat, nibh et velit, neque. Neque cras
-              posuere purus, mattis congue nisl.{" "}
+              You know the exact skill your company needs; You can select the
+              skill from our filter.
             </p>
           </div>
           <div className={styles.card}>
@@ -77,8 +77,8 @@ function Home() {
             </div>
             <h3>Serach directly the type of developers you need</h3>
             <p>
-              Urna, orci, convallis volutpat, nibh et velit, neque. Neque cras
-              posuere purus, mattis congue nisl.{" "}
+              Let's you're looking for Mobile developers only; you can easly
+              filter to display only Mobile devs.
             </p>
           </div>
         </div>

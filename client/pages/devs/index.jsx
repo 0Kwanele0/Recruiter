@@ -26,6 +26,7 @@ function Devs() {
             if (item._id !== token.user._id) {
               return item;
             }
+            return;
           }
           return item;
         });
