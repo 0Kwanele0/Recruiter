@@ -6,7 +6,8 @@ const router = express.Router();
 const authorize = require("../middleware/Authorize");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
-const dotenv = require("dotenv").config({ path: "../vars/.env" });
+require("dotenv").config({ path: "../vars/.env" });
+var CryptoJS = require("crypto-js");
 
 const Storage = multer.diskStorage({
   destination: "../client/public/uploads/profilephotos",
@@ -261,14 +262,18 @@ router.put("/userpassword/:id", (req, res) => {
           password: hash,
         };
         try {
-          UserModel.findByIdAndUpdate(req.params.id, {
+          const decrypted = CryptoJS.AES.decrypt(
+            decodeURIComponent(req.params.id),
+            "Secret Passphrase"
+          );
+          const instr = decrypted.toString(CryptoJS.enc.Utf8);
+          UserModel.findByIdAndUpdate(instr, {
             $set: {
               password: data.password,
             },
           }).then((value) => {
             if (value) {
               res.send(value);
-              console.log("hello");
             } else {
               res.status(404).send("no user");
             }
@@ -293,25 +298,29 @@ const transporter = nodemailer.createTransport({
 router.post("/resetpassword/", (req, res) => {
   UserModel.find({ email: req.body.email }).then((value) => {
     if (value.length > 0) {
+      const encrypted = CryptoJS.AES.encrypt(
+        `${value[0]._id}`,
+        "Secret Passphrase"
+      );
+      const instr = encodeURIComponent(encrypted.toString());
       const mailOptions = {
         from: "photizotradinginstitution@gmail.com",
         to: value[0].email,
         subject: "Password reset - Recriter",
-        html: `<div><h3>Hello! You're about to reset your password</h3><a href="http://localhost:3000/userpassword/${value[0]._id}">Reset Your Password</a></div>`,
+        html: `<div><h3>Hello! You're about to reset your password</h3><a href="http://localhost:3000/userpassword/${instr}">Reset Your Password</a></div>`,
       };
 
       transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
           console.log(error);
-          res.status(401).send({ msg: "opps" });
+          res.status(401).send({ msg: "Email not sent!" });
         } else {
-          console.log("Email sent: " + info.response);
           res.status(200).send(info.response);
         }
       });
     } else {
       console.log("nopps");
-      res.send({ msg: "opps" });
+      res.status(404).send({ msg: "User not found!" });
     }
   });
 });
