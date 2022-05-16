@@ -251,6 +251,20 @@ router.put("/addproject/:id", authorize, (req, res) => {
     }
   });
 });
+
+router.put("/deleteproject/:id", authorize, (req, res) => {
+  UserModel.findByIdAndUpdate(req.params.id, {
+    $pull: {
+      projects: { title: req.body.projectTitle },
+    },
+  }).then((value) => {
+    if (value) {
+      res.send(value);
+    } else {
+      res.status(404).send("no user");
+    }
+  });
+});
 router.put("/userpassword/:id", (req, res) => {
   bcrypt.genSalt(10, (err, salt) => {
     if (!err) {

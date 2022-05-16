@@ -229,6 +229,8 @@ function MyProfile() {
                     user.projects.map((item, index) => {
                       return (
                         <MyProjectsCard
+                          user={user}
+                          token={token}
                           key={index}
                           title={item.title}
                           description={item.description}
