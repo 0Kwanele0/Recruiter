@@ -10,6 +10,7 @@ import ProjectCard from "../../components/ProjectCard";
 import PersonalDetails from "../../components/EditProfile/developer/PersonalDetails";
 import SkillsDetails from "../../components/EditProfile/developer/SkillsDetails";
 import LinksDetails from "../../components/EditProfile/developer/LinksDetails";
+import DeleteAccount from "../../components/EditProfile/developer/DeleteAccount";
 
 function MyProfile() {
   const [user, setUser] = useState();
@@ -22,6 +23,7 @@ function MyProfile() {
   const [editLinks, setEditLinks] = useState(false);
   const [editSkills, setEditSkills] = useState(false);
   const [editProject, setEditProject] = useState(false);
+  const [deleteUser, setDeleteUser] = useState(false);
   const [closing, setClosing] = useState(false);
   const [token, setToken] = useState();
   const router = useRouter();
@@ -44,16 +46,25 @@ function MyProfile() {
         setEditLinks(false);
         setEditPersonalDetails(true);
         setEditSkills(false);
+        setDeleteUser(false);
         return;
       case "Links":
         setEditLinks(true);
         setEditPersonalDetails(false);
         setEditSkills(false);
+        setDeleteUser(false);
         return;
       case "Skills":
         setEditLinks(false);
         setEditPersonalDetails(false);
         setEditSkills(true);
+        setDeleteUser(false);
+        return;
+      case "More":
+        setEditLinks(false);
+        setEditPersonalDetails(false);
+        setEditSkills(false);
+        setDeleteUser(true);
         return;
     }
   }
@@ -117,6 +128,7 @@ function MyProfile() {
               <p onClick={changeEditMenu}>Personal details</p>
               <p onClick={changeEditMenu}>Skills</p>
               <p onClick={changeEditMenu}>Links</p>
+              <p onClick={changeEditMenu}>More</p>
             </div>
             <>
               {editPersonalDetails && (
@@ -124,6 +136,7 @@ function MyProfile() {
               )}
               {editSkills && <SkillsDetails user={user} token={token} />}
               {editLinks && <LinksDetails user={user} token={token} />}
+              {deleteUser && <DeleteAccount user={user} token={token} />}
             </>
           </section>
           <section className={mystyles.profile}>

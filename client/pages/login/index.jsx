@@ -85,6 +85,7 @@ function Login() {
             JSON.stringify(response)
           );
           router.push("/devs");
+          router.reload();
           setRecponseError();
         } else {
           setRecponseError(response.msg);
@@ -97,6 +98,7 @@ function Login() {
   useEffect(() => {
     const token = localStorage.getItem("recruiter-x-auth-token");
     if (token) {
+      router.reload();
       router.push("/developerprofile");
     } else {
       setNotLoggedIn(true);

@@ -112,6 +112,8 @@ router.get("/:id", authorize, (req, res) => {
           projects: user.projects,
           country: user.country,
           city: user.city,
+          links: user.links,
+          category: user.category,
         };
         res.send(filtered);
       }
