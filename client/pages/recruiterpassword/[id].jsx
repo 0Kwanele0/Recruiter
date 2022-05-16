@@ -14,11 +14,14 @@ function Index() {
     data.preventDefault();
     const theData = { password: password };
     if (password == confirmer) {
-      fetch(`http://localhost:3001/recruiter/userpassword/${router.query.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(theData),
-      }).then(async (data) => {
+      fetch(
+        `http://localhost:3001/recruiter/recruiterpassword/${router.query.id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(theData),
+        }
+      ).then(async (data) => {
         setComplete(true);
         setTimeout(() => {
           router.push("/login");

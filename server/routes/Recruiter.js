@@ -119,7 +119,7 @@ recruiterRouter.put("/:id", authorize, (req, res) => {
   });
 });
 
-recruiterRouter.put("/userpassword/:id", (req, res) => {
+recruiterRouter.put("/recruiterpassword/:id", (req, res) => {
   bcrypt.genSalt(10, (err, salt) => {
     if (!err) {
       bcrypt.hash(req.body.password, salt, (err, hash) => {
@@ -132,20 +132,24 @@ recruiterRouter.put("/userpassword/:id", (req, res) => {
             "Secret Passphrase"
           );
           const instr = decrypted.toString(CryptoJS.enc.Utf8);
+          console.log(instr);
           RecruiterModel.findByIdAndUpdate(instr, {
             $set: {
               password: data.password,
             },
-          }).then((value) => {
-            if (value) {
-              res.send(value);
-            } else {
+          })
+            .then((value) => {
+              if (value) {
+                res.status(200).send(value);
+              } else {
+                res.status(404).send("no user");
+              }
+            })
+            .catch((err) => {
               res.status(404).send("no user");
-            }
-          });
+            });
         } catch (err) {
-          console.log(err);
-          res.send("Cant save user");
+          res.send({ msg: "Cant save user" });
         }
       });
     }
@@ -174,17 +178,14 @@ recruiterRouter.post("/resetpassword/", (req, res) => {
         subject: "Password reset - Recriter",
         html: `<div><h3>Hello! You're about to reset your password</h3><a href="http://localhost:3000/recruiterpassword/${instr}">Reset Your Password</a></div>`,
       };
-
       transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
-          console.log(error);
           res.status(401).send({ msg: "Email not sent!" });
         } else {
-          res.status(200).send(info.response);
+          res.status(200).send({ msg: info.response });
         }
       });
     } else {
-      console.log("nopps");
       res.status(404).send({ msg: "User not found!" });
     }
   });

@@ -6,11 +6,12 @@ import location from "../../public/assets/icons/location.png";
 import pen from "../../public/assets/icons/pen.png";
 import plus from "../../public/assets/icons/plus.png";
 import close from "../../public/assets/icons/close.png";
-import ProjectCard from "../../components/ProjectCard";
+import MyProjectsCard from "../../components/EditProfile/developer/MyProjectsCard";
 import PersonalDetails from "../../components/EditProfile/developer/PersonalDetails";
 import SkillsDetails from "../../components/EditProfile/developer/SkillsDetails";
 import LinksDetails from "../../components/EditProfile/developer/LinksDetails";
 import DeleteAccount from "../../components/EditProfile/developer/DeleteAccount";
+import AddProject from "../../components/EditProfile/developer/AddProject";
 
 function MyProfile() {
   const [user, setUser] = useState();
@@ -213,7 +214,7 @@ function MyProfile() {
               </div>
               <div className={mystyles.projects}>
                 <div className={mystyles.heading}>
-                  <h4>Project</h4>
+                  <h4>Projects</h4>
                   <div
                     onClick={showProjectEditor}
                     ref={plusBtn}
@@ -222,29 +223,12 @@ function MyProfile() {
                     <Image src={plus} width={20} height={20} alt="" />
                   </div>
                 </div>
-                {editProject && (
-                  <div className={mystyles.addProject}>
-                    <form action="">
-                      <div className={mystyles.addProjectNames}>
-                        <input type="text" placeholder="Project name" />
-                        <input type="url" placeholder="Project link" />
-                      </div>
-                      <textarea
-                        name=""
-                        id=""
-                        cols="30"
-                        rows="5"
-                        placeholder="Project description"
-                      ></textarea>
-                      <button>Add project</button>
-                    </form>
-                  </div>
-                )}
+                {editProject && <AddProject user={user} token={token} />}
                 <div className={mystyles.projectCards}>
                   {user.projects &&
                     user.projects.map((item, index) => {
                       return (
-                        <ProjectCard
+                        <MyProjectsCard
                           key={index}
                           title={item.title}
                           description={item.description}

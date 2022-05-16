@@ -84,9 +84,8 @@ function Login() {
             "recruiter-x-auth-token",
             JSON.stringify(response)
           );
-          router.push("/devs");
-          router.reload();
           setRecponseError();
+          router.push("/devs");
         } else {
           setRecponseError(response.msg);
         }
@@ -99,7 +98,7 @@ function Login() {
     const token = localStorage.getItem("recruiter-x-auth-token");
     if (token) {
       router.reload();
-      router.push("/developerprofile");
+      router.push("/devs");
     } else {
       setNotLoggedIn(true);
     }

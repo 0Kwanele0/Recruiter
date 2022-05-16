@@ -238,13 +238,10 @@ router.put("/detailsedit/:id", authorize, (req, res) => {
   });
 });
 
-router.put("/addprojects/:id", authorize, (req, res) => {
+router.put("/addproject/:id", authorize, (req, res) => {
   UserModel.findByIdAndUpdate(req.params.id, {
-    $set: {
-      firstname: req.body.firstname,
-      lastname: req.body.lastname,
-      country: req.body.country,
-      city: req.body.city,
+    $push: {
+      projects: req.body.project,
     },
   }).then((value) => {
     if (value) {

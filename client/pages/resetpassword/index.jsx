@@ -5,6 +5,7 @@ function Index() {
   const [recruiterCheckbox, setRecruiterCheckbox] = useState(false);
   const [developerCheckbox, setDeveloperCheckbox] = useState(false);
   const [checkboxError, setCheckboxError] = useState(false);
+  const [done, setDone] = useState(false);
   const [email, setEmail] = useState("");
   const recruiterBox = useRef();
   const developerBox = useRef();
@@ -58,9 +59,7 @@ function Index() {
         const response = await data.json();
         if (data.status == 200) {
           //email found
-          setRecponseError();
         } else {
-          setRecponseError(response.msg);
         }
       });
     } else if (recruiterCheckbox) {
@@ -71,10 +70,8 @@ function Index() {
       }).then(async (data) => {
         const response = await data.json();
         if (data.status == 200) {
-          //email sent
-          setRecponseError();
+          setDone(true);
         } else {
-          setRecponseError(response.msg);
         }
       });
     } else {
@@ -85,6 +82,7 @@ function Index() {
   return (
     <div className={styles.container}>
       <form onSubmit={onSubmit}>
+        {done && <p>We've sent your a link via email</p>}
         <input
           onChange={(e) => {
             setEmail(e.target.value);
