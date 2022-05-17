@@ -10,7 +10,14 @@ require("dotenv").config({ path: "../vars/.env" });
 var CryptoJS = require("crypto-js");
 
 const Storage = multer.diskStorage({
-  destination: "../client/public/uploads/profilephotos",
+  destination: (req, file, cb) => {
+    if (file.fieldname === "profilephoto") {
+      cb(null, "../client/public/uploads/profilephotos");
+    }
+    if (file.fieldname === "resume") {
+      cb(null, "../client/public/uploads/resumes");
+    }
+  },
   filename: (req, file, cb) => {
     cb(null, new Date().getMilliseconds() + file.originalname);
   },
@@ -115,6 +122,7 @@ router.get("/:id", authorize, (req, res) => {
           projects: user.projects,
           country: user.country,
           city: user.city,
+          resume: user.resume,
           links: user.links,
           category: user.category,
         };
@@ -161,11 +169,16 @@ router.put("/details/:id", authorize, (req, res) => {
 router.put(
   "/links/:id",
   authorize,
-  upload.single("profilephoto"),
+  upload.fields([
+    { name: "profilephoto", maxCount: 1 },
+    { name: "resume", maxCount: 1 },
+  ]),
   (req, res) => {
+    console.log(req.files.profilephoto[0]);
     UserModel.findByIdAndUpdate(req.params.id, {
       $set: {
-        profilephoto: req.file.filename,
+        profilephoto: req.files.profilephoto[0].filename,
+        resume: req.files.resume[0].filename,
         links: JSON.parse(req.body.links),
       },
     }).then((value) => {

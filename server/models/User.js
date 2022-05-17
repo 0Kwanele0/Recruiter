@@ -12,6 +12,9 @@ const UserSchema = new mongoose.Schema({
   profilephoto: {
     type: String,
   },
+  resume: {
+    type: String,
+  },
   email: {
     type: String,
     required: true,

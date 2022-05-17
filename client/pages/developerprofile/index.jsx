@@ -12,6 +12,7 @@ import SkillsDetails from "../../components/EditProfile/developer/SkillsDetails"
 import LinksDetails from "../../components/EditProfile/developer/LinksDetails";
 import DeleteAccount from "../../components/EditProfile/developer/DeleteAccount";
 import AddProject from "../../components/EditProfile/developer/AddProject";
+import User from "../../../server/models/User";
 
 function MyProfile() {
   const [user, setUser] = useState();
@@ -90,6 +91,7 @@ function MyProfile() {
         if (user.status === 200) {
           const data = await user.json();
           setUser(data);
+          console.log(data);
           setEmailLink(`mailto: ${data.email}`);
           setImgLink(`/uploads/profilephotos/${data.profilephoto}`);
           if (data.links) {
@@ -168,7 +170,7 @@ function MyProfile() {
               </div>
             </div>
             <div className={mystyles.buttons}>
-              <button>Resume</button>
+              {User.resume ? <button>Yes</button> : <button>Resume</button>}
               <a href={emailLink}>Send Email</a>
             </div>
           </section>

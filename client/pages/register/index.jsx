@@ -6,6 +6,7 @@ import github from "../../public/assets/icons/github.png";
 import linkedin from "../../public/assets/icons/linkedin.png";
 import internet from "../../public/assets/icons/internet.png";
 import avater from "../../public/assets/icons/avatar.png";
+import file from "../../public/assets/icons/file.png";
 import plus from "../../public/assets/icons/plus.png";
 import Link from "next/link";
 import Image from "next/image";
@@ -47,6 +48,7 @@ function Index() {
   const [linkedinLink, setLinkedinLink] = useState("");
   const [portfolioLink, setPortfolioLink] = useState("");
   const [imageLink, setImageLink] = useState("");
+  const [resume, setResume] = useState("");
   const [detailsResponseError, setDetailsResponseError] = useState();
   const [typedSkill, setTypedSkill] = useState("");
   const [linksResponseError, setLinksResponseError] = useState();
@@ -112,6 +114,9 @@ function Index() {
   }
   function changeImage(e) {
     setImageLink(e.target.files[0]);
+  }
+  function changeResume(e) {
+    setResume(e.target.files[0]);
   }
 
   //register methods
@@ -227,6 +232,7 @@ function Index() {
 
     const formData = new FormData();
     formData.append("profilephoto", imageLink);
+    formData.append("resume", resume);
     formData.append("links", JSON.stringify(links));
     console.log(formData);
     fetch(`http://localhost:3001/user/links/${user.user._id}`, {
@@ -364,6 +370,9 @@ function Index() {
                       type="text"
                       placeholder="Country"
                       required={true}
+                      onChange={() => {
+                        null;
+                      }}
                     />
                     {errors.country && <span>{errors.country.message}</span>}
                     {displayCountries && (
@@ -544,8 +553,21 @@ function Index() {
                   <input
                     onChange={changeImage}
                     name="profilephoto"
-                    required={true}
+                    id="profilephoto"
+                    // required={true}
                     accept=".png, .jpg, .jpeg"
+                    type="file"
+                  />
+                </div>
+                <div className={regstyles.file}>
+                  <Image src={file} width={40} height={40} />
+                  <label>Upload Your Resume</label>
+                  <input
+                    onChange={changeResume}
+                    name="resume"
+                    id="resume"
+                    // required={true}
+                    accept=".pdf, .docx"
                     type="file"
                   />
                 </div>
