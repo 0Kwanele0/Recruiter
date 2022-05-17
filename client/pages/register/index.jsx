@@ -11,6 +11,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { listedCategories, experienceList } from "../../data/Lists";
+import { Countries } from "../../data/Countries";
 
 function Index() {
   const router = useRouter();
@@ -25,6 +26,8 @@ function Index() {
   const [password, setPassword] = useState("");
   const [confPassword, setConfPassword] = useState("");
   const [responseError, setRecponseError] = useState();
+  const [country, setCountry] = useState("");
+  const [displayCountries, setDisplayCountries] = useState(false);
   const [error, setError] = useState(false);
 
   //details states
@@ -166,6 +169,11 @@ function Index() {
     return;
   }
 
+  function CountrySelected(e) {
+    setCountry(e.target.innerText);
+    setDisplayCountries(false);
+  }
+
   function submitDetails(e) {
     e.preventDefault();
 
@@ -239,6 +247,8 @@ function Index() {
   }
 
   async function registerUser(data) {
+    data.country = country;
+    console.log(data);
     if (developerCheckbox) {
       fetch("http://localhost:3001/user/register", {
         method: "POST",
@@ -349,13 +359,24 @@ function Index() {
                 <div className={regstyles.countries}>
                   <div className={regstyles.inputContainer}>
                     <input
-                      {...register("country", {
-                        required: "Country is required",
-                      })}
+                      onClick={() => setDisplayCountries(!displayCountries)}
+                      value={country}
                       type="text"
                       placeholder="Country"
+                      required={true}
                     />
                     {errors.country && <span>{errors.country.message}</span>}
+                    {displayCountries && (
+                      <ul>
+                        {Countries.map((item, index) => {
+                          return (
+                            <li onClick={CountrySelected} key={index}>
+                              {item.name}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
                   </div>
                   <div className={regstyles.inputContainer}>
                     <input
