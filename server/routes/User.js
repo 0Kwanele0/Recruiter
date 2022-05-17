@@ -122,7 +122,7 @@ router.get("/:id", authorize, (req, res) => {
           projects: user.projects,
           country: user.country,
           city: user.city,
-          resume: user.resume,
+          myresume: user.myresume,
           links: user.links,
           category: user.category,
         };
@@ -178,7 +178,7 @@ router.put(
     UserModel.findByIdAndUpdate(req.params.id, {
       $set: {
         profilephoto: req.files.profilephoto[0].filename,
-        resume: req.files.resume[0].filename,
+        myresume: req.files.resume[0].filename,
         links: JSON.parse(req.body.links),
       },
     }).then((value) => {

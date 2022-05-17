@@ -12,7 +12,7 @@ const UserSchema = new mongoose.Schema({
   profilephoto: {
     type: String,
   },
-  resume: {
+  myresume: {
     type: String,
   },
   email: {

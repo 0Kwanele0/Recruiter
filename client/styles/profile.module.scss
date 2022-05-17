@@ -150,6 +150,13 @@
             color: rgb(146, 42, 124);
           }
         }
+        .resumelink {
+          background-color: #6c63ff;
+          border: none;
+          &:hover {
+            color: rgb(42, 49, 146);
+          }
+        }
       }
     }
     .details {

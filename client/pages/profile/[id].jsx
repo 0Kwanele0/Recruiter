@@ -12,6 +12,7 @@ function Profile() {
   const [imgLink, setImgLink] = useState();
   const [links, setLinks] = useState([]);
   const router = useRouter();
+  const [resumeLink, setResumeLink] = useState();
 
   async function fetchingUser() {
     const details = localStorage.getItem("recruiter-x-auth-token");
@@ -28,6 +29,8 @@ function Profile() {
         setUser(data);
         setEmailLink(`mailto: ${data.email}`);
         setImgLink(`/uploads/profilephotos/${data.profilephoto}`);
+        setResumeLink(`/uploads/resumes/${data.myresume}`);
+
         if (data.links) {
           setLinks(data.links);
         }
@@ -72,7 +75,13 @@ function Profile() {
               </div>
             </div>
             <div className={mystyles.buttons}>
-              <button>Resume</button>
+              {user.myresume ? (
+                <a className={mystyles.resumelink} href={resumeLink}>
+                  Download resume
+                </a>
+              ) : (
+                <button>Upload Resume</button>
+              )}
               <a href={emailLink}>Send Email</a>
             </div>
           </section>

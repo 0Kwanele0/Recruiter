@@ -12,13 +12,13 @@ import SkillsDetails from "../../components/EditProfile/developer/SkillsDetails"
 import LinksDetails from "../../components/EditProfile/developer/LinksDetails";
 import DeleteAccount from "../../components/EditProfile/developer/DeleteAccount";
 import AddProject from "../../components/EditProfile/developer/AddProject";
-import User from "../../../server/models/User";
 
 function MyProfile() {
   const [user, setUser] = useState();
   const [id, setId] = useState();
   const [emailLink, setEmailLink] = useState();
   const [imgLink, setImgLink] = useState();
+  const [resumeLink, setResumeLink] = useState();
   const [links, setLinks] = useState([]);
   const profileEditor = useRef();
   const plusBtn = useRef();
@@ -94,6 +94,7 @@ function MyProfile() {
           console.log(data);
           setEmailLink(`mailto: ${data.email}`);
           setImgLink(`/uploads/profilephotos/${data.profilephoto}`);
+          setResumeLink(`/uploads/resumes/${data.myresume}`);
           if (data.links) {
             setLinks(data.links);
           }
@@ -170,7 +171,14 @@ function MyProfile() {
               </div>
             </div>
             <div className={mystyles.buttons}>
-              {User.resume ? <button>Yes</button> : <button>Resume</button>}
+              {user.myresume ? (
+                <a className={mystyles.resumelink} href={resumeLink}>
+                  Download resume
+                </a>
+              ) : (
+                <button>Upload Resume</button>
+              )}
+
               <a href={emailLink}>Send Email</a>
             </div>
           </section>
