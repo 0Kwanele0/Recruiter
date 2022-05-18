@@ -14,7 +14,7 @@ function Index() {
     const theData = { password: password };
     if (password == confirmer) {
       fetch(
-        `http://localhost:3001/recruiter/recruiterpassword/${router.query.id}`,
+        `${process.env.SERVER}/recruiter/recruiterpassword/${router.query.id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

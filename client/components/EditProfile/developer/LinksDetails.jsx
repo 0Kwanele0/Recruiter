@@ -38,7 +38,7 @@ function LinksDetails(props) {
       { name: "LinkeIn", link: linkedinLink },
       { name: "Portfolio", link: portfolioLink },
     ];
-    fetch(`http://localhost:3001/user/linksedit/${props.user._id}`, {
+    fetch(`${process.env.SERVER}/user/linksedit/${props.user._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "Application/json",

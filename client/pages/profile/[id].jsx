@@ -19,7 +19,7 @@ function Profile() {
     setLinksCount(0);
     const details = localStorage.getItem("recruiter-x-auth-token");
     const token = JSON.parse(details);
-    return fetch(`http://localhost:3001/user/${id}`, {
+    return fetch(`${process.env.SERVER}/user/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

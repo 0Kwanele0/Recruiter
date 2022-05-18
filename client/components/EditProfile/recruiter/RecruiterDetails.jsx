@@ -35,7 +35,7 @@ function RecruiterDetails(props) {
       city: city,
     };
 
-    fetch(`http://localhost:3001/recruiter/${props.user._id}`, {
+    fetch(`${process.env.SERVER}/recruiter/${props.user._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "Application/json",
@@ -50,7 +50,7 @@ function RecruiterDetails(props) {
   }
 
   function deleteAccount() {
-    fetch(`http://localhost:3001/recruiter/${props.user._id}`, {
+    fetch(`${process.env.SERVER}/recruiter/${props.user._id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "Application/json",

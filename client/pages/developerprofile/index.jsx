@@ -82,7 +82,7 @@ function MyProfile() {
     const details = localStorage.getItem("recruiter-x-auth-token");
     const token = JSON.parse(details);
     if (token.user.type == "Developer") {
-      return fetch(`http://localhost:3001/user/${token.user._id}`, {
+      return fetch(`${process.env.SERVER}/user/${token.user._id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

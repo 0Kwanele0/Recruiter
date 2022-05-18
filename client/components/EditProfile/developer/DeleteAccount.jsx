@@ -6,7 +6,7 @@ function DeleteAccount(props) {
 
   function Delete(e) {
     e.preventDefault();
-    fetch(`http://localhost:3001/user/${props.user._id}`, {
+    fetch(`${process.env.SERVER}/user/${props.user._id}`, {
       method: "DELETE",
       headers: {
         "recruiter-x-auth-token": props.token,

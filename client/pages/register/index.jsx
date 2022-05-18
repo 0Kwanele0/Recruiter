@@ -195,7 +195,7 @@ function Index() {
         experience: selectedExperience,
       };
 
-      fetch(`http://localhost:3001/user/details/${user.user._id}`, {
+      fetch(`${process.env.SERVER}/user/details/${user.user._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -235,7 +235,7 @@ function Index() {
     formData.append("resume", resume);
     formData.append("links", JSON.stringify(links));
     console.log(formData);
-    fetch(`http://localhost:3001/user/links/${user.user._id}`, {
+    fetch(`${process.env.SERVER}/user/links/${user.user._id}`, {
       method: "PUT",
       headers: {
         "recruiter-x-auth-token": token,
@@ -255,7 +255,7 @@ function Index() {
   async function registerUser(data) {
     data.country = country;
     if (developerCheckbox) {
-      fetch("http://localhost:3001/user/register", {
+      fetch(`${process.env.SERVER}/user/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -279,7 +279,7 @@ function Index() {
         }
       });
     } else if (recruiterCheckbox) {
-      fetch("http://localhost:3001/recruiter/register", {
+      fetch(`${process.env.SERVER}/recruiter/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

@@ -65,7 +65,7 @@ function SkillsDetails(props) {
       category: selectedCategory,
     };
 
-    fetch(`http://localhost:3001/user/skillsedit/${props.user._id}`, {
+    fetch(`${process.env.SERVER}/user/skillsedit/${props.user._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "Application/json",

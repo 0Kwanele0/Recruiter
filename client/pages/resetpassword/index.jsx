@@ -51,7 +51,7 @@ function Index() {
     data.preventDefault();
     const theData = { email: email };
     if (developerCheckbox) {
-      fetch("http://localhost:3001/user/resetpassword", {
+      fetch(`${process.env.SERVER}/user/resetpassword`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(theData),
@@ -63,7 +63,7 @@ function Index() {
         }
       });
     } else if (recruiterCheckbox) {
-      fetch("http://localhost:3001/recruiter/resetpassword", {
+      fetch(`${process.env.SERVER}/recruiter/resetpassword`, {
         method: "POST",
         headers: { "Content-Type": "Application/json" },
         body: JSON.stringify(theData),

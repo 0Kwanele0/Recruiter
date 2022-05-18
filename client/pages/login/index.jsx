@@ -55,7 +55,7 @@ function Login() {
 
   const onSubmit = (data) => {
     if (developerCheckbox) {
-      fetch("http://localhost:3001/user/login", {
+      fetch(`${process.env.SERVER}/user/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -73,7 +73,7 @@ function Login() {
         }
       });
     } else if (recruiterCheckbox) {
-      fetch("http://localhost:3001/recruiter/login", {
+      fetch(`${process.env.SERVER}/recruiter/login`, {
         method: "POST",
         headers: { "Content-Type": "Application/json" },
         body: JSON.stringify(data),

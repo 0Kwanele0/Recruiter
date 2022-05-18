@@ -10,7 +10,7 @@ function MyProjectsCard(props) {
 
   function deleteProject(e) {
     e.preventDefault();
-    fetch(`http://localhost:3001/user/deleteproject/${props.user._id}`, {
+    fetch(`${process.env.SERVER}/user/deleteproject/${props.user._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "Application/json",

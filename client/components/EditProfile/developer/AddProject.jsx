@@ -11,7 +11,7 @@ function AddProject(props) {
   function saveProject(e) {
     e.preventDefault();
     const data = { title, link, description };
-    fetch(`http://localhost:3001/user/addproject/${props.user._id}`, {
+    fetch(`${process.env.SERVER}/user/addproject/${props.user._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "Application/json",

@@ -16,7 +16,7 @@ function Devs() {
     const details = localStorage.getItem("recruiter-x-auth-token");
     const token = JSON.parse(details);
 
-    fetch("http://localhost:3001/user/", {
+    fetch(`${process.env.SERVER}/user/`, {
       method: "GET",
     }).then(async (user) => {
       if (user.status === 200) {

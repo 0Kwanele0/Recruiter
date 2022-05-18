@@ -14,7 +14,7 @@ function Index() {
     data.preventDefault();
     const theData = { password: password };
     if (password == confirmer) {
-      fetch(`http://localhost:3001/user/userpassword/${router.query.id}`, {
+      fetch(`${process.env.SERVER}/user/userpassword/${router.query.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(theData),

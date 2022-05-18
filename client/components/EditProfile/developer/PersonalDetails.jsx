@@ -55,7 +55,7 @@ function PersonalDetails(props) {
     formData.append("resume", resume);
     formData.append("profilephoto", profilephoto);
 
-    fetch(`http://localhost:3001/user/detailsedit/${props.user._id}`, {
+    fetch(`${process.env.SERVER}/user/detailsedit/${props.user._id}`, {
       method: "PUT",
       headers: {
         "recruiter-x-auth-token": props.token,
