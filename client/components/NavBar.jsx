@@ -2,7 +2,7 @@ import styles from "./styles/nav.module.scss";
 import avatar from "../public/assets/icons/profileavatar.png";
 import logout from "../public/assets/icons/logout.png";
 import settingsicon from "../public/assets/icons/settings.png";
-import close from "../public/assets/icons/close.png";
+import close from "../public/assets/icons/closer.png";
 import emenu from "../public/assets/icons/menu.png";
 import Link from "next/link";
 import Image from "next/image";
@@ -39,7 +39,7 @@ function NavBar() {
   function logOut() {
     localStorage.removeItem("recruiter-x-auth-token");
     openMobileMenu();
-    router.push("/");
+    router.reload();
     setMenu(!menu);
   }
 
@@ -57,6 +57,12 @@ function NavBar() {
       setThemenu(close);
       setMobileMenuOpened(true);
     }
+  }
+
+  function goHome() {
+    mobileMenu.current.style.display = "none";
+    setMobileMenuOpened(false);
+    router.push("/");
   }
 
   useEffect(() => {
@@ -119,9 +125,9 @@ function NavBar() {
             </div>
           </div>
           <div className={styles.mobileNav}>
-            <Link href="/">
+            <div onClick={goHome}>
               <img src="assets/logo.png" alt="Recruiter" />
-            </Link>
+            </div>
             <div className={styles.right}>
               <div onClick={openMobileMenu} className={styles.humburger}>
                 <Image src={themenu} alt="menu" width={30} height={30} />
