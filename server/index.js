@@ -8,8 +8,6 @@ dotenv.config({ path: "./vars/.env" });
 const App = express();
 App.use(express.json());
 
-App.use(cors());
-
 App.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -18,6 +16,7 @@ App.use(function (req, res, next) {
   );
   next();
 });
+App.use(cors());
 
 mongoose.connect(process.env.MONGO_URL, {}, (err) => {
   if (!err) {
