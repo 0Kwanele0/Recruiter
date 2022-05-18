@@ -41,7 +41,6 @@ recruiterRouter.post("/register", (req, res) => {
             }
           });
         } catch (err) {
-          console.log(err);
           res.send("Cant save user");
         }
       });
@@ -68,9 +67,7 @@ recruiterRouter.post("/login", (req, res) => {
         res.status(404).send({ msg: "User doesnt exist" });
       }
     });
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
 });
 
 recruiterRouter.get("/:id", authorize, (req, res) => {
@@ -82,9 +79,7 @@ recruiterRouter.get("/:id", authorize, (req, res) => {
         res.send(user);
       }
     });
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
 });
 
 recruiterRouter.delete("/:id", authorize, (req, res) => {
@@ -97,7 +92,6 @@ recruiterRouter.delete("/:id", authorize, (req, res) => {
       }
     });
   } catch (err) {
-    console.log(err);
     res.send("Failed to delete user");
   }
 });
@@ -132,7 +126,6 @@ recruiterRouter.put("/recruiterpassword/:id", (req, res) => {
             "Secret Passphrase"
           );
           const instr = decrypted.toString(CryptoJS.enc.Utf8);
-          console.log(instr);
           RecruiterModel.findByIdAndUpdate(instr, {
             $set: {
               password: data.password,

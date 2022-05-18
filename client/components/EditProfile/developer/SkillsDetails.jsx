@@ -26,6 +26,7 @@ function SkillsDetails(props) {
     }
     setTypedSkill("");
   }
+
   function removeSkill(e) {
     const skill = e.target.innerText;
     setSkills(
@@ -46,17 +47,18 @@ function SkillsDetails(props) {
     setSelectedCategory(ev.target.innerText);
     showFieldList();
   }
+
   function addExperience(ev) {
     setSelectedExperience(ev.target.innerText);
     showExList();
   }
+
   function showExList() {
     setExList(!exlist);
   }
 
   function saveSkills(e) {
     e.preventDefault();
-
     const data = {
       skills: userSkills,
       experience: selectedExperience,

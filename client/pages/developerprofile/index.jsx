@@ -35,6 +35,7 @@ function MyProfile() {
     setClosing(!closing);
     profileEditor.current.style.display = "none";
   }
+
   function openProfileEditor() {
     profileEditor.current.style.display = "flex";
   }
@@ -91,7 +92,6 @@ function MyProfile() {
         if (user.status === 200) {
           const data = await user.json();
           setUser(data);
-          console.log(data);
           setEmailLink(`mailto: ${data.email}`);
           setImgLink(`/uploads/profilephotos/${data.profilephoto}`);
           setResumeLink(`/uploads/resumes/${data.myresume}`);

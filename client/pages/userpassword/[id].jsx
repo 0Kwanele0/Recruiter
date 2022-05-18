@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import styles from "../../styles/login.module.scss";
 
@@ -22,7 +22,7 @@ function Index() {
         setComplete(true);
         setTimeout(() => {
           router.push("/login");
-        }, 2000);
+        }, 1500);
       });
     } else {
       setPasswordError(true);

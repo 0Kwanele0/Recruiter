@@ -39,13 +39,13 @@ function PersonalDetails(props) {
   function changeImage(e) {
     setProfilephoto(e.target.files[0]);
   }
+
   function changeResume(e) {
     setResume(e.target.files[0]);
   }
 
   function saveDetails(e) {
     e.preventDefault();
-
     const formData = new FormData();
     formData.append("firstname", firstname);
     formData.append("city", city);
@@ -91,21 +91,11 @@ function PersonalDetails(props) {
       <div className={mystyles.inputContainer}>
         <div className={mystyles.inputAndLabel}>
           <label htmlFor="">Profile Photo</label>
-          <input
-            // value={firstname}
-            onChange={changeImage}
-            name="profilephoto"
-            type="file"
-          />
+          <input onChange={changeImage} name="profilephoto" type="file" />
         </div>
         <div className={mystyles.inputAndLabel}>
           <label htmlFor="">Resume</label>
-          <input
-            // value={resume}
-            onChange={changeResume}
-            name="resume"
-            type="file"
-          />
+          <input onChange={changeResume} name="resume" type="file" />
         </div>
       </div>
       <div className={mystyles.inputContainer}>

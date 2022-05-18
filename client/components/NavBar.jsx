@@ -1,5 +1,4 @@
 import styles from "./styles/nav.module.scss";
-import logo from "../public/assets/logo.png";
 import avatar from "../public/assets/icons/profileavatar.png";
 import logout from "../public/assets/icons/logout.png";
 import settingsicon from "../public/assets/icons/settings.png";
@@ -27,7 +26,6 @@ function NavBar() {
         return;
       }
     } else {
-      console.log("daaa");
     }
   }
 

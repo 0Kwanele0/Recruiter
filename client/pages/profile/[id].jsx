@@ -30,7 +30,6 @@ function Profile() {
         setEmailLink(`mailto: ${data.email}`);
         setImgLink(`/uploads/profilephotos/${data.profilephoto}`);
         setResumeLink(`/uploads/resumes/${data.myresume}`);
-
         if (data.links) {
           setLinks(data.links);
         }

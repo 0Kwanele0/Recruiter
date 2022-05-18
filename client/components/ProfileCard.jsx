@@ -1,12 +1,10 @@
 import styles from "./styles/profileCard.module.scss";
-import { useRouter } from "next/router";
 import location from "../public/assets/icons/location.png";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 function ProfileCard(props) {
-  const router = useRouter();
   const [link, setLink] = useState("");
   const imglink = `/uploads/profilephotos/${props.photo}`;
 

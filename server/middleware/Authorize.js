@@ -10,11 +10,9 @@ function authorize(req, res, next) {
       next();
     } catch (err) {
       res.status(401).send(err.message);
-      console.log("Wrong token: ", authToken);
     }
   } else {
     res.status(401).send({ msg: "We need a token" });
-    console.log("Please provide a token");
   }
 }
 

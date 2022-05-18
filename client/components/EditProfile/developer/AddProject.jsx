@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import mystyles from "../../../styles/profile.module.scss";
 
 function AddProject(props) {
@@ -7,7 +7,6 @@ function AddProject(props) {
   const [title, setTitle] = useState("");
   const [link, setLink] = useState("");
   const [description, setDescription] = useState("");
-  const [done, setDone] = useState(false);
 
   function saveProject(e) {
     e.preventDefault();
@@ -22,7 +21,6 @@ function AddProject(props) {
     }).then(async (response) => {
       const data = await response.json();
       if (response.status == 200) {
-        console.log("done");
         router.reload();
       } else {
       }

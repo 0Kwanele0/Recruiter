@@ -254,7 +254,6 @@ function Index() {
 
   async function registerUser(data) {
     data.country = country;
-    console.log(data);
     if (developerCheckbox) {
       fetch("http://localhost:3001/user/register", {
         method: "POST",
@@ -305,6 +304,7 @@ function Index() {
       setCheckboxError(true);
     }
   }
+
   useEffect(() => {
     const token = localStorage.getItem("recruiter-x-auth-token");
     if (token) {

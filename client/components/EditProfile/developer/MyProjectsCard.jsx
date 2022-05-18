@@ -20,7 +20,6 @@ function MyProjectsCard(props) {
     }).then(async (response) => {
       const data = await response.json();
       if (response.status == 200) {
-        console.log("done");
         router.reload();
       } else {
       }

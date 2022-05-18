@@ -94,6 +94,7 @@ function Login() {
       setCheckboxError(true);
     }
   };
+
   useEffect(() => {
     const token = localStorage.getItem("recruiter-x-auth-token");
     if (token) {

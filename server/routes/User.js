@@ -72,7 +72,6 @@ router.post("/register", (req, res) => {
             }
           });
         } catch (err) {
-          console.log(err);
           res.send("Cant save user");
         }
       });
@@ -99,9 +98,7 @@ router.post("/login", (req, res) => {
         res.status(404).send({ msg: "User doesnt exist" });
       }
     });
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
 });
 
 router.get("/:id", authorize, (req, res) => {
@@ -129,9 +126,7 @@ router.get("/:id", authorize, (req, res) => {
         res.send(filtered);
       }
     });
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
 });
 
 router.delete("/:id", authorize, (req, res) => {
@@ -144,7 +139,6 @@ router.delete("/:id", authorize, (req, res) => {
       }
     });
   } catch (err) {
-    console.log(err);
     res.send("Failed to delete user");
   }
 });
@@ -174,7 +168,6 @@ router.put(
     { name: "resume", maxCount: 1 },
   ]),
   (req, res) => {
-    console.log(req.files.profilephoto[0]);
     UserModel.findByIdAndUpdate(req.params.id, {
       $set: {
         profilephoto: req.files.profilephoto[0].filename,
@@ -205,7 +198,6 @@ router.put("/links/:id", authorize, (req, res) => {
 });
 
 router.put("/linksedit/:id", authorize, (req, res) => {
-  console.log("body: ", req.body);
   UserModel.findByIdAndUpdate(req.params.id, {
     $set: { links: req.body },
   })
@@ -316,7 +308,6 @@ router.put("/userpassword/:id", (req, res) => {
             }
           });
         } catch (err) {
-          console.log(err);
           res.send("Cant save user");
         }
       });
@@ -349,14 +340,12 @@ router.post("/resetpassword/", (req, res) => {
 
       transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
-          console.log(error);
           res.status(401).send({ msg: "Email not sent!" });
         } else {
           res.status(200).send(info.response);
         }
       });
     } else {
-      console.log("nopps");
       res.status(404).send({ msg: "User not found!" });
     }
   });
