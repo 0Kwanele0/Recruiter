@@ -1,8 +1,9 @@
 .container {
   .showcase {
     display: flex;
-    height: 540px;
+    // height: 540px;
     align-items: center;
+    margin-bottom: 80px;
     .text {
       display: flex;
       flex-direction: column;
@@ -206,6 +207,56 @@
       &:hover {
         transform: translateY(-4px);
         opacity: 0.8;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 930px) {
+  .container {
+    .showcase {
+      .text {
+        h1 {
+          font-size: 2.7rem;
+        }
+        .buttons {
+          flex-wrap: wrap;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .container {
+    .showcase {
+      flex-direction: column;
+      gap: 20px;
+      height: 100%;
+      .text {
+        width: 100%;
+        order: 2;
+        .buttons {
+          flex-wrap: wrap;
+        }
+      }
+      .image {
+        width: 100%;
+        height: 300px;
+        image {
+          width: 100%;
+        }
+      }
+    }
+    .developerDo {
+      .action {
+        flex-direction: column;
+        .text {
+          width: 100%;
+        }
+        .image {
+          width: 100%;
+        }
       }
     }
   }

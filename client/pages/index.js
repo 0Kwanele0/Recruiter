@@ -36,7 +36,7 @@ function Home() {
           </div>
         </div>
         <div className={styles.image}>
-          <Image src={illustration} alt="" width={440} />
+          <Image src={illustration} alt="" width={400} />
         </div>
       </section>
       <section className={styles.filters}>
