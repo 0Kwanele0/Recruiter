@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    SERVER: "http://localhost:3001",
+    SERVER: "https://dev-recruiter.herokuapp.com", //"http://localhost:3001",
   },
 };
 
