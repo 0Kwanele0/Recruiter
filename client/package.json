@@ -1,5 +1,5 @@
 {
-  "name": "recruiter",
+  "name": "client",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,31 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@hookform/resolvers": "^2.8.8",
-    "cloudinary-react": "^1.7.2",
-    "jose": "^4.8.1",
-    "next": "^12.1.6",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
-    "react-hook-form": "^7.30.0",
-    "react-router-dom": "^6.3.0",
-    "react-scripts": "^5.0.1",
-    "sass": "^1.51.0",
-    "yup": "^0.32.11"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "next": "12.1.6",
+    "react": "18.1.0",
+    "react-dom": "18.1.0"
   },
   "devDependencies": {
+    "eslint": "8.15.0",
     "eslint-config-next": "12.1.6"
   }
 }
