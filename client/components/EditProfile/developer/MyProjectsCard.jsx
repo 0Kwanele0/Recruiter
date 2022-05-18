@@ -29,13 +29,13 @@ function MyProjectsCard(props) {
   return (
     <div className={styles.container}>
       <div onClick={deleteProject} className={styles.image}>
-        <Image src={bin} width={30} height={30} />
+        <Image src={bin} width={30} height={30} alt="trash" />
       </div>
       <div>
         <h3 className={styles.header}>{props.title}</h3>
         <p>{props.description}</p>
       </div>
-      <a href={props.link} target="_blank">
+      <a href={props.link} rel="noreferrer" target="_blank">
         View
       </a>
     </div>
