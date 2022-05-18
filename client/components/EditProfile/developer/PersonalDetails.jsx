@@ -3,6 +3,8 @@ import mystyles from "../styles/editProfile.module.scss";
 
 function PersonalDetails(props) {
   const [firstname, setFirstname] = useState(props.user.firstname);
+  const [profilephoto, setProfilephoto] = useState();
+  const [resume, setResume] = useState();
   const [lastname, setLastname] = useState(props.user.lastname);
   const [city, setCity] = useState(props.user.city);
   const [country, setCountry] = useState(props.user.country);
@@ -28,24 +30,30 @@ function PersonalDetails(props) {
     }
   }
 
+  function changeImage(e) {
+    setProfilephoto(e.target.files[0]);
+  }
+  function changeResume(e) {
+    setResume(e.target.files[0]);
+  }
+
   function saveDetails(e) {
     e.preventDefault();
 
-    const data = {
-      firstname: firstname,
-      lastname: lastname,
-      country: country,
-      city: city,
-      bio: bio,
-    };
+    const formData = new FormData();
+    formData.append("firstname", firstname);
+    formData.append("city", city);
+    formData.append("country", country);
+    formData.append("lastname", lastname);
+    formData.append("resume", resume);
+    formData.append("profilephoto", profilephoto);
 
     fetch(`http://localhost:3001/user/detailsedit/${props.user._id}`, {
       method: "PUT",
       headers: {
-        "Content-Type": "Application/json",
         "recruiter-x-auth-token": props.token,
       },
-      body: JSON.stringify(data),
+      body: formData,
     }).then(async (response) => {
       const data = await response.json();
       if (response.status == 200) {
@@ -55,7 +63,12 @@ function PersonalDetails(props) {
   }
 
   return (
-    <form className={mystyles.form} onSubmit={saveDetails} action="submit">
+    <form
+      enctype="multipart/form-data"
+      className={mystyles.form}
+      onSubmit={saveDetails}
+      action="submit"
+    >
       <div className={mystyles.inputContainer}>
         <div className={mystyles.inputAndLabel}>
           <label htmlFor="">Bio</label>
@@ -65,6 +78,26 @@ function PersonalDetails(props) {
             onChange={changingValues}
             name="bio"
             type="text"
+          />
+        </div>
+      </div>
+      <div className={mystyles.inputContainer}>
+        <div className={mystyles.inputAndLabel}>
+          <label htmlFor="">Profile Photo</label>
+          <input
+            // value={firstname}
+            onChange={changeImage}
+            name="profilephoto"
+            type="file"
+          />
+        </div>
+        <div className={mystyles.inputAndLabel}>
+          <label htmlFor="">Resume</label>
+          <input
+            // value={resume}
+            onChange={changeResume}
+            name="resume"
+            type="file"
           />
         </div>
       </div>

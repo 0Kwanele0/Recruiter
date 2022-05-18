@@ -233,23 +233,33 @@ router.put("/skillsedit/:id", authorize, (req, res) => {
     });
 });
 
-router.put("/detailsedit/:id", authorize, (req, res) => {
-  UserModel.findByIdAndUpdate(req.params.id, {
-    $set: {
-      firstname: req.body.firstname,
-      lastname: req.body.lastname,
-      country: req.body.country,
-      city: req.body.city,
-      bio: req.body.bio,
-    },
-  }).then((value) => {
-    if (value) {
-      res.send(value);
-    } else {
-      res.status(404).send("no user");
-    }
-  });
-});
+router.put(
+  "/detailsedit/:id",
+  authorize,
+  upload.fields([
+    { name: "profilephoto", maxCount: 1 },
+    { name: "resume", maxCount: 1 },
+  ]),
+  (req, res) => {
+    UserModel.findByIdAndUpdate(req.params.id, {
+      $set: {
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        country: req.body.country,
+        city: req.body.city,
+        bio: req.body.bio,
+        myresume: req.files.resume[0].filename,
+        profilephoto: req.files.profilephoto[0].filename,
+      },
+    }).then((value) => {
+      if (value) {
+        res.send(value);
+      } else {
+        res.status(404).send("no user");
+      }
+    });
+  }
+);
 
 router.put("/addproject/:id", authorize, (req, res) => {
   UserModel.findByIdAndUpdate(req.params.id, {
