@@ -240,24 +240,44 @@ router.put(
     { name: "profilephoto", maxCount: 1 },
     { name: "resume", maxCount: 1 },
   ]),
-  (req, res) => {
-    UserModel.findByIdAndUpdate(req.params.id, {
-      $set: {
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        country: req.body.country,
-        city: req.body.city,
-        bio: req.body.bio,
-        myresume: req.files.resume[0].filename,
-        profilephoto: req.files.profilephoto[0].filename,
-      },
-    }).then((value) => {
-      if (value) {
-        res.send(value);
-      } else {
-        res.status(404).send("no user");
+  async (req, res) => {
+    const user = await UserModel.findById(req.params.id);
+
+    if (user) {
+      user.firstname = req.body.firstname;
+      user.lastname = req.body.lastname;
+      user.country = req.body.country;
+      user.city = req.body.city;
+      user.bio = req.body.bio;
+      if (req.files.resume) {
+        user.myresume = req.files.resume[0].filename;
       }
-    });
+      if (req.files.profilephoto) {
+        user.profilephoto = req.files.profilephoto[0].filename;
+      }
+      user.save().then((savedDoc) => {
+        res.status(200).send(savedDoc);
+      });
+    } else {
+      res.status(404).send({ msg: "User not found" });
+    }
+    // UserModel.findByIdAndUpdate(req.params.id, {
+    //   $set: {
+    //     firstname: req.body.firstname,
+    //     lastname: req.body.lastname,
+    //     country: req.body.country,
+    //     city: req.body.city,
+    //     bio: req.body.bio,
+    //     myresume: req.files.resume[0].filename,
+    //     profilephoto: req.files.profilephoto[0].filename,
+    //   },
+    // }).then((value) => {
+    //   if (value) {
+    //     res.send(value);
+    //   } else {
+    //     res.status(404).send("no user");
+    //   }
+    // });
   }
 );
 
