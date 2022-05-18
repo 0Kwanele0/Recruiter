@@ -261,23 +261,6 @@ router.put(
     } else {
       res.status(404).send({ msg: "User not found" });
     }
-    // UserModel.findByIdAndUpdate(req.params.id, {
-    //   $set: {
-    //     firstname: req.body.firstname,
-    //     lastname: req.body.lastname,
-    //     country: req.body.country,
-    //     city: req.body.city,
-    //     bio: req.body.bio,
-    //     myresume: req.files.resume[0].filename,
-    //     profilephoto: req.files.profilephoto[0].filename,
-    //   },
-    // }).then((value) => {
-    //   if (value) {
-    //     res.send(value);
-    //   } else {
-    //     res.status(404).send("no user");
-    //   }
-    // });
   }
 );
 

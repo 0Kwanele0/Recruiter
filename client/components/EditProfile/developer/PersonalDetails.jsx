@@ -1,5 +1,6 @@
 import { useState } from "react";
 import mystyles from "../styles/editProfile.module.scss";
+import { Countries } from "../../../data/Countries";
 
 function PersonalDetails(props) {
   const [firstname, setFirstname] = useState(props.user.firstname);
@@ -9,6 +10,7 @@ function PersonalDetails(props) {
   const [city, setCity] = useState(props.user.city);
   const [country, setCountry] = useState(props.user.country);
   const [bio, setBio] = useState(props.user.bio);
+  const [displayCountries, setDisplayCountries] = useState(false);
 
   function changingValues(e) {
     switch (e.target.name) {
@@ -19,7 +21,6 @@ function PersonalDetails(props) {
         setLastname(e.target.value);
         return;
       case "country":
-        setCountry(e.target.value);
         return;
       case "city":
         setCity(e.target.value);
@@ -28,6 +29,11 @@ function PersonalDetails(props) {
         setBio(e.target.value);
         return;
     }
+  }
+
+  function CountrySelected(e) {
+    setCountry(e.target.innerText);
+    setDisplayCountries(false);
   }
 
   function changeImage(e) {
@@ -44,6 +50,7 @@ function PersonalDetails(props) {
     formData.append("firstname", firstname);
     formData.append("city", city);
     formData.append("country", country);
+    formData.append("bio", bio);
     formData.append("lastname", lastname);
     formData.append("resume", resume);
     formData.append("profilephoto", profilephoto);
@@ -137,9 +144,23 @@ function PersonalDetails(props) {
           <input
             value={country}
             onChange={changingValues}
+            onClick={(e) => {
+              setDisplayCountries(!displayCountries);
+            }}
             name="country"
             type="text"
           />
+          {displayCountries && (
+            <ul>
+              {Countries.map((item, index) => {
+                return (
+                  <li onClick={CountrySelected} key={index}>
+                    {item.name}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
         </div>
       </div>
       <button type="submit">Save</button>
