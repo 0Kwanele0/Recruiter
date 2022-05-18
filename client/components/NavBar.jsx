@@ -2,9 +2,11 @@ import styles from "./styles/nav.module.scss";
 import avatar from "../public/assets/icons/profileavatar.png";
 import logout from "../public/assets/icons/logout.png";
 import settingsicon from "../public/assets/icons/settings.png";
+import close from "../public/assets/icons/close.png";
+import emenu from "../public/assets/icons/menu.png";
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 
 function NavBar() {
@@ -12,10 +14,15 @@ function NavBar() {
   const [mounted, setMounted] = useState(false);
   const [menu, setMenu] = useState(false);
   const [details, setDetails] = useState();
+  const [themenu, setThemenu] = useState(emenu);
+  const [mobileMenuOpened, setMobileMenuOpened] = useState(false);
+  const mobileMenu = useRef(null);
 
   const router = useRouter();
 
   function settings() {
+    openMobileMenu();
+
     setMenu(!menu);
     if (details.user.type) {
       if (details.user.type == "Recruiter") {
@@ -31,9 +38,25 @@ function NavBar() {
 
   function logOut() {
     localStorage.removeItem("recruiter-x-auth-token");
+    openMobileMenu();
     router.push("/");
-    router.reload();
     setMenu(!menu);
+  }
+
+  function showMenu() {
+    setMenu(!menu);
+  }
+
+  function openMobileMenu() {
+    if (mobileMenuOpened) {
+      mobileMenu.current.style.display = "none";
+      setMobileMenuOpened(false);
+      setThemenu(emenu);
+    } else {
+      mobileMenu.current.style.display = "flex";
+      setThemenu(close);
+      setMobileMenuOpened(true);
+    }
   }
 
   useEffect(() => {
@@ -49,30 +72,89 @@ function NavBar() {
     }
   }, []);
 
-  function showMenu() {
-    setMenu(!menu);
-  }
-
   return (
     <div className={styles.container}>
       {mounted && (
         <>
-          <Link href="/">
-            <img src="assets/logo.png" alt="Recruiter" />
-          </Link>
-          <div className={styles.links}>
-            <Link href="/devs">Find Developers</Link>
-            {!logged ? (
-              <>
-                <Link href="/login">Login</Link>
-                <Link href="/register">Register</Link>{" "}
-              </>
-            ) : (
-              <div className={styles.profile}>
-                <div onClick={showMenu}>
-                  <Image src={avatar} alt="Profile" width={30} height={30} />
+          <div className={styles.pcNav}>
+            <Link href="/">
+              <img src="assets/logo.png" alt="Recruiter" />
+            </Link>
+            <div className={styles.links}>
+              <Link href="/devs">Find Developers</Link>
+              {!logged ? (
+                <>
+                  <Link href="/login">Login</Link>
+                  <Link href="/register">Register</Link>{" "}
+                </>
+              ) : (
+                <div className={styles.profile}>
+                  <div onClick={showMenu}>
+                    <Image src={avatar} alt="Profile" width={30} height={30} />
+                  </div>
+                  {menu && (
+                    <div className={styles.miniNav}>
+                      <div onClick={settings} className={styles.icon}>
+                        <Image
+                          src={settingsicon}
+                          alt="setting"
+                          width={25}
+                          height={25}
+                        />
+                        <p>Settings</p>
+                      </div>
+                      <div onClick={logOut} className={styles.icon}>
+                        <Image
+                          src={logout}
+                          alt="setting"
+                          width={25}
+                          height={25}
+                        />
+                        <p>Logout</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
-                {menu && (
+              )}
+            </div>
+          </div>
+          <div className={styles.mobileNav}>
+            <Link href="/">
+              <img src="assets/logo.png" alt="Recruiter" />
+            </Link>
+            <div className={styles.right}>
+              <div onClick={openMobileMenu} className={styles.humburger}>
+                <Image src={themenu} alt="menu" width={30} height={30} />
+              </div>
+              <div ref={mobileMenu} className={styles.links}>
+                <p
+                  onClick={() => {
+                    router.push("/devs");
+                    openMobileMenu();
+                  }}
+                >
+                  Find Developers
+                </p>
+                {!logged ? (
+                  <>
+                    <p
+                      onClick={() => {
+                        router.push("/login");
+                        openMobileMenu();
+                      }}
+                    >
+                      Login
+                    </p>
+                    <p
+                      onClick={() => {
+                        router.push("/register");
+                        openMobileMenu();
+                      }}
+                    >
+                      Register
+                    </p>
+                  </>
+                ) : (
                   <div className={styles.miniNav}>
                     <div onClick={settings} className={styles.icon}>
                       <Image
@@ -81,7 +163,7 @@ function NavBar() {
                         width={25}
                         height={25}
                       />
-                      <p>Settings</p>
+                      <p>Profile</p>
                     </div>
                     <div onClick={logOut} className={styles.icon}>
                       <Image
@@ -95,7 +177,7 @@ function NavBar() {
                   </div>
                 )}
               </div>
-            )}
+            </div>
           </div>
         </>
       )}

@@ -88,3 +88,18 @@
   border-radius: 12px;
   color: black;
 }
+
+@media screen and (max-width: 930px) {
+  .container {
+    form {
+      width: 100%;
+    }
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .container {
+    form {
+    }
+  }
+}

@@ -1,60 +1,121 @@
 .container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: rgb(19, 11, 27);
-  padding: 20px;
-  height: 70px;
-  img {
-    width: 130px;
-    cursor: pointer;
-  }
-  .links {
-    width: 30%;
-    margin: 0;
-    padding: 0;
+  .pcNav {
     display: flex;
-    justify-content: flex-end;
-    gap: 30px;
+    justify-content: space-between;
     align-items: center;
-    a {
-      list-style: none;
-      text-decoration: none;
-      font-family: inherit;
-      color: aliceblue;
-      font-size: 17px;
-      font-weight: 500;
-      transition: all 0.2s ease;
-      white-space: nowrap;
-      &:hover {
-        transform: translate(-1px, -1px);
-        color: rgb(186, 91, 209);
+    background-color: rgb(19, 11, 27);
+    padding: 20px;
+    height: 70px;
+    img {
+      width: 130px;
+      cursor: pointer;
+    }
+    .links {
+      width: 30%;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: flex-end;
+      gap: 30px;
+      align-items: center;
+      a {
+        list-style: none;
+        text-decoration: none;
+        font-family: inherit;
+        color: aliceblue;
+        font-size: 17px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+        &:hover {
+          transform: translate(-1px, -1px);
+          color: rgb(186, 91, 209);
+        }
+      }
+      .profile {
+        position: relative;
+        .miniNav {
+          z-index: 12;
+          position: absolute;
+          right: 0;
+          top: 53px;
+          display: flex;
+          flex-direction: column;
+          gap: 15px;
+          background-color: rgb(38, 31, 46);
+          min-width: 150px;
+          width: 100%;
+          padding: 15px;
+          .icon {
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            height: fit-content;
+            gap: 10px;
+            align-items: center;
+            transition: all 0.2s ease;
+            p {
+              margin: 0;
+              transition: all 0.2s ease;
+            }
+            &:hover {
+              p {
+                color: rgb(152, 182, 212);
+              }
+            }
+          }
+        }
       }
     }
-    .profile {
-      position: relative;
+  }
+  .mobileNav {
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(19, 11, 27);
+    padding: 20px;
+    height: 70px;
+    img {
+      width: 130px;
+      cursor: pointer;
+    }
+    .links {
+      width: 30%;
+      margin: 0;
+      padding: 0;
+      display: none;
+      justify-content: flex-end;
+      gap: 10px;
+      align-items: center;
+      p {
+        cursor: pointer;
+        margin: 3px 0;
+        list-style: none;
+        text-decoration: none;
+        font-family: inherit;
+        color: aliceblue;
+        font-size: 17px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+        &:hover {
+          transform: translate(-1px, -1px);
+          color: rgb(186, 91, 209);
+        }
+      }
+
       .miniNav {
-        z-index: 12;
-        position: absolute;
-        right: 0;
-        top: 53px;
         display: flex;
         flex-direction: column;
-        gap: 15px;
-        background-color: rgb(38, 31, 46);
-        min-width: 150px;
-        width: 100%;
-        padding: 15px;
+        gap: 10px;
         .icon {
           cursor: pointer;
           width: 100%;
           display: flex;
-          height: fit-content;
           gap: 10px;
           align-items: center;
           transition: all 0.2s ease;
           p {
-            margin: 0;
             transition: all 0.2s ease;
           }
           &:hover {
@@ -63,6 +124,63 @@
             }
           }
         }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .container {
+    .pcNav {
+      display: none;
+    }
+    .mobileNav {
+      position: relative;
+      display: flex;
+      .links {
+        padding: 20px;
+        background-color: rgb(19, 11, 27);
+        z-index: 11;
+        top: 70px;
+        right: 0;
+        width: 50%;
+        height: fit-content;
+        position: absolute;
+        display: none;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: flex-start;
+        .miniNav {
+          .icon {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+          }
+        }
+      }
+      .profile {
+        .profileIcon {
+          display: flex;
+          align-items: center;
+          width: 100%;
+          justify-content: space-between;
+        }
+      }
+      .humburger {
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 390px) {
+  .container {
+    .pcNav {
+    }
+    .mobileNav {
+      .links {
+        width: 100%;
+      }
+      .profile {
       }
     }
   }

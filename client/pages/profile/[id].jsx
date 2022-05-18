@@ -13,8 +13,10 @@ function Profile() {
   const [links, setLinks] = useState([]);
   const router = useRouter();
   const [resumeLink, setResumeLink] = useState();
+  const [linksCount, setLinksCount] = useState(0);
 
   async function fetchingUser() {
+    setLinksCount(0);
     const details = localStorage.getItem("recruiter-x-auth-token");
     const token = JSON.parse(details);
     return fetch(`http://localhost:3001/user/${id}`, {
@@ -32,6 +34,13 @@ function Profile() {
         setResumeLink(`/uploads/resumes/${data.myresume}`);
         if (data.links) {
           setLinks(data.links);
+          let mylist = data.links;
+          mylist.map((item) => {
+            if (item.link.length > 1) {
+            } else {
+              setLinksCount(linksCount + 1);
+            }
+          });
         }
       } else {
       }
@@ -103,7 +112,9 @@ function Profile() {
                   <h4>Links</h4>
                 </div>
                 <ul>
-                  {links &&
+                  {links && linksCount === 4 ? (
+                    <p>No links</p>
+                  ) : (
                     links.map((item, index) => {
                       if (item.link.length > 0) {
                         return (
@@ -112,7 +123,8 @@ function Profile() {
                           </a>
                         );
                       }
-                    })}
+                    })
+                  )}
                 </ul>
               </div>
             </div>
@@ -126,10 +138,10 @@ function Profile() {
               </div>
               <div className={mystyles.projects}>
                 <div className={mystyles.heading}>
-                  <h4>Project</h4>
+                  <h4>Projects</h4>
                 </div>
                 <div className={mystyles.projectCards}>
-                  {user.projects &&
+                  {user.projects && user.projects.length > 0 ? (
                     user.projects.map((item, index) => {
                       return (
                         <ProjectCard
@@ -139,7 +151,10 @@ function Profile() {
                           link={item.link}
                         />
                       );
-                    })}
+                    })
+                  ) : (
+                    <p>No projects</p>
+                  )}
                 </div>
               </div>
             </div>

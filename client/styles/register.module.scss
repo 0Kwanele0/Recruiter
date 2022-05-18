@@ -155,7 +155,7 @@
         }
         .list {
           /* From https://css.glass */
-          background: rgba(253, 252, 255, 0.253);
+          background: rgb(241, 238, 248);
           box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
           backdrop-filter: blur(3px);
           -webkit-backdrop-filter: blur(3px);
@@ -175,7 +175,7 @@
             li {
               margin: 2px 0;
               padding: 4px 0;
-              color: rgb(119, 114, 133);
+              color: rgb(14, 19, 44);
               border-bottom: 1px solid rgba(104, 100, 99, 0.151);
               cursor: pointer;
               transition: all 0.2s ease;
@@ -306,6 +306,25 @@
     }
     .referParagraph {
       color: rgb(37, 37, 49);
+    }
+  }
+}
+
+@media screen and (max-width: 930px) {
+  .container {
+    .formsContainer {
+      width: 100%;
+      form {
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .container {
+    .formsContainer {
+      form {
+      }
     }
   }
 }

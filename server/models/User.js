@@ -41,6 +41,12 @@ const UserSchema = new mongoose.Schema({
   },
   links: {
     type: Array,
+    default: [
+      { name: "GitHub", link: "" },
+      { name: "Twitter", link: "" },
+      { name: "LinkeIn", link: "" },
+      { name: "Portfolio", link: "" },
+    ],
   },
   skills: {
     type: Array,
