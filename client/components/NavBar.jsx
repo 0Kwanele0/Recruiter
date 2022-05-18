@@ -62,6 +62,7 @@ function NavBar() {
   function goHome() {
     mobileMenu.current.style.display = "none";
     setMobileMenuOpened(false);
+    setThemenu(emenu);
     router.push("/");
   }
 

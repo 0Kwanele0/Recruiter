@@ -87,9 +87,7 @@ function Profile() {
                 <a className={mystyles.resumelink} href={resumeLink}>
                   Download resume
                 </a>
-              ) : (
-                <button>Upload Resume</button>
-              )}
+              ) : null}
               <a href={emailLink}>Send Email</a>
             </div>
           </section>
