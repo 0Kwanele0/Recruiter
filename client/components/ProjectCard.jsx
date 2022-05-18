@@ -7,7 +7,7 @@ function ProjectCard(props) {
         <h3 className={styles.header}>{props.title}</h3>
         <p>{props.description}</p>
       </div>
-      <a href={props.link} target="_blank">
+      <a href={props.link} rel="noreferrer" target="_blank">
         View
       </a>
     </div>

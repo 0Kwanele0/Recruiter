@@ -43,8 +43,8 @@ function Home() {
         <div className={styles.title}>
           <h2>Advanced Filters</h2>
           <p>
-            Our search filters allows you to go straight to what you're looking
-            for
+            Our search filters allows you to go straight to what you`&apos;`re
+            looking for
           </p>
         </div>
         <div className={styles.cards}>
@@ -55,8 +55,8 @@ function Home() {
             </div>
             <h3>Easly filter to see only local talent.</h3>
             <p>
-              You want to see only local talent? We've got you , just filter by
-              lacation.
+              You want to see only local talent? We`&apos;`ve got you , just
+              filter by lacation.
             </p>
           </div>
           <div className={styles.card}>
@@ -77,8 +77,8 @@ function Home() {
             </div>
             <h3>Serach directly the type of developers you need</h3>
             <p>
-              Let's you're looking for Mobile developers only; you can easly
-              filter to display only Mobile devs.
+              Let`&apos;`s you`&apos;`re looking for Mobile developers only; you
+              can easly filter to display only Mobile devs.
             </p>
           </div>
         </div>

@@ -155,7 +155,7 @@ function Login() {
             <Link href="/resetpassword">Forgot password?</Link>
 
             <p className={styles.referParagraph}>
-              You don't have an account?{" "}
+              You don`&apos;`t have an account?{" "}
               <span>
                 <Link href="/register">Register here</Link>
               </span>

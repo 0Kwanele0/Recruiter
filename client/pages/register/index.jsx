@@ -445,7 +445,7 @@ function Index() {
                   {checkboxError ? <small>Please select one!</small> : null}
                 </div>
                 {responseError ? <small>{responseError}</small> : null}
-                {error ? <small>Passwords don't match!</small> : null}
+                {error ? <small>Passwords don`&apos;`t match!</small> : null}
                 <button type="submit">
                   {developerCheckbox ? "Next" : "Register"}{" "}
                 </button>
@@ -462,7 +462,7 @@ function Index() {
                         Select Field <span>e.g Web Developer..</span>
                       </p>
                     )}
-                    <Image src={plus} width={20} height={20} />
+                    <Image src={plus} width={20} height={20} alt="plus" />
                   </div>
                   {fieldlist && (
                     <div ref={fieldList} className={regstyles.list}>
@@ -509,7 +509,7 @@ function Index() {
                         Experience <span>e.g 3 Years..</span>
                       </p>
                     )}
-                    <Image src={plus} width={20} height={20} />
+                    <Image src={plus} width={20} height={20} alt="plus" />
                   </div>
                   {exlist && (
                     <div ref={experience} className={regstyles.list}>
@@ -548,7 +548,7 @@ function Index() {
                 className={regstyles.links}
               >
                 <div className={regstyles.file}>
-                  <Image src={avater} width={40} height={40} />
+                  <Image src={avater} width={40} height={40} alt="avatar" />
                   <label>Upload a profile pic</label>
                   <input
                     onChange={changeImage}
@@ -560,7 +560,7 @@ function Index() {
                   />
                 </div>
                 <div className={regstyles.file}>
-                  <Image src={file} width={40} height={40} />
+                  <Image src={file} width={40} height={40} alt="file" />
                   <label>Upload Your Resume</label>
                   <input
                     onChange={changeResume}
@@ -572,7 +572,7 @@ function Index() {
                   />
                 </div>
                 <div className={regstyles.skillsfield}>
-                  <Image src={github} width={30} height={30} />
+                  <Image src={github} width={30} height={30} alt="github" />
                   <input
                     value={githubLink}
                     onChange={changeLink}
@@ -582,7 +582,7 @@ function Index() {
                   />
                 </div>
                 <div className={regstyles.skillsfield}>
-                  <Image src={linkedin} width={30} height={30} />
+                  <Image src={linkedin} width={30} height={30} alt="linkedin" />
                   <input
                     value={linkedinLink}
                     onChange={changeLink}
@@ -592,7 +592,7 @@ function Index() {
                   />
                 </div>
                 <div className={regstyles.skillsfield}>
-                  <Image src={twitter} width={30} height={30} />
+                  <Image src={twitter} width={30} height={30} alt="twitter" />
                   <input
                     value={twitterLink}
                     onChange={changeLink}
@@ -602,7 +602,7 @@ function Index() {
                   />
                 </div>
                 <div className={regstyles.skillsfield}>
-                  <Image src={internet} width={30} height={30} />
+                  <Image src={internet} width={30} height={30} alt="internet" />
                   <input
                     value={portfolioLink}
                     onChange={changeLink}

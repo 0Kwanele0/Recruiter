@@ -205,7 +205,12 @@ function MyProfile() {
                     links.map((item, index) => {
                       if (item.link.length > 0) {
                         return (
-                          <a key={index} href={item.link} target="_blank">
+                          <a
+                            key={index}
+                            href={item.link}
+                            rel="noreferrer"
+                            target="_blank"
+                          >
                             <li>{item.name}</li>
                           </a>
                         );

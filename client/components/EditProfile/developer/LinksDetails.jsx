@@ -56,7 +56,7 @@ function LinksDetails(props) {
   return (
     <form className={styles.form} action="submit" onSubmit={saveLinks}>
       <div className={styles.skillsfield}>
-        <Image src={github} width={40} height={40} />
+        <Image src={github} width={40} height={40} alt="github" />
         <input
           value={githubLink}
           onChange={changeLinks}
@@ -66,7 +66,7 @@ function LinksDetails(props) {
         />
       </div>
       <div className={styles.skillsfield}>
-        <Image src={linkedin} width={40} height={40} />
+        <Image src={linkedin} width={40} height={40} alt="linkedin" />
         <input
           value={linkedinLink}
           onChange={changeLinks}
@@ -76,7 +76,7 @@ function LinksDetails(props) {
         />
       </div>
       <div className={styles.skillsfield}>
-        <Image src={twitter} width={40} height={40} />
+        <Image src={twitter} width={40} height={40} alt="twitter" />
         <input
           value={twitterLink}
           onChange={changeLinks}
@@ -86,7 +86,7 @@ function LinksDetails(props) {
         />
       </div>
       <div className={styles.skillsfield}>
-        <Image src={internet} width={40} height={40} />
+        <Image src={internet} width={40} height={40} alt="internet" />
         <input
           value={portfolioLink}
           onChange={changeLinks}
