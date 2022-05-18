@@ -135,7 +135,7 @@ function SkillsDetails(props) {
         )}
       </div>
       <div className={mystyles.addSkills}>
-        <form className={mystyles.skillInput}>
+        <div className={mystyles.skillInput}>
           <input
             placeholder="Type you skill e.g React"
             type="text"
@@ -149,7 +149,7 @@ function SkillsDetails(props) {
           <button onClick={addSkill} className={mystyles.addSkillsBtn}>
             Add
           </button>
-        </form>
+        </div>
       </div>
       <div className={mystyles.displaySkills}>
         {userSkills &&

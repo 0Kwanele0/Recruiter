@@ -71,7 +71,7 @@ function PersonalDetails(props) {
 
   return (
     <form
-      enctype="multipart/form-data"
+      encType="multipart/form-data"
       className={mystyles.form}
       onSubmit={saveDetails}
       action="submit"
