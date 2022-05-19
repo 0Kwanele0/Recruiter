@@ -13,6 +13,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { listedCategories, experienceList } from "../../data/Lists";
 import { Countries } from "../../data/Countries";
+import { supabase } from "../../data/supabaseClient";
 
 function Index() {
   const router = useRouter();
