@@ -10,11 +10,11 @@
       justify-content: space-between;
       margin-top: 20px;
       input {
-        border-radius: 12px;
+        border-radius: 4px;
         font-size: 18px;
         outline: none;
         color: white;
-        padding: 8px 8px;
+        padding: 8px;
         background-color: transparent;
         border: 2px solid white;
         width: 50%;
@@ -32,7 +32,7 @@
         background-color: dodgerblue;
         border: none;
         color: white;
-        border-radius: 12px;
+        border-radius: 4px;
         width: 25%;
         cursor: pointer;
         transition: all 0.2s ease;
@@ -52,5 +52,23 @@
     justify-content: center;
     gap: 40px;
     flex-wrap: wrap;
+  }
+}
+
+@media screen and (max-width: 730px) {
+  .container {
+    .filter {
+      width: 100%;
+      form {
+        width: 100%;
+        gap: 4px;
+        input {
+          border-radius: 2px;
+        }
+        button {
+          border-radius: 2px;
+        }
+      }
+    }
   }
 }

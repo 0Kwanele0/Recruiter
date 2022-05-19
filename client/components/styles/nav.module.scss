@@ -85,7 +85,7 @@
       padding: 0;
       display: none;
       justify-content: flex-end;
-      gap: 10px;
+      gap: 25px;
       align-items: center;
       p {
         cursor: pointer;
@@ -94,7 +94,7 @@
         text-decoration: none;
         font-family: inherit;
         color: aliceblue;
-        font-size: 17px;
+        font-size: 22px;
         font-weight: 500;
         transition: all 0.2s ease;
         white-space: nowrap;
@@ -107,7 +107,7 @@
       .miniNav {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 25px;
         .icon {
           cursor: pointer;
           width: 100%;

@@ -82,7 +82,7 @@ function Index() {
   return (
     <div className={styles.container}>
       <form onSubmit={onSubmit}>
-        {done && <p>We`&apos;`ve sent your a link via email</p>}
+        {done && <p>We&apos;ve sent your a link via email</p>}
         <input
           onChange={(e) => {
             setEmail(e.target.value);

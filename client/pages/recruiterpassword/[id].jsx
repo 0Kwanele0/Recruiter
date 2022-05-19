@@ -58,7 +58,7 @@ function Index() {
           type="text"
           placeholder="Confirm password"
         />
-        {passwordError && <small>Passwords don`&apos;`t match</small>}
+        {passwordError && <small>Passwords don&apos;t match</small>}
         <button>Reset password</button>
       </form>
     </div>

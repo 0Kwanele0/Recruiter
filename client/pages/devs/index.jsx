@@ -3,39 +3,39 @@ import { useEffect, useState } from "react";
 import ProfileCard from "../../components/ProfileCard";
 import { useRouter } from "next/router";
 
-function Devs() {
+function Devs({ mydata }) {
   const router = useRouter();
-  const [data, setData] = useState();
+  const [data, setData] = useState(mydata);
   const [filteredData, setFilteredData] = useState();
 
   //filter states
   const [country, setCountry] = useState("");
   const [field, setField] = useState("");
 
-  async function fetchUsers() {
-    const details = localStorage.getItem("recruiter-x-auth-token");
-    const token = JSON.parse(details);
+  // async function fetchUsers() {
+  //   const details = localStorage.getItem("recruiter-x-auth-token");
+  //   const token = JSON.parse(details);
 
-    fetch(`${process.env.SERVER}/user/`, {
-      method: "GET",
-    }).then(async (user) => {
-      if (user.status === 200) {
-        const data = await user.json();
-        const filtered = data.filter((item) => {
-          if (token) {
-            if (item._id !== token.user._id) {
-              return item;
-            }
-            return;
-          }
-          return item;
-        });
-        setData(filtered);
-      } else {
-        router.push("/login");
-      }
-    });
-  }
+  //   fetch(`${process.env.SERVER}/user/`, {
+  //     method: "GET",
+  //   }).then(async (user) => {
+  //     if (user.status === 200) {
+  //       const data = await user.json();
+  //       const filtered = data.filter((item) => {
+  //         if (token) {
+  //           if (item._id !== token.user._id) {
+  //             return item;
+  //           }
+  //           return;
+  //         }
+  //         return item;
+  //       });
+  //       setData(filtered);
+  //     } else {
+  //       router.push("/login");
+  //     }
+  //   });
+  // }
 
   function filterInputsChanging(e) {
     switch (e.target.name) {
@@ -90,7 +90,19 @@ function Devs() {
   }
 
   useEffect(() => {
-    fetchUsers();
+    const details = localStorage.getItem("recruiter-x-auth-token");
+    const token = JSON.parse(details);
+
+    const filtered = data.filter((item) => {
+      if (token) {
+        if (item._id !== token.user._id) {
+          return item;
+        }
+        return;
+      }
+      return item;
+    });
+    setData(filtered);
   }, []);
 
   return (
@@ -161,3 +173,21 @@ function Devs() {
 }
 
 export default Devs;
+
+export const getServerSideProps = async () => {
+  // const details = localStorage.getItem("recruiter-x-auth-token");
+  // const token = JSON.parse(details);
+
+  const mydata = await fetch(`${process.env.SERVER}/user/`, {
+    method: "GET",
+  }).then(async (user) => {
+    const data = await user.json();
+    return data;
+  });
+
+  return {
+    props: {
+      mydata,
+    },
+  };
+};

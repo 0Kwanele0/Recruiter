@@ -445,7 +445,7 @@ function Index() {
                   {checkboxError ? <small>Please select one!</small> : null}
                 </div>
                 {responseError ? <small>{responseError}</small> : null}
-                {error ? <small>Passwords don`&apos;`t match!</small> : null}
+                {error ? <small>Passwords don&apos;t match!</small> : null}
                 <button type="submit">
                   {developerCheckbox ? "Next" : "Register"}{" "}
                 </button>
