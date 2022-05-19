@@ -9,21 +9,6 @@ const nodemailer = require("nodemailer");
 require("dotenv").config({ path: "../vars/.env" });
 var CryptoJS = require("crypto-js");
 
-const Storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    if (file.fieldname === "profilephoto") {
-      cb(null, "../client/public/uploads/profilephotos");
-    }
-    if (file.fieldname === "resume") {
-      cb(null, "../client/public/uploads/resumes");
-    }
-  },
-  filename: (req, file, cb) => {
-    cb(null, new Date().getMilliseconds() + file.originalname);
-  },
-});
-const upload = multer({ storage: Storage });
-
 router.get("/", async (req, res) => {
   const users = await UserModel.find();
   const filtered = users.map((item) => {
@@ -160,29 +145,21 @@ router.put("/details/:id", authorize, (req, res) => {
   });
 });
 
-router.put(
-  "/links/:id",
-  authorize,
-  upload.fields([
-    { name: "profilephoto", maxCount: 1 },
-    { name: "resume", maxCount: 1 },
-  ]),
-  (req, res) => {
-    UserModel.findByIdAndUpdate(req.params.id, {
-      $set: {
-        profilephoto: req.files.profilephoto[0].filename,
-        myresume: req.files.resume[0].filename,
-        links: JSON.parse(req.body.links),
-      },
-    }).then((value) => {
-      if (value) {
-        res.send(value);
-      } else {
-        res.status(404).send("no user");
-      }
-    });
-  }
-);
+router.put("/links/:id", authorize, (req, res) => {
+  UserModel.findByIdAndUpdate(req.params.id, {
+    $set: {
+      profilephoto: req.body.profilephoto,
+      myresume: req.body.resume,
+      links: req.body.links,
+    },
+  }).then((value) => {
+    if (value) {
+      res.send(value);
+    } else {
+      res.status(404).send("no user");
+    }
+  });
+});
 
 //Add links without image
 router.put("/links/:id", authorize, (req, res) => {
@@ -228,10 +205,7 @@ router.put("/skillsedit/:id", authorize, (req, res) => {
 router.put(
   "/detailsedit/:id",
   authorize,
-  upload.fields([
-    { name: "profilephoto", maxCount: 1 },
-    { name: "resume", maxCount: 1 },
-  ]),
+
   async (req, res) => {
     const user = await UserModel.findById(req.params.id);
 
@@ -241,12 +215,9 @@ router.put(
       user.country = req.body.country;
       user.city = req.body.city;
       user.bio = req.body.bio;
-      if (req.files.resume) {
-        user.myresume = req.files.resume[0].filename;
-      }
-      if (req.files.profilephoto) {
-        user.profilephoto = req.files.profilephoto[0].filename;
-      }
+      user.myresume = req.body.resume;
+      user.profilephoto = req.body.profilephoto;
+
       user.save().then((savedDoc) => {
         res.status(200).send(savedDoc);
       });

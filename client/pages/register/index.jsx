@@ -48,8 +48,8 @@ function Index() {
   const [twitterLink, setTwitterLink] = useState("");
   const [linkedinLink, setLinkedinLink] = useState("");
   const [portfolioLink, setPortfolioLink] = useState("");
-  const [imageLink, setImageLink] = useState("");
-  const [resume, setResume] = useState("");
+  const [imageLink, setImageLink] = useState();
+  const [resume, setResume] = useState();
   const [detailsResponseError, setDetailsResponseError] = useState();
   const [typedSkill, setTypedSkill] = useState("");
   const [linksResponseError, setLinksResponseError] = useState();
@@ -195,7 +195,6 @@ function Index() {
         category: selectedCategory,
         experience: selectedExperience,
       };
-
       fetch(`${process.env.SERVER}/user/details/${user.user._id}`, {
         method: "PUT",
         headers: {
@@ -221,9 +220,8 @@ function Index() {
     }
   }
 
-  function submitLinks(e) {
+  async function submitLinks(e) {
     e.preventDefault();
-
     const links = [
       { name: "GitHub", link: githubLink },
       { name: "Twitter", link: twitterLink },
@@ -231,26 +229,115 @@ function Index() {
       { name: "Portfolio", link: portfolioLink },
     ];
 
-    const formData = new FormData();
-    formData.append("profilephoto", imageLink);
-    formData.append("resume", resume);
-    formData.append("links", JSON.stringify(links));
-    console.log(formData);
-    fetch(`${process.env.SERVER}/user/links/${user.user._id}`, {
-      method: "PUT",
-      headers: {
-        "recruiter-x-auth-token": token,
-      },
-      body: formData,
-    }).then(async (data) => {
-      const response = await data.json();
-      if (data.status == 200) {
-        router.push("/devs");
-        router.reload();
-      } else if (data.status == 401) {
-      } else {
-      }
-    });
+    if (imageLink && resume) {
+      //////
+      console.log("Both image and resume");
+      const imageName = `avatars/${user.user._id}pp.png`;
+      const resumeName = `resumes/${user.user._id}res.pdf`;
+
+      const { imgdata, imgerror } = await supabase.storage
+        .from("main")
+        .upload(imageName, imageLink);
+
+      const { resumedata, resumeerror } = await supabase.storage
+        .from("main")
+        .upload(resumeName, resume);
+
+      const formData = {
+        resume: resumeName,
+        profilephoto: imageName,
+        links: links,
+      };
+
+      fetch(`${process.env.SERVER}/user/links/${user.user._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "Application/Json",
+          "recruiter-x-auth-token": token,
+        },
+        body: JSON.stringify(formData),
+      }).then(async (data) => {
+        const response = await data.json();
+        if (data.status == 200) {
+          router.reload();
+        } else if (data.status == 401) {
+        } else {
+        }
+      });
+    } else if (imageLink && !resume) {
+      /////
+      console.log("Only image");
+
+      const imageName = `avatars/${user.user._id}pp.png`;
+
+      const { imgdata, imgerror } = await supabase.storage
+        .from("main")
+        .upload(imageName, imageLink);
+
+      const formData = { profilephoto: imageName, links: links };
+
+      fetch(`${process.env.SERVER}/user/links/${user.user._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "Application/Json",
+          "recruiter-x-auth-token": token,
+        },
+        body: JSON.stringify(formData),
+      }).then(async (data) => {
+        const response = await data.json();
+        if (data.status == 200) {
+          router.reload();
+        } else if (data.status == 401) {
+        } else {
+        }
+      });
+    } else if (resume && !imageLink) {
+      ////
+      console.log("Only resume");
+
+      const resumeName = `resumes/${user.user._id}res.pdf`;
+      const { resumedata, imgerror } = await supabase.storage
+        .from("main")
+        .upload(resumeName, resume);
+
+      const formData = { resume: resumeName, links: links };
+
+      fetch(`${process.env.SERVER}/user/links/${user.user._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "Application/Json",
+          "recruiter-x-auth-token": token,
+        },
+        body: JSON.stringify(formData),
+      }).then(async (data) => {
+        const response = await data.json();
+        if (data.status == 200) {
+          router.reload();
+        } else if (data.status == 401) {
+        } else {
+        }
+      });
+    } else {
+      ///
+      console.log("Neither image nor resume");
+
+      const formData = { links: links };
+      fetch(`${process.env.SERVER}/user/links/${user.user._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "Application/Json",
+          "recruiter-x-auth-token": token,
+        },
+        body: JSON.stringify(formData),
+      }).then(async (data) => {
+        const response = await data.json();
+        if (data.status == 200) {
+          router.reload();
+        } else if (data.status == 401) {
+        } else {
+        }
+      });
+    }
   }
 
   async function registerUser(data) {
@@ -294,7 +381,6 @@ function Index() {
             JSON.stringify(response)
           );
           router.reload();
-          router.push("/devs");
         } else if (data.status == 401) {
           setRecponseError(response.msg);
         } else {

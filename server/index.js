@@ -20,6 +20,6 @@ mongoose.connect(process.env.MONGO_URL, {}, (err) => {
 App.use("/user/", routes);
 App.use("/recruiter/", recruiterRouter);
 
-App.listen(process.env.PORT || 3001, () => {
+App.listen(3001, () => {
   console.log("Server Running...");
 });
