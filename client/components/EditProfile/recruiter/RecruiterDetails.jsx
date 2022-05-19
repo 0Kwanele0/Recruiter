@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 import styles from "../styles/editProfile.module.scss";
+import { Countries } from "../../../data/Countries";
 
 function RecruiterDetails(props) {
   const [firstname, setFirstname] = useState(props.user.firstname);
@@ -8,6 +9,7 @@ function RecruiterDetails(props) {
   const [city, setCity] = useState(props.user.city);
   const [country, setCountry] = useState(props.user.country);
   const router = useRouter();
+  const [displayCountries, setDisplayCountries] = useState(false);
 
   function changingValues(e) {
     switch (e.target.name) {
@@ -18,12 +20,16 @@ function RecruiterDetails(props) {
         setLastname(e.target.value);
         return;
       case "country":
-        setCountry(e.target.value);
         return;
       case "city":
         setCity(e.target.value);
         return;
     }
+  }
+
+  function CountrySelected(e) {
+    setCountry(e.target.innerText);
+    setDisplayCountries(false);
   }
 
   function saveDetails(e) {
@@ -101,11 +107,25 @@ function RecruiterDetails(props) {
         <div className={styles.inputAndLabel}>
           <label htmlFor="">Country</label>
           <input
+            onClick={(e) => {
+              setDisplayCountries(!displayCountries);
+            }}
             value={country}
             onChange={changingValues}
             name="country"
             type="text"
           />
+          {displayCountries && (
+            <ul>
+              {Countries.map((item, index) => {
+                return (
+                  <li onClick={CountrySelected} key={index}>
+                    {item.name}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
         </div>
       </div>
       <button type="submit">Save</button>
