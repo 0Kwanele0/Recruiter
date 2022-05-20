@@ -110,8 +110,6 @@ function MyProfile() {
               console.log(error.message);
             }
           } else if (userdata.profilephoto && userdata.myresume) {
-            console.log("pp & res");
-            console.log(userdata.myresume);
             try {
               const { data, error } = await supabase.storage
                 .from("main")
@@ -119,7 +117,6 @@ function MyProfile() {
               if (error) {
                 throw error;
               } else {
-                console.log(data);
                 setResumeLink(URL.createObjectURL(data));
               }
             } catch (error) {
@@ -137,7 +134,6 @@ function MyProfile() {
               console.log(error.message);
             }
           } else if (!userdata.profilephoto && userdata.myresume) {
-            console.log("no pp & res");
             try {
               const { data, error } = await supabase.storage
                 .from("main")

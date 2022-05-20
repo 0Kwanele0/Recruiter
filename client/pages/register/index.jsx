@@ -16,6 +16,8 @@ import { Countries } from "../../data/Countries";
 import { supabase } from "../../data/supabaseClient";
 
 function Index() {
+  const [loading, setLoading] = useState(false);
+
   const router = useRouter();
   const [notLoggedIn, setNotLoggedIn] = useState(false);
   const [registering, setRegistering] = useState(true);
@@ -195,6 +197,7 @@ function Index() {
         category: selectedCategory,
         experience: selectedExperience,
       };
+      setLoading(true);
       fetch(`${process.env.SERVER}/user/details/${user.user._id}`, {
         method: "PUT",
         headers: {
@@ -209,9 +212,12 @@ function Index() {
           setRegistering(false);
           setdetails(false);
           setlinks(true);
+          setLoading(false);
         } else if (data.status == 401) {
+          setLoading(false);
           setDetailsError("kaka");
         } else {
+          setLoading(false);
           setDetailsError("kaka");
         }
       });
@@ -245,9 +251,10 @@ function Index() {
 
       const formData = {
         resume: resumeName,
-        profilephoto:imageName,
+        profilephoto: imageName,
         links: links,
       };
+      setLoading(true);
 
       fetch(`${process.env.SERVER}/user/links/${user.user._id}`, {
         method: "PUT",
@@ -259,9 +266,13 @@ function Index() {
       }).then(async (data) => {
         const response = await data.json();
         if (data.status == 200) {
+          setLoading(false);
+
           router.reload();
         } else if (data.status == 401) {
+          setLoading(false);
         } else {
+          setLoading(false);
         }
       });
     } else if (imageLink && !resume) {
@@ -275,6 +286,7 @@ function Index() {
         .upload(imageName, imageLink);
 
       const formData = { profilephoto: imageName, links: links };
+      setLoading(true);
 
       fetch(`${process.env.SERVER}/user/links/${user.user._id}`, {
         method: "PUT",
@@ -286,9 +298,13 @@ function Index() {
       }).then(async (data) => {
         const response = await data.json();
         if (data.status == 200) {
+          setLoading(false);
+
           router.reload();
         } else if (data.status == 401) {
+          setLoading(false);
         } else {
+          setLoading(false);
         }
       });
     } else if (resume && !imageLink) {
@@ -301,6 +317,7 @@ function Index() {
         .upload(resumeName, resume);
 
       const formData = { resume: resumeName, links: links };
+      setLoading(true);
 
       fetch(`${process.env.SERVER}/user/links/${user.user._id}`, {
         method: "PUT",
@@ -312,9 +329,13 @@ function Index() {
       }).then(async (data) => {
         const response = await data.json();
         if (data.status == 200) {
+          setLoading(false);
+
           router.reload();
         } else if (data.status == 401) {
+          setLoading(false);
         } else {
+          setLoading(false);
         }
       });
     } else {
@@ -322,6 +343,8 @@ function Index() {
       console.log("Neither image nor resume");
 
       const formData = { links: links };
+      setLoading(true);
+
       fetch(`${process.env.SERVER}/user/links/${user.user._id}`, {
         method: "PUT",
         headers: {
@@ -332,9 +355,13 @@ function Index() {
       }).then(async (data) => {
         const response = await data.json();
         if (data.status == 200) {
+          setLoading(false);
+
           router.reload();
         } else if (data.status == 401) {
+          setLoading(false);
         } else {
+          setLoading(false);
         }
       });
     }
@@ -343,6 +370,8 @@ function Index() {
   async function registerUser(data) {
     data.country = country;
     if (developerCheckbox) {
+      setLoading(true);
+
       fetch(`${process.env.SERVER}/user/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -360,13 +389,18 @@ function Index() {
           setRegistering(false);
           setdetails(true);
           setlinks(false);
+          setLoading(false);
         } else if (data.status == 401) {
+          setLoading(false);
           setRecponseError(response.msg);
         } else {
+          setLoading(false);
           setRecponseError(response.msg);
         }
       });
     } else if (recruiterCheckbox) {
+      setLoading(true);
+
       fetch(`${process.env.SERVER}/recruiter/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -374,6 +408,8 @@ function Index() {
       }).then(async (data) => {
         const response = await data.json();
         if (data.status == 200) {
+          setLoading(false);
+
           setRecponseError();
           setUser(response);
           localStorage.setItem(
@@ -382,8 +418,10 @@ function Index() {
           );
           router.reload();
         } else if (data.status == 401) {
+          setLoading(false);
           setRecponseError(response.msg);
         } else {
+          setLoading(false);
           setRecponseError(response.msg);
         }
       });
@@ -534,7 +572,13 @@ function Index() {
                 {responseError ? <small>{responseError}</small> : null}
                 {error ? <small>Passwords don&apos;t match!</small> : null}
                 <button type="submit">
-                  {developerCheckbox ? "Next" : "Register"}{" "}
+                  {developerCheckbox
+                    ? loading
+                      ? "Loading..."
+                      : "Next"
+                    : loading
+                    ? "Loading..."
+                    : "Register"}{" "}
                 </button>
               </form>
             )}
@@ -622,7 +666,7 @@ function Index() {
                   required={true}
                 ></textarea>
                 {detailsError ? <small>{detailsError}</small> : null}
-                <button type="submit">Next</button>
+                <button type="submit">{loading ? "Loading..." : "Next"}</button>
                 {detailsResponseError ? (
                   <small>{detailsResponseError}</small>
                 ) : null}
@@ -698,7 +742,9 @@ function Index() {
                     type="text"
                   />
                 </div>
-                <button type="submit">Submit</button>
+                <button type="submit">
+                  {loading ? "Loading..." : "Submit"}
+                </button>
                 {linksResponseError ? (
                   <small>{linksResponseError}</small>
                 ) : null}

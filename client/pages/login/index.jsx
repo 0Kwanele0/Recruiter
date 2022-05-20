@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 function Login() {
+  const [loading, setLoading] = useState(false);
+
   const router = useRouter();
   const [notLoggedIn, setNotLoggedIn] = useState(false);
   const [responseError, setRecponseError] = useState();
@@ -55,6 +57,7 @@ function Login() {
 
   const onSubmit = (data) => {
     if (developerCheckbox) {
+      setLoading(true);
       fetch(`${process.env.SERVER}/user/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -66,13 +69,18 @@ function Login() {
             "recruiter-x-auth-token",
             JSON.stringify(response)
           );
-          router.push("/devs");
+          setLoading(false);
+
+          router.reload();
           setRecponseError();
         } else {
+          setLoading(false);
           setRecponseError(response.msg);
         }
       });
     } else if (recruiterCheckbox) {
+      setLoading(true);
+
       fetch(`${process.env.SERVER}/recruiter/login`, {
         method: "POST",
         headers: { "Content-Type": "Application/json" },
@@ -84,9 +92,12 @@ function Login() {
             "recruiter-x-auth-token",
             JSON.stringify(response)
           );
+          setLoading(false);
+
           setRecponseError();
-          router.push("/devs");
+          router.reload();
         } else {
+          setLoading(false);
           setRecponseError(response.msg);
         }
       });
@@ -98,8 +109,7 @@ function Login() {
   useEffect(() => {
     const token = localStorage.getItem("recruiter-x-auth-token");
     if (token) {
-      router.reload();
-      router.push("/devs");
+      router.push("/developerprofile");
     } else {
       setNotLoggedIn(true);
     }
@@ -149,7 +159,7 @@ function Login() {
               </div>
               {checkboxError ? <small>Please select one!</small> : null}
             </div>
-            <button type="submit">Login</button>
+            <button type="submit">{loading ? "Loading..." : "Login"}</button>
             {responseError ? <small>{responseError}</small> : null}
 
             <Link href="/resetpassword">Forgot password?</Link>
