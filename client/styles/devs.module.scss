@@ -4,6 +4,8 @@
   align-items: center;
   gap: 40px;
   .filter {
+    width: 100%;
+    max-width: 800px;
     form {
       display: flex;
       gap: 15px;
@@ -13,6 +15,7 @@
         width: 50%;
         position: relative;
         ul {
+          margin-top: 2px;
           z-index: 30;
           width: 100%;
           max-height: 200px;
@@ -53,16 +56,27 @@
             }
           }
         }
-        input {
+        .input {
           border-radius: 4px;
           font-size: 18px;
           outline: none;
+          width: 100%;
           color: white;
           padding: 8px;
           background-color: transparent;
-          border: 2px solid white;
+          border: 1px solid white;
           cursor: pointer;
           transition: all 0.2s ease;
+          p {
+            margin: 0;
+            font-weight: 500;
+            color: #babacabe;
+          }
+          h4 {
+            margin: 0;
+            font-weight: 300;
+            color: #ffffff;
+          }
           &:hover {
             border-color: rgb(123, 109, 201);
           }
@@ -111,7 +125,7 @@
         flex-wrap: wrap;
         .inputContainer {
           width: 100%;
-          input {
+          .nput {
             width: 100%;
             border-radius: 2px;
           }

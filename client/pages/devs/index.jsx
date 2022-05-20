@@ -97,18 +97,15 @@ function Devs({ mydata }) {
           <section className={styles.filter}>
             <form autoComplete="off" onSubmit={filter} action="submit">
               <div className={styles.inputContainer}>
-                <input
+                <div
+                  className={styles.input}
                   onClick={(e) => {
                     setDisplayCountries(!displayCountries);
                     setSelectCategory(false);
                   }}
-                  autoComplete={false}
-                  value={country}
-                  onChange={filterInputsChanging}
-                  name="country"
-                  placeholder="Location"
-                  type="text"
-                />
+                >
+                  {country ? <h4>{country} </h4> : <p>Country</p>}
+                </div>
                 {displayCountries && (
                   <ul>
                     {Countries.map((item, index) => {
@@ -122,17 +119,15 @@ function Devs({ mydata }) {
                 )}
               </div>
               <div className={styles.inputContainer}>
-                <input
-                  value={field}
+                <div
+                  className={styles.input}
                   onClick={() => {
                     setSelectCategory(!selectCategory);
                     setDisplayCountries(false);
                   }}
-                  onChange={filterInputsChanging}
-                  name="field"
-                  placeholder="Skill"
-                  type="text"
-                />
+                >
+                  {field ? <h4>{field} </h4> : <p>Skill</p>}
+                </div>
                 {selectCategory && (
                   <ul>
                     {listedCategories.map((item, index) => {
