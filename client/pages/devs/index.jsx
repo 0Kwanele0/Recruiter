@@ -95,7 +95,7 @@ function Devs({ mydata }) {
       {data ? (
         <div className={styles.container}>
           <section className={styles.filter}>
-            <form autocomplete="off" onSubmit={filter} action="submit">
+            <form autoComplete="off" onSubmit={filter} action="submit">
               <div className={styles.inputContainer}>
                 <input
                   onClick={(e) => {
