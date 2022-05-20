@@ -2,48 +2,33 @@ import styles from "../../styles/devs.module.scss";
 import { useEffect, useState } from "react";
 import ProfileCard from "../../components/ProfileCard";
 import { useRouter } from "next/router";
-
+import { Countries } from "../../data/Countries";
+import { listedCategories } from "../../data/Lists";
 function Devs({ mydata }) {
   const router = useRouter();
   const [data, setData] = useState(mydata);
   const [filteredData, setFilteredData] = useState();
+  const [displayCountries, setDisplayCountries] = useState(false);
+  const [selectCategory, setSelectCategory] = useState(false);
 
   //filter states
   const [country, setCountry] = useState("");
   const [field, setField] = useState("");
 
-  // async function fetchUsers() {
-  //   const details = localStorage.getItem("recruiter-x-auth-token");
-  //   const token = JSON.parse(details);
-
-  //   fetch(`${process.env.SERVER}/user/`, {
-  //     method: "GET",
-  //   }).then(async (user) => {
-  //     if (user.status === 200) {
-  //       const data = await user.json();
-  //       const filtered = data.filter((item) => {
-  //         if (token) {
-  //           if (item._id !== token.user._id) {
-  //             return item;
-  //           }
-  //           return;
-  //         }
-  //         return item;
-  //       });
-  //       setData(filtered);
-  //     } else {
-  //       router.push("/login");
-  //     }
-  //   });
-  // }
+  function CountrySelected(e) {
+    setCountry(e.target.innerText);
+    setDisplayCountries(false);
+  }
+  function CategorySelected(e) {
+    setField(e.target.innerText);
+    setSelectCategory(false);
+  }
 
   function filterInputsChanging(e) {
     switch (e.target.name) {
       case "country":
-        setCountry(e.target.value);
         return;
       case "field":
-        setField(e.target.value);
         return;
     }
   }
@@ -110,21 +95,56 @@ function Devs({ mydata }) {
       {data ? (
         <div className={styles.container}>
           <section className={styles.filter}>
-            <form onSubmit={filter} action="submit">
-              <input
-                value={country}
-                onChange={filterInputsChanging}
-                name="country"
-                placeholder="Location"
-                type="text"
-              />
-              <input
-                value={field}
-                onChange={filterInputsChanging}
-                name="field"
-                placeholder="Field"
-                type="text"
-              />
+            <form autocomplete="off" onSubmit={filter} action="submit">
+              <div className={styles.inputContainer}>
+                <input
+                  onClick={(e) => {
+                    setDisplayCountries(!displayCountries);
+                    setSelectCategory(false);
+                  }}
+                  autoComplete={false}
+                  value={country}
+                  onChange={filterInputsChanging}
+                  name="country"
+                  placeholder="Location"
+                  type="text"
+                />
+                {displayCountries && (
+                  <ul>
+                    {Countries.map((item, index) => {
+                      return (
+                        <li onClick={CountrySelected} key={index}>
+                          {item.name}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </div>
+              <div className={styles.inputContainer}>
+                <input
+                  value={field}
+                  onClick={() => {
+                    setSelectCategory(!selectCategory);
+                    setDisplayCountries(false);
+                  }}
+                  onChange={filterInputsChanging}
+                  name="field"
+                  placeholder="Skill"
+                  type="text"
+                />
+                {selectCategory && (
+                  <ul>
+                    {listedCategories.map((item, index) => {
+                      return (
+                        <li onClick={CategorySelected} key={index}>
+                          {item}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </div>
               <button type="submit">Filter</button>
               <button onClick={resetFilter}>Reset</button>
             </form>
