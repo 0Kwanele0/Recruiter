@@ -3,12 +3,30 @@ import location from "../public/assets/icons/location.png";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { supabase } from "../data/supabaseClient";
 
 function ProfileCard(props) {
   const [link, setLink] = useState("");
-  const imglink = `/uploads/profilephotos/${props.photo}`;
+  const [imglink, setImgLink] = useState();
+  
+  async function photoDownloader() {
+    try {
+      const {data, error } = await supabase.storage
+        .from("main")
+        .download(`${props.photo}`);
+        if(error) throw error
+        else{
+          setImgLink(URL.createObjectURL(data))
+        }
+
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+    
 
   useEffect(() => {
+    photoDownloader();
     const token = localStorage.getItem("recruiter-x-auth-token");
     if (token) {
       setLink(`profile/${props.id}`);
@@ -23,13 +41,15 @@ function ProfileCard(props) {
         <div className={styles.top}>
           <section className={styles.profile}>
             <div className={styles.image}>
-              <Image
-                width={50}
-                height={50}
-                src={imglink}
-                alt=""
-                objectFit="cover"
-              />
+              {imglink && (
+                <Image
+                  width={50}
+                  height={50}
+                  src={imglink}
+                  alt=""
+                  objectFit="cover"
+                />
+              )}
             </div>
             <div className={styles.name}>
               <h3>{props.name}</h3>
