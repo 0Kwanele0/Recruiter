@@ -54,7 +54,6 @@ function Profile() {
             console.log(error.message);
           }
         } else if (userdata.profilephoto && userdata.myresume) {
-          console.log("pp & res");
           try {
             const { data, error } = await supabase.storage
               .from("main")
@@ -63,25 +62,29 @@ function Profile() {
             else {
               setImgLink(URL.createObjectURL(data));
             }
-            const { resdata, reserror } = await supabase.storage
+          } catch (error) {
+            console.log(error.message);
+          }
+          try {
+           
+            const { data, error } = await supabase.storage
               .from("main")
-              .download(`${data.myresume}`);
-            if (reserror) throw reserror;
+              .download(`${userdata.myresume}`);
+            if (error) throw error;
             else {
-              setResumeLink(URL.createObjectURL(resdata));
+              setResumeLink(URL.createObjectURL(data));
             }
           } catch (error) {
             console.log(error.message);
           }
         } else if (!userdata.profilephoto && userdata.myresume) {
-          console.log("no pp & res");
           try {
-            const { resdata, reserror } = await supabase.storage
+            const { data, error } = await supabase.storage
               .from("main")
               .download(`${userdata.myresume}`);
-            if (reserror) throw reserror;
+            if (error) throw error;
             else {
-              setResumeLink(URL.createObjectURL(resdata));
+              setResumeLink(URL.createObjectURL(data));
             }
           } catch (error) {
             console.log(error.message);
