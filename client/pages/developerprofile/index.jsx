@@ -12,13 +12,14 @@ import SkillsDetails from "../../components/EditProfile/developer/SkillsDetails"
 import LinksDetails from "../../components/EditProfile/developer/LinksDetails";
 import DeleteAccount from "../../components/EditProfile/developer/DeleteAccount";
 import AddProject from "../../components/EditProfile/developer/AddProject";
+import { supabase } from "../../data/supabaseClient";
 
 function MyProfile() {
   const [user, setUser] = useState();
   const [id, setId] = useState();
   const [emailLink, setEmailLink] = useState();
-  const [imgLink, setImgLink] = useState();
-  const [resumeLink, setResumeLink] = useState();
+  const [imgLink, setImgLink] = useState("");
+  const [resumeLink, setResumeLink] = useState("");
   const [links, setLinks] = useState([]);
   const profileEditor = useRef();
   const plusBtn = useRef();
@@ -90,15 +91,58 @@ function MyProfile() {
         },
       }).then(async (user) => {
         if (user.status === 200) {
-          const data = await user.json();
-          setUser(data);
-          setEmailLink(`mailto: ${data.email}`);
-          setImgLink(`/uploads/profilephotos/${data.profilephoto}`);
-          setResumeLink(`/uploads/resumes/${data.myresume}`);
-          if (data.links) {
-            setLinks(data.links);
+          const userdata = await user.json();
+          setUser(userdata);
+          setEmailLink(`mailto: ${userdata.email}`);
+          if (userdata.links) {
+            setLinks(userdata.links);
           }
-        } else {
+          if (userdata.profilephoto && !userdata.myresume) {
+            try {
+              const { data, error } = await supabase.storage
+                .from("main")
+                .download(`${userdata.profilephoto}`);
+              if (error) throw error;
+              else {
+                setImgLink(URL.createObjectURL(data));
+              }
+            } catch (error) {
+              console.log(error.message);
+            }
+          } else if (userdata.profilephoto && userdata.myresume) {
+            console.log("pp & res");
+            try {
+              const { data, error } = await supabase.storage
+                .from("main")
+                .download(`${userdata.profilephoto}`);
+              if (error) throw error;
+              else {
+                setImgLink(URL.createObjectURL(data));
+              }
+              const { resdata, reserror } = await supabase.storage
+                .from("main")
+                .download(`${data.myresume}`);
+              if (reserror) throw reserror;
+              else {
+                setResumeLink(URL.createObjectURL(resdata));
+              }
+            } catch (error) {
+              console.log(error.message);
+            }
+          } else if (!userdata.profilephoto && userdata.myresume) {
+            console.log("no pp & res");
+            try {
+              const { resdata, reserror } = await supabase.storage
+                .from("main")
+                .download(`${userdata.myresume}`);
+              if (reserror) throw reserror;
+              else {
+                setResumeLink(URL.createObjectURL(resdata));
+              }
+            } catch (error) {
+              console.log(error.message);
+            }
+          }
         }
       });
     } else {
