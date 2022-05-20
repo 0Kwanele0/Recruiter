@@ -237,7 +237,8 @@ function Index() {
 
     if (imageLink && resume) {
       //////
-      console.log("Both image and resume");
+
+      setLoading(true);
       const imageName = `avatars/${user.user._id}pp.png`;
       const resumeName = `resumes/${user.user._id}res.pdf`;
 
@@ -254,7 +255,6 @@ function Index() {
         profilephoto: imageName,
         links: links,
       };
-      setLoading(true);
 
       fetch(`${process.env.SERVER}/user/links/${user.user._id}`, {
         method: "PUT",
@@ -277,7 +277,7 @@ function Index() {
       });
     } else if (imageLink && !resume) {
       /////
-      console.log("Only image");
+      setLoading(true);
 
       const imageName = `avatars/${user.user._id}pp.png`;
 
@@ -286,7 +286,6 @@ function Index() {
         .upload(imageName, imageLink);
 
       const formData = { profilephoto: imageName, links: links };
-      setLoading(true);
 
       fetch(`${process.env.SERVER}/user/links/${user.user._id}`, {
         method: "PUT",
@@ -309,7 +308,7 @@ function Index() {
       });
     } else if (resume && !imageLink) {
       ////
-      console.log("Only resume");
+      setLoading(true);
 
       const resumeName = `resumes/${user.user._id}res.pdf`;
       const { resumedata, imgerror } = await supabase.storage
@@ -317,7 +316,6 @@ function Index() {
         .upload(resumeName, resume);
 
       const formData = { resume: resumeName, links: links };
-      setLoading(true);
 
       fetch(`${process.env.SERVER}/user/links/${user.user._id}`, {
         method: "PUT",
@@ -340,7 +338,6 @@ function Index() {
       });
     } else {
       ///
-      console.log("Neither image nor resume");
 
       const formData = { links: links };
       setLoading(true);
