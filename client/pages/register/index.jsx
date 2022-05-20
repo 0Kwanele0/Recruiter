@@ -244,8 +244,8 @@ function Index() {
         .upload(resumeName, resume);
 
       const formData = {
-        resume: URL.createObjectURL(resumedata),
-        profilephoto: URL.createObjectURL(imgdata),
+        resume: resumeName,
+        profilephoto:imageName,
         links: links,
       };
 
