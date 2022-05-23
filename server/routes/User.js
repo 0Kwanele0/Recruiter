@@ -207,23 +207,19 @@ router.put(
   authorize,
 
   async (req, res) => {
-    const user = await UserModel.findById(req.params.id);
-
-    if (user) {
-      user.firstname = req.body.firstname;
-      user.lastname = req.body.lastname;
-      user.country = req.body.country;
-      user.city = req.body.city;
-      user.bio = req.body.bio;
-      user.myresume = req.body.resume;
-      user.profilephoto = req.body.profilephoto;
-
-      user.save().then((savedDoc) => {
-        res.status(200).send(savedDoc);
-      });
-    } else {
-      res.status(404).send({ msg: "User not found" });
-    }
+    const user = await UserModel.findByIdAndUpdate(req.params.id, {
+      $set: {
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        country: req.body.country,
+        city: req.body.city,
+        bio: req.body.bio,
+        myresume: req.body.resume,
+        profilephoto: req.body.profilephoto,
+      },
+    }).then((savedDoc) => {
+      res.status(200).send(savedDoc);
+    });
   }
 );
 

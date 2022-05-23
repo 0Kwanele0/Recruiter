@@ -93,6 +93,7 @@ function MyProfile() {
         if (user.status === 200) {
           const userdata = await user.json();
           setUser(userdata);
+          console.log(userdata);
           setEmailLink(`mailto: ${userdata.email}`);
           if (userdata.links) {
             setLinks(userdata.links);
@@ -218,7 +219,7 @@ function MyProfile() {
               </div>
             </div>
             <div className={mystyles.buttons}>
-              {user.myresume ? (
+              {resumeLink ? (
                 <a className={mystyles.resumelink} href={resumeLink}>
                   Download resume
                 </a>

@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import styles from "../styles/editProfile.module.scss";
+import { supabase } from "../../../data/supabaseClient";
 
 function DeleteAccount(props) {
  const router = useRouter();

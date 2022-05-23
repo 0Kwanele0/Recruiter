@@ -5,179 +5,171 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 function Login() {
-  const [loading, setLoading] = useState(false);
+ const [loading, setLoading] = useState(false);
 
-  const router = useRouter();
-  const [notLoggedIn, setNotLoggedIn] = useState(false);
-  const [responseError, setRecponseError] = useState();
-  const [recruiterCheckbox, setRecruiterCheckbox] = useState(false);
-  const [developerCheckbox, setDeveloperCheckbox] = useState(false);
-  const [checkboxError, setCheckboxError] = useState(false);
-  const recruiterBox = useRef();
-  const developerBox = useRef();
+ const router = useRouter();
+ const [notLoggedIn, setNotLoggedIn] = useState(false);
+ const [responseError, setRecponseError] = useState();
+ const [recruiterCheckbox, setRecruiterCheckbox] = useState(false);
+ const [developerCheckbox, setDeveloperCheckbox] = useState(false);
+ const [checkboxError, setCheckboxError] = useState(false);
+ const recruiterBox = useRef();
+ const developerBox = useRef();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+ const {
+  register,
+  handleSubmit,
+  formState: { errors },
+ } = useForm();
 
-  function labelClicked(e) {
-    switch (e.target.innerText) {
-      case "Developer":
-        setDeveloperCheckbox(true);
-        setRecruiterCheckbox(false);
-        recruiterBox.current.style.backgroundColor = "white";
-        developerBox.current.style.backgroundColor = "#2fe032";
-        return;
-      case "Recruiter":
-        setRecruiterCheckbox(true);
-        setDeveloperCheckbox(false);
-        recruiterBox.current.style.backgroundColor = "#2fe032";
-        developerBox.current.style.backgroundColor = "white";
-        return;
-    }
-  }
-
-  function recboxClicked(e) {
+ function labelClicked(e) {
+  switch (e.target.innerText) {
+   case "Developer":
+    setDeveloperCheckbox(true);
+    setRecruiterCheckbox(false);
+    recruiterBox.current.style.backgroundColor = "white";
+    developerBox.current.style.backgroundColor = "#2fe032";
+    return;
+   case "Recruiter":
     setRecruiterCheckbox(true);
     setDeveloperCheckbox(false);
     recruiterBox.current.style.backgroundColor = "#2fe032";
     developerBox.current.style.backgroundColor = "white";
     return;
   }
+ }
 
-  function devboxClicked(e) {
-    setDeveloperCheckbox(true);
-    setRecruiterCheckbox(false);
-    recruiterBox.current.style.backgroundColor = "white";
-    developerBox.current.style.backgroundColor = "#2fe032";
-    return;
+ function recboxClicked(e) {
+  setRecruiterCheckbox(true);
+  setDeveloperCheckbox(false);
+  recruiterBox.current.style.backgroundColor = "#2fe032";
+  developerBox.current.style.backgroundColor = "white";
+  return;
+ }
+
+ function devboxClicked(e) {
+  setDeveloperCheckbox(true);
+  setRecruiterCheckbox(false);
+  recruiterBox.current.style.backgroundColor = "white";
+  developerBox.current.style.backgroundColor = "#2fe032";
+  return;
+ }
+
+ const onSubmit = (data) => {
+  if (developerCheckbox) {
+   setLoading(true);
+   fetch(`${process.env.SERVER}/user/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+   }).then(async (data) => {
+    const response = await data.json();
+    if (data.status == 200) {
+     localStorage.setItem("recruiter-x-auth-token", JSON.stringify(response));
+     setLoading(false);
+
+     router.reload();
+     setRecponseError();
+    } else {
+     setLoading(false);
+     setRecponseError(response.msg);
+    }
+   });
+  } else if (recruiterCheckbox) {
+   setLoading(true);
+
+   fetch(`${process.env.SERVER}/recruiter/login`, {
+    method: "POST",
+    headers: { "Content-Type": "Application/json" },
+    body: JSON.stringify(data),
+   }).then(async (data) => {
+    const response = await data.json();
+    if (data.status == 200) {
+     localStorage.setItem("recruiter-x-auth-token", JSON.stringify(response));
+     setLoading(false);
+
+     setRecponseError();
+     router.reload();
+    } else {
+     setLoading(false);
+     setRecponseError(response.msg);
+    }
+   });
+  } else {
+   setCheckboxError(true);
   }
+ };
 
-  const onSubmit = (data) => {
-    if (developerCheckbox) {
-      setLoading(true);
-      fetch(`${process.env.SERVER}/user/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      }).then(async (data) => {
-        const response = await data.json();
-        if (data.status == 200) {
-          localStorage.setItem(
-            "recruiter-x-auth-token",
-            JSON.stringify(response)
-          );
-          setLoading(false);
+ useEffect(() => {
+  const token = localStorage.getItem("recruiter-x-auth-token");
+  if (token) {
+   router.push("/developerprofile");
+  } else {
+   setNotLoggedIn(true);
+  }
+ }, []);
 
-          router.reload();
-          setRecponseError();
-        } else {
-          setLoading(false);
-          setRecponseError(response.msg);
-        }
-      });
-    } else if (recruiterCheckbox) {
-      setLoading(true);
-
-      fetch(`${process.env.SERVER}/recruiter/login`, {
-        method: "POST",
-        headers: { "Content-Type": "Application/json" },
-        body: JSON.stringify(data),
-      }).then(async (data) => {
-        const response = await data.json();
-        if (data.status == 200) {
-          localStorage.setItem(
-            "recruiter-x-auth-token",
-            JSON.stringify(response)
-          );
-          setLoading(false);
-
-          setRecponseError();
-          router.reload();
-        } else {
-          setLoading(false);
-          setRecponseError(response.msg);
-        }
-      });
-    } else {
-      setCheckboxError(true);
-    }
-  };
-
-  useEffect(() => {
-    const token = localStorage.getItem("recruiter-x-auth-token");
-    if (token) {
-      router.push("/developerprofile");
-    } else {
-      setNotLoggedIn(true);
-    }
-  }, []);
-
-  return (
-    <div>
-      {notLoggedIn ? (
-        <div className={styles.container}>
-          <form onSubmit={handleSubmit(onSubmit)} action="submit">
-            <h3>Hey! welcome back!</h3>
-            <input
-              {...register("email", { required: true })}
-              type="email"
-              placeholder="Email"
-            />
-            {errors.email?.type === "required" && (
-              <small>Email is required</small>
-            )}
-            <input
-              {...register("password", { required: true })}
-              placeholder="Password"
-              type="text"
-            />
-            {errors.password?.type === "required" && (
-              <small>Password is required</small>
-            )}
-            <div className={styles.recOrDev}>
-              <p>Are you a Develper or a recruiter?</p>
-              <div className={styles.checkboxContainer}>
-                <div className={styles.checkbox}>
-                  <div
-                    onClick={recboxClicked}
-                    ref={recruiterBox}
-                    className={styles.check}
-                  ></div>
-                  <p onClick={labelClicked}>Recruiter</p>
-                </div>
-                <div className={styles.checkbox}>
-                  <div
-                    onClick={devboxClicked}
-                    ref={developerBox}
-                    className={styles.check}
-                  ></div>
-                  <p onClick={labelClicked}>Developer</p>
-                </div>
-              </div>
-              {checkboxError ? <small>Please select one!</small> : null}
-            </div>
-            <button type="submit">{loading ? "Loading..." : "Login"}</button>
-            {responseError ? <small>{responseError}</small> : null}
-
-            <Link href="/resetpassword">Forgot password?</Link>
-
-            <p className={styles.referParagraph}>
-              You don&apos;t have an account?{" "}
-              <span>
-                <Link href="/register">Register here</Link>
-              </span>
-              !
-            </p>
-          </form>
-        </div>
-      ) : (
-        <></>
+ return (
+  <div>
+   {notLoggedIn ? (
+    <div className={styles.container}>
+     <form onSubmit={handleSubmit(onSubmit)} action="submit">
+      <h3>Hey! welcome back!</h3>
+      <input
+       {...register("email", { required: true })}
+       type="email"
+       placeholder="Email"
+      />
+      {errors.email?.type === "required" && <small>Email is required</small>}
+      <input
+       {...register("password", { required: true })}
+       placeholder="Password"
+       type="text"
+      />
+      {errors.password?.type === "required" && (
+       <small>Password is required</small>
       )}
+      <div className={styles.recOrDev}>
+       <p>Are you a Develper or a recruiter?</p>
+       <div className={styles.checkboxContainer}>
+        <div className={styles.checkbox}>
+         <div
+          onClick={recboxClicked}
+          ref={recruiterBox}
+          className={styles.check}
+         ></div>
+         <p onClick={labelClicked}>Recruiter</p>
+        </div>
+        <div className={styles.checkbox}>
+         <div
+          onClick={devboxClicked}
+          ref={developerBox}
+          className={styles.check}
+         ></div>
+         <p onClick={labelClicked}>Developer</p>
+        </div>
+       </div>
+       {checkboxError ? <small>Please select one!</small> : null}
+      </div>
+      <button type="submit">{loading ? "Loading..." : "Login"}</button>
+      {responseError ? <small>{responseError}</small> : null}
+
+      <Link href="/resetpassword">Forgot password?</Link>
+
+      <p className={styles.referParagraph}>
+       You don&apos;t have an account?{" "}
+       <span>
+        <Link href="/register">Register here</Link>
+       </span>
+       !
+      </p>
+     </form>
     </div>
-  );
+   ) : (
+    <></>
+   )}
+  </div>
+ );
 }
 
 export default Login;

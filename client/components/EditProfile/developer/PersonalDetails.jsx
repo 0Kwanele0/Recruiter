@@ -1,11 +1,14 @@
 import { useState } from "react";
 import mystyles from "../styles/editProfile.module.scss";
 import { Countries } from "../../../data/Countries";
+import { supabase } from "../../../data/supabaseClient";
 
 function PersonalDetails(props) {
   const [firstname, setFirstname] = useState(props.user.firstname);
-  const [profilephoto, setProfilephoto] = useState();
-  const [resume, setResume] = useState();
+  const [profilephoto, setProfilephoto] = useState(
+    props.user.profilephoto || null
+  );
+  const [resume, setResume] = useState(props.user.myresume || null);
   const [lastname, setLastname] = useState(props.user.lastname);
   const [city, setCity] = useState(props.user.city);
   const [country, setCountry] = useState(props.user.country);
@@ -36,37 +39,267 @@ function PersonalDetails(props) {
     setDisplayCountries(false);
   }
 
-  function changeImage(e) {
-    setProfilephoto(e.target.files[0]);
-  }
-
-  function changeResume(e) {
-    setResume(e.target.files[0]);
-  }
-
-  function saveDetails(e) {
+  async function saveDetails(e) {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("firstname", firstname);
-    formData.append("city", city);
-    formData.append("country", country);
-    formData.append("bio", bio);
-    formData.append("lastname", lastname);
-    formData.append("resume", resume);
-    formData.append("profilephoto", profilephoto);
-
-    fetch(`${process.env.SERVER}/user/detailsedit/${props.user._id}`, {
-      method: "PUT",
-      headers: {
-        "recruiter-x-auth-token": props.token,
-      },
-      body: formData,
-    }).then(async (response) => {
-      const data = await response.json();
-      if (response.status == 200) {
+    if (e.target.profilephoto.files[0] && !e.target.resume.files[0]) {
+      if (profilephoto) {
+        const avatarFile = e.target.profilephoto.files[0];
+        const { data, error } = await supabase.storage
+          .from("main")
+          .update(`${profilephoto}`, avatarFile);
+        if (data) {
+          console.log("done", data);
+        }
+        //Request
+        const formData = {
+          firstname: firstname,
+          city: city,
+          country: country,
+          bio: bio,
+          lastname: lastname,
+          profilephoto: profilephoto,
+          resume: resume,
+        };
+        fetch(`${process.env.SERVER}/user/detailsedit/${props.user._id}`, {
+          method: "PUT",
+          headers: {
+            "recruiter-x-auth-token": props.token,
+            "Content-Type": "Application/Json",
+          },
+          body: JSON.stringify(formData),
+        }).then(async (response) => {
+          const data = await response.json();
+          if (response.status == 200) {
+          } else {
+          }
+        });
+        //End Request
       } else {
+        const imageName = `avatars/${props.user._id}pp.png`;
+        const avatarFile = e.target.profilephoto.files[0];
+        supabase.storage.from("main").upload(imageName, avatarFile);
+        const formData = {
+          firstname: firstname,
+          city: city,
+          country: country,
+          bio: bio,
+          lastname: lastname,
+          resume: resume,
+          profilephoto: imageName,
+        };
+        fetch(`${process.env.SERVER}/user/detailsedit/${props.user._id}`, {
+          method: "PUT",
+          headers: {
+            "recruiter-x-auth-token": props.token,
+            "Content-Type": "Application/Json",
+          },
+          body: JSON.stringify(formData),
+        }).then(async (response) => {
+          const data = await response.json();
+          if (response.status == 200) {
+          } else {
+          }
+        });
+        //End Request
       }
-    });
+    } else if (e.target.profilephoto.files[0] && e.target.resume.files[0]) {
+      if (profilephoto && resume) {
+        const avatarFile = e.target.profilephoto.files[0];
+        const resumeFile = e.target.resume.files[0];
+        supabase.storage.from("main").update(`${profilephoto}`, avatarFile);
+        supabase.storage.from("main").update(`${resume}`, resumeFile);
+        //Request
+        const formData = {
+          firstname: firstname,
+          city: city,
+          country: country,
+          bio: bio,
+          lastname: lastname,
+          resume: resume,
+          profilephoto: profilephoto,
+        };
+        fetch(`${process.env.SERVER}/user/detailsedit/${props.user._id}`, {
+          method: "PUT",
+          headers: {
+            "recruiter-x-auth-token": props.token,
+            "Content-Type": "Application/Json",
+          },
+          body: JSON.stringify(formData),
+        }).then(async (response) => {
+          const data = await response.json();
+          if (response.status == 200) {
+          } else {
+          }
+        });
+      } else if (profilephoto && !resume) {
+        const avatarFile = e.target.profilephoto.files[0];
+        const resumeFile = e.target.resume.files[0];
+        const resumeName = `resumes/${props.user._id}res.pdf`;
+        supabase.storage.from("main").upload(resumeName, resumeFile);
+        supabase.storage.from("main").update(`${profilephoto}`, avatarFile);
+        //Request
+        const formData = {
+          firstname: firstname,
+          city: city,
+          country: country,
+          bio: bio,
+          lastname: lastname,
+          resume: resumeName,
+          profilephoto: profilephoto,
+        };
+        fetch(`${process.env.SERVER}/user/detailsedit/${props.user._id}`, {
+          method: "PUT",
+          headers: {
+            "recruiter-x-auth-token": props.token,
+            "Content-Type": "Application/Json",
+          },
+          body: JSON.stringify(formData),
+        }).then(async (response) => {
+          const data = await response.json();
+          if (response.status == 200) {
+          } else {
+          }
+        });
+      } else if (!profilephoto && resume) {
+        const resumeFile = e.target.resume.files[0];
+        const avatarFile = e.target.profilephoto.files[0];
+        const imageName = `avatars/${props.user._id}pp.png`;
+        supabase.storage.from("main").upload(imageName, avatarFile);
+        supabase.storage.from("main").update(`${resume}`, resumeFile);
+        //Request
+        const formData = {
+          firstname: firstname,
+          city: city,
+          country: country,
+          bio: bio,
+          lastname: lastname,
+          profilephoto: imageName,
+          resume: resume,
+        };
+        fetch(`${process.env.SERVER}/user/detailsedit/${props.user._id}`, {
+          method: "PUT",
+          headers: {
+            "recruiter-x-auth-token": props.token,
+            "Content-Type": "Application/Json",
+          },
+          body: JSON.stringify(formData),
+        }).then(async (response) => {
+          const data = await response.json();
+          if (response.status == 200) {
+          } else {
+          }
+        });
+      } else {
+        const avatarFile = e.target.profilephoto.files[0];
+        const resumeFile = e.target.resume.files[0];
+        const imageName = `avatars/${props.user._id}pp.png`;
+        const resumeName = `resumes/${props.user._id}res.pdf`;
+        supabase.storage.from("main").upload(imageName, avatarFile);
+        supabase.storage.from("main").upload(resumeName, resumeFile);
+        //Request
+        const formData = {
+          firstname: firstname,
+          city: city,
+          country: country,
+          bio: bio,
+          lastname: lastname,
+          resume: resumeName,
+          profilephoto: imageName,
+        };
+        fetch(`${process.env.SERVER}/user/detailsedit/${props.user._id}`, {
+          method: "PUT",
+          headers: {
+            "recruiter-x-auth-token": props.token,
+            "Content-Type": "Application/Json",
+          },
+          body: JSON.stringify(formData),
+        }).then(async (response) => {
+          const data = await response.json();
+          if (response.status == 200) {
+          } else {
+          }
+        });
+      }
+    } else if (!e.target.profilephoto.files[0] && e.target.resume.files[0]) {
+      if (resume) {
+        const resumeFile = e.target.profilephoto.files[0];
+        supabase.storage.from("main").update(`${resume}`, resumeFile);
+        //Request
+        const formData = {
+          firstname: firstname,
+          city: city,
+          country: country,
+          bio: bio,
+          lastname: lastname,
+          resume: resume,
+          profilephoto: profilephoto,
+        };
+        fetch(`${process.env.SERVER}/user/detailsedit/${props.user._id}`, {
+          method: "PUT",
+          headers: {
+            "recruiter-x-auth-token": props.token,
+            "Content-Type": "Application/Json",
+          },
+          body: JSON.stringify(formData),
+        }).then(async (response) => {
+          const data = await response.json();
+          if (response.status == 200) {
+          } else {
+          }
+        });
+        //End Request
+      } else {
+        const resumeFile = e.target.resume.files[0];
+        const resumeName = `resumes/${props.user._id}res.pdf`;
+        supabase.storage.from("main").upload(resumeName, resumeFile);
+        const formData = {
+          firstname: firstname,
+          city: city,
+          country: country,
+          bio: bio,
+          lastname: lastname,
+          resume: resumeName,
+          profilephoto: profilephoto,
+        };
+        fetch(`${process.env.SERVER}/user/detailsedit/${props.user._id}`, {
+          method: "PUT",
+          headers: {
+            "recruiter-x-auth-token": props.token,
+            "Content-Type": "Application/Json",
+          },
+          body: JSON.stringify(formData),
+        }).then(async (response) => {
+          const data = await response.json();
+          if (response.status == 200) {
+          } else {
+          }
+        });
+        //End Request
+      }
+    } else {
+      const formData = {
+        firstname: firstname,
+        city: city,
+        country: country,
+        bio: bio,
+        lastname: lastname,
+        resume: resume,
+        profilephoto: profilephoto,
+      };
+      fetch(`${process.env.SERVER}/user/detailsedit/${props.user._id}`, {
+        method: "PUT",
+        headers: {
+          "recruiter-x-auth-token": props.token,
+          "Content-Type": "Application/Json",
+        },
+        body: JSON.stringify(formData),
+      }).then(async (response) => {
+        const data = await response.json();
+        if (response.status == 200) {
+        } else {
+        }
+      });
+    }
   }
 
   return (
@@ -91,11 +324,11 @@ function PersonalDetails(props) {
       <div className={mystyles.inputContainer}>
         <div className={mystyles.inputAndLabel}>
           <label htmlFor="">Profile Photo</label>
-          <input onChange={changeImage} name="profilephoto" type="file" />
+          <input name="profilephoto" type="file" />
         </div>
         <div className={mystyles.inputAndLabel}>
           <label htmlFor="">Resume</label>
-          <input onChange={changeResume} name="resume" type="file" />
+          <input name="resume" type="file" />
         </div>
       </div>
       <div className={mystyles.inputContainer}>
