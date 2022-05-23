@@ -23,6 +23,7 @@ function MyProfile() {
   const [links, setLinks] = useState([]);
   const profileEditor = useRef();
   const plusBtn = useRef();
+  const imgPreview = useRef();
   const [editPersonalDetails, setEditPersonalDetails] = useState(true);
   const [editLinks, setEditLinks] = useState(false);
   const [editSkills, setEditSkills] = useState(false);
@@ -48,6 +49,13 @@ function MyProfile() {
     } else {
       plusBtn.current.style.transform = "rotate(45deg)";
     }
+  }
+
+  function openImagePreview() {
+    imgPreview.current.style.display = "flex";
+  }
+  function closeImagePreview() {
+    imgPreview.current.style.display = "none";
   }
 
   function changeEditMenu(ev) {
@@ -199,15 +207,17 @@ function MyProfile() {
           </section>
           <section className={mystyles.profile}>
             <div className={mystyles.name}>
+              <div ref={imgPreview} className={mystyles.imagePrev}>
+                <div onClick={closeImagePreview} className={mystyles.imgHeader}>
+                  <Image src={close} width={30} height={30} alt="close" />
+                </div>
+                {imgLink && (
+                  <img onClick={openImagePreview} src={imgLink} alt="" />
+                )}
+              </div>
               <div className={mystyles.image}>
                 {imgLink && (
-                  <Image
-                    src={imgLink}
-                    objectFit="cover"
-                    width={60}
-                    height={60}
-                    alt=""
-                  />
+                  <img onClick={openImagePreview} src={imgLink} alt="" />
                 )}
               </div>
               <div className={mystyles.nameAndLocation}>

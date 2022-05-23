@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import mystyles from "../../styles/profile.module.scss";
 import location from "../../public/assets/icons/location.png";
 import ProjectCard from "../../components/ProjectCard";
 import { supabase } from "../../data/supabaseClient";
+import close from "../../public/assets/icons/close.png";
 
 function Profile() {
   const [user, setUser] = useState();
@@ -15,6 +16,14 @@ function Profile() {
   const router = useRouter();
   const [resumeLink, setResumeLink] = useState();
   const [linksCount, setLinksCount] = useState(0);
+  const imgPreview = useRef();
+
+  function openImagePreview() {
+    imgPreview.current.style.display = "flex";
+  }
+  function closeImagePreview() {
+    imgPreview.current.style.display = "none";
+  }
 
   async function fetchingUser() {
     setLinksCount(0);
@@ -66,7 +75,6 @@ function Profile() {
             console.log(error.message);
           }
           try {
-           
             const { data, error } = await supabase.storage
               .from("main")
               .download(`${userdata.myresume}`);
@@ -110,15 +118,17 @@ function Profile() {
         <main className={mystyles.container}>
           <section className={mystyles.profile}>
             <div className={mystyles.name}>
+              <div ref={imgPreview} className={mystyles.imagePrev}>
+                <div onClick={closeImagePreview} className={mystyles.imgHeader}>
+                  <Image src={close} width={30} height={30} alt="close" />
+                </div>
+                {imgLink && (
+                  <img onClick={openImagePreview} src={imgLink} alt="" />
+                )}
+              </div>
               <div className={mystyles.image}>
                 {imgLink && (
-                  <Image
-                    src={imgLink}
-                    objectFit="cover"
-                    width={60}
-                    height={60}
-                    alt=""
-                  />
+                  <img onClick={openImagePreview} src={imgLink} alt="" />
                 )}
               </div>
               <div className={mystyles.nameAndLocation}>
