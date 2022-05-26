@@ -16,6 +16,7 @@
     "react-hook-form": "^7.30.0",
     "react-router-dom": "^6.3.0",
     "sass": "^1.51.0",
+    "react-query": "^2.23.1",
     "@supabase/supabase-js": "^1.35.3"
   },
   "devDependencies": {
