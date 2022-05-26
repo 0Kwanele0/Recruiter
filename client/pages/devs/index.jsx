@@ -1,13 +1,17 @@
 import styles from "../../styles/devs.module.scss";
 import { useEffect, useState } from "react";
 import ProfileCard from "../../components/ProfileCard";
-import { useRouter } from "next/router";
 import { Countries } from "../../data/Countries";
 import { listedCategories } from "../../data/Lists";
-function Devs({ mydata }) {
-  const router = useRouter();
-  const [data, setData] = useState(mydata);
+import { useQuery } from "react-query";
+
+function Devs(/*{ mydata }*/) {
+  const { isLoading, data, isError } = useQuery("users", fetcher);
+
+  // const [data, setData] = useState(mydata);
   const [filteredData, setFilteredData] = useState();
+  const [loaded, setLoaded] = useState(false);
+  const [userData, setUserData] = useState();
   const [displayCountries, setDisplayCountries] = useState(false);
   const [selectCategory, setSelectCategory] = useState(false);
 
@@ -22,15 +26,6 @@ function Devs({ mydata }) {
   function CategorySelected(e) {
     setField(e.target.innerText);
     setSelectCategory(false);
-  }
-
-  function filterInputsChanging(e) {
-    switch (e.target.name) {
-      case "country":
-        return;
-      case "field":
-        return;
-    }
   }
 
   function filter(e) {
@@ -77,22 +72,23 @@ function Devs({ mydata }) {
   useEffect(() => {
     const details = localStorage.getItem("recruiter-x-auth-token");
     const token = JSON.parse(details);
-
-    const filtered = data.filter((item) => {
-      if (token) {
-        if (item._id !== token.user._id) {
-          return item;
-        }
-        return;
-      }
-      return item;
-    });
-    setData(filtered);
+    if (details) {
+      setUserData(token);
+      setLoaded(true);
+    } else {
+      setLoaded(true);
+    }
   }, []);
 
+  if (isLoading) {
+    return "Loading";
+  }
+  if (isError) {
+    return "Error";
+  }
   return (
     <>
-      {data ? (
+      {loaded && (
         <div className={styles.container}>
           <section className={styles.filter}>
             <form autoComplete="off" onSubmit={filter} action="submit">
@@ -145,43 +141,79 @@ function Devs({ mydata }) {
             </form>
           </section>
           <section className={styles.profiles}>
-            {filteredData
-              ? filteredData.map((item, key) => {
-                  return (
-                    <ProfileCard
-                      key={key}
-                      name={item.firstname + " " + item.lastname}
-                      id={item._id}
-                      photo={item.profilephoto}
-                      city={item.city}
-                      experience={item.experience}
-                      country={item.country}
-                      bio={item.bio}
-                      skills={item.skills}
-                      category={item.category}
-                    />
-                  );
+            {!filteredData
+              ? data.map((item, key) => {
+                  if (userData) {
+                    if (item._id != userData.user._id) {
+                      return (
+                        <ProfileCard
+                          key={key}
+                          name={item.firstname + " " + item.lastname}
+                          id={item._id}
+                          photo={item.profilephoto}
+                          city={item.city}
+                          experience={item.experience}
+                          country={item.country}
+                          bio={item.bio}
+                          skills={item.skills}
+                          category={item.category}
+                        />
+                      );
+                    }
+                  } else {
+                    return (
+                      <ProfileCard
+                        key={key}
+                        name={item.firstname + " " + item.lastname}
+                        id={item._id}
+                        photo={item.profilephoto}
+                        city={item.city}
+                        experience={item.experience}
+                        country={item.country}
+                        bio={item.bio}
+                        skills={item.skills}
+                        category={item.category}
+                      />
+                    );
+                  }
                 })
-              : data.map((item, key) => {
-                  return (
-                    <ProfileCard
-                      key={key}
-                      name={item.firstname + " " + item.lastname}
-                      id={item._id}
-                      photo={item.profilephoto}
-                      city={item.city}
-                      experience={item.experience}
-                      country={item.country}
-                      bio={item.bio}
-                      skills={item.skills}
-                      category={item.category}
-                    />
-                  );
+              : filteredData.map((item, key) => {
+                  if (userData) {
+                    if (item._id != userData.user._id) {
+                      return (
+                        <ProfileCard
+                          key={key}
+                          name={item.firstname + " " + item.lastname}
+                          id={item._id}
+                          photo={item.profilephoto}
+                          city={item.city}
+                          experience={item.experience}
+                          country={item.country}
+                          bio={item.bio}
+                          skills={item.skills}
+                          category={item.category}
+                        />
+                      );
+                    }
+                  } else {
+                    return (
+                      <ProfileCard
+                        key={key}
+                        name={item.firstname + " " + item.lastname}
+                        id={item._id}
+                        photo={item.profilephoto}
+                        city={item.city}
+                        experience={item.experience}
+                        country={item.country}
+                        bio={item.bio}
+                        skills={item.skills}
+                        category={item.category}
+                      />
+                    );
+                  }
                 })}
           </section>
         </div>
-      ) : (
-        <></>
       )}
     </>
   );
@@ -189,20 +221,8 @@ function Devs({ mydata }) {
 
 export default Devs;
 
-export const getServerSideProps = async () => {
-  // const details = localStorage.getItem("recruiter-x-auth-token");
-  // const token = JSON.parse(details);
-
-  const mydata = await fetch(`${process.env.SERVER}/user/`, {
-    method: "GET",
-  }).then(async (user) => {
-    const data = await user.json();
-    return data;
-  });
-
-  return {
-    props: {
-      mydata,
-    },
-  };
-};
+function fetcher() {
+  return fetch("http://localhost:3001/user/").then(
+    async (data) => await data.json()
+  );
+}
