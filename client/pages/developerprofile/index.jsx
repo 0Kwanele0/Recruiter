@@ -12,15 +12,15 @@ import SkillsDetails from "../../components/EditProfile/developer/SkillsDetails"
 import LinksDetails from "../../components/EditProfile/developer/LinksDetails";
 import DeleteAccount from "../../components/EditProfile/developer/DeleteAccount";
 import AddProject from "../../components/EditProfile/developer/AddProject";
-import { supabase } from "../../data/supabaseClient";
+import { useQuery } from "react-query";
+import {
+  changeEditMenu,
+  showProjectEditor,
+} from "../../methods/developerprofile/Index";
+import Resume from "../../components/Resume";
+import ProfilePhoto from "../../components/ProfilePhoto";
 
 function MyProfile() {
-  const [user, setUser] = useState();
-  const [id, setId] = useState();
-  const [emailLink, setEmailLink] = useState();
-  const [imgLink, setImgLink] = useState("");
-  const [resumeLink, setResumeLink] = useState("");
-  const [links, setLinks] = useState([]);
   const profileEditor = useRef();
   const plusBtn = useRef();
   const imgPreview = useRef();
@@ -31,6 +31,7 @@ function MyProfile() {
   const [deleteUser, setDeleteUser] = useState(false);
   const [closing, setClosing] = useState(false);
   const [token, setToken] = useState();
+  const [id, setId] = useState();
   const router = useRouter();
 
   function closeProfileEditor() {
@@ -42,13 +43,8 @@ function MyProfile() {
     profileEditor.current.style.display = "flex";
   }
 
-  function showProjectEditor() {
-    setEditProject(!editProject);
-    if (editProject) {
-      plusBtn.current.style.transform = "rotate(0)";
-    } else {
-      plusBtn.current.style.transform = "rotate(45deg)";
-    }
+  function ProjectEditor() {
+    return showProjectEditor(setEditProject, plusBtn, editProject);
   }
 
   function openImagePreview() {
@@ -58,114 +54,18 @@ function MyProfile() {
     imgPreview.current.style.display = "none";
   }
 
-  function changeEditMenu(ev) {
-    switch (ev.target.innerText) {
-      case "Personal details":
-        setEditLinks(false);
-        setEditPersonalDetails(true);
-        setEditSkills(false);
-        setDeleteUser(false);
-        return;
-      case "Links":
-        setEditLinks(true);
-        setEditPersonalDetails(false);
-        setEditSkills(false);
-        setDeleteUser(false);
-        return;
-      case "Skills":
-        setEditLinks(false);
-        setEditPersonalDetails(false);
-        setEditSkills(true);
-        setDeleteUser(false);
-        return;
-      case "More":
-        setEditLinks(false);
-        setEditPersonalDetails(false);
-        setEditSkills(false);
-        setDeleteUser(true);
-        return;
-    }
+  function changeEditorMenu(ev) {
+    changeEditMenu(
+      ev,
+      setEditLinks,
+      setEditPersonalDetails,
+      setDeleteUser,
+      setEditSkills
+    );
   }
-
-  async function fetchingUser() {
-    const details = localStorage.getItem("recruiter-x-auth-token");
-    const token = JSON.parse(details);
-    if (token.user.type == "Developer") {
-      return fetch(`${process.env.SERVER}/user/${token.user._id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "recruiter-x-auth-token": token.token,
-        },
-      }).then(async (user) => {
-        if (user.status === 200) {
-          const userdata = await user.json();
-          setUser(userdata);
-          console.log(userdata);
-          setEmailLink(`mailto: ${userdata.email}`);
-          if (userdata.links) {
-            setLinks(userdata.links);
-          }
-          if (userdata.profilephoto && !userdata.myresume) {
-            try {
-              const { data, error } = await supabase.storage
-                .from("main")
-                .download(`${userdata.profilephoto}`);
-              if (error) throw error;
-              else {
-                setImgLink(URL.createObjectURL(data));
-              }
-            } catch (error) {
-              console.log(error.message);
-            }
-          } else if (userdata.profilephoto && userdata.myresume) {
-            try {
-              const { data, error } = await supabase.storage
-                .from("main")
-                .download(`${userdata.myresume}`);
-              if (error) {
-                throw error;
-              } else {
-                setResumeLink(URL.createObjectURL(data));
-              }
-            } catch (error) {
-              console.log(error.message);
-            }
-            try {
-              const { data, error } = await supabase.storage
-                .from("main")
-                .download(`${userdata.profilephoto}`);
-              if (error) throw error;
-              else {
-                setImgLink(URL.createObjectURL(data));
-              }
-            } catch (error) {
-              console.log(error.message);
-            }
-          } else if (!userdata.profilephoto && userdata.myresume) {
-            try {
-              const { data, error } = await supabase.storage
-                .from("main")
-                .download(`${userdata.myresume}`);
-              if (error) throw error;
-              else {
-                setResumeLink(URL.createObjectURL(data));
-              }
-            } catch (error) {
-              console.log(error.message);
-            }
-          }
-        }
-      });
-    } else {
-      router.push("/recruiterprofile");
-    }
-  }
-
   useEffect(() => {
     const token = localStorage.getItem("recruiter-x-auth-token");
     if (token) {
-      fetchingUser();
       const parsed = JSON.parse(token);
       setToken(parsed.token);
       setId(parsed.user._id);
@@ -174,9 +74,11 @@ function MyProfile() {
     }
   }, [id, router, closing]);
 
+  const { isLoading, data, isError } = useQuery("user", fetcher);
+
   return (
     <main className={mystyles.wrapper}>
-      {user ? (
+      {data ? (
         <main className={mystyles.container}>
           <div className={mystyles.editProfile}>
             <p>Edit profile</p>
@@ -191,18 +93,18 @@ function MyProfile() {
               </div>
             </div>
             <div className={mystyles.menu}>
-              <p onClick={changeEditMenu}>Personal details</p>
-              <p onClick={changeEditMenu}>Skills</p>
-              <p onClick={changeEditMenu}>Links</p>
-              <p onClick={changeEditMenu}>More</p>
+              <p onClick={changeEditorMenu}>Personal details</p>
+              <p onClick={changeEditorMenu}>Skills</p>
+              <p onClick={changeEditorMenu}>Links</p>
+              <p onClick={changeEditorMenu}>More</p>
             </div>
             <>
               {editPersonalDetails && (
-                <PersonalDetails user={user} token={token} />
+                <PersonalDetails user={data} token={token} />
               )}
-              {editSkills && <SkillsDetails user={user} token={token} />}
-              {editLinks && <LinksDetails user={user} token={token} />}
-              {deleteUser && <DeleteAccount user={user} token={token} />}
+              {editSkills && <SkillsDetails user={data} token={token} />}
+              {editLinks && <LinksDetails user={data} token={token} />}
+              {deleteUser && <DeleteAccount user={data} token={token} />}
             </>
           </section>
           <section className={mystyles.profile}>
@@ -211,33 +113,36 @@ function MyProfile() {
                 <div onClick={closeImagePreview} className={mystyles.imgHeader}>
                   <Image src={close} width={30} height={30} alt="close" />
                 </div>
-                {imgLink && (
-                  <img onClick={openImagePreview} src={imgLink} alt="" />
+                {data.profilephoto ? (
+                  <div onClick={openImagePreview}>
+                    <ProfilePhoto link={data.profilephoto} />
+                  </div>
+                ) : (
+                  data.firstname[0] + data.lastname[0]
                 )}
               </div>
-              <div className={mystyles.image}>
-                {imgLink && (
-                  <img onClick={openImagePreview} src={imgLink} alt="" />
+              <div onClick={openImagePreview} className={mystyles.image}>
+                {data.profilephoto ? (
+                  <ProfilePhoto link={data.profilephoto} />
+                ) : (
+                  data.firstname[0] + data.lastname[0]
                 )}
               </div>
               <div className={mystyles.nameAndLocation}>
-                <h3>{user.firstname + " " + user.lastname}</h3>
+                <h3>{data.firstname + " " + data.lastname}</h3>
                 <div className={mystyles.location}>
                   <Image width={20} height={20} src={location} alt="" />
-                  <p>{user.city + ", " + user.country}</p>
+                  <p>{data.city + ", " + data.country}</p>
                 </div>
               </div>
             </div>
             <div className={mystyles.buttons}>
-              {resumeLink ? (
-                <a className={mystyles.resumelink} href={resumeLink}>
-                  Download resume
-                </a>
+              {data.myresume ? (
+                <Resume link={data.myresume} />
               ) : (
                 <button>Upload Resume</button>
               )}
-
-              <a href={emailLink}>Send Email</a>
+              <a href={`mailto: ${data.email}`}>Send Email</a>
             </div>
           </section>
           <section className={mystyles.details}>
@@ -247,9 +152,9 @@ function MyProfile() {
                   <h4>Skills</h4>
                 </div>
                 <ul>
-                  {user.skills &&
-                    user.skills.length > 0 &&
-                    user.skills.map((item, index) => {
+                  {data.skills &&
+                    data.skills.length > 0 &&
+                    data.skills.map((item, index) => {
                       return <li key={index}>{item}</li>;
                     })}
                 </ul>
@@ -259,8 +164,8 @@ function MyProfile() {
                   <h4>Links</h4>
                 </div>
                 <ul>
-                  {links &&
-                    links.map((item, index) => {
+                  {data.links &&
+                    data.links.map((item, index) => {
                       if (item.link.length > 0) {
                         return (
                           <a
@@ -280,29 +185,29 @@ function MyProfile() {
             <div className={mystyles.mainSection}>
               <div className={mystyles.bio}>
                 <div className={mystyles.bioHearder}>
-                  <h4>{user.category}</h4>
-                  <p>Experience: {user.experience ? user.experience : 0}</p>
+                  <h4>{data.category}</h4>
+                  <p>Experience: {data.experience ? data.experience : 0}</p>
                 </div>
-                <p>{user.bio}</p>
+                <p>{data.bio}</p>
               </div>
               <div className={mystyles.projects}>
                 <div className={mystyles.heading}>
                   <h4>Projects</h4>
                   <div
-                    onClick={showProjectEditor}
+                    onClick={ProjectEditor}
                     ref={plusBtn}
                     className={mystyles.edit}
                   >
                     <Image src={plus} width={20} height={20} alt="" />
                   </div>
                 </div>
-                {editProject && <AddProject user={user} token={token} />}
+                {editProject && <AddProject user={data} token={token} />}
                 <div className={mystyles.projectCards}>
-                  {user.projects &&
-                    user.projects.map((item, index) => {
+                  {data.projects &&
+                    data.projects.map((item, index) => {
                       return (
                         <MyProjectsCard
-                          user={user}
+                          user={data}
                           token={token}
                           key={index}
                           title={item.title}
@@ -316,11 +221,34 @@ function MyProfile() {
             </div>
           </section>
         </main>
+      ) : isError ? (
+        <>
+          <p>Error</p>
+        </>
+      ) : isLoading ? (
+        <p>Loading</p>
       ) : (
-        <></>
+        <>Null</>
       )}
     </main>
   );
 }
 
 export default MyProfile;
+
+function fetcher() {
+  return fetch(
+    `${process.env.SERVER}/user/${
+      JSON.parse(localStorage.getItem("recruiter-x-auth-token")).user._id
+    }`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "recruiter-x-auth-token": JSON.parse(
+          localStorage.getItem("recruiter-x-auth-token")
+        ).token,
+      },
+    }
+  ).then(async (data) => await data.json());
+}
