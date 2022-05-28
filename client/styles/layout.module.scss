@@ -3,6 +3,35 @@
   min-height: 100vh;
 }
 
+@keyframes loading {
+  from {
+    background: rgb(5, 5, 71);
+    background: linear-gradient(
+      257deg,
+      rgb(79, 79, 228) 44%,
+      rgba(170, 15, 189, 1) 100%
+    );
+  }
+  to {
+    background: rgb(204, 35, 114);
+    background: linear-gradient(
+      257deg,
+      rgba(170, 15, 189, 1) 100% rgb(79, 79, 228) 44%
+    );
+  }
+}
+
+.loader {
+  position: fixed;
+  top: 0;
+  display: none;
+  height: 3px;
+  width: 100%;
+  animation-name: loading;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate-reverse;
+}
 @media screen and (max-width: 1030px) {
   .body {
     padding: 20px;
