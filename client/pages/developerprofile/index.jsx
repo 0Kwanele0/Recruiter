@@ -238,7 +238,7 @@ export default MyProfile;
 
 function fetcher() {
   return fetch(
-    `http://localhost:3001/user/${
+    `${process.env.SERVER}/user/${
       JSON.parse(localStorage.getItem("recruiter-x-auth-token")).user._id
     }`,
     {
