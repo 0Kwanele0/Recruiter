@@ -1,28 +1,20 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../data/supabaseClient";
+import { useQuery } from "react-query";
 
 function ProfilePhoto({ link }) {
   const [pp, setPP] = useState("");
 
-  async function fetcheR() {
-    try {
-      const { data, error } = await supabase.storage
-        .from("main")
-        .download(`${link}`);
-      if (error) throw error;
-      else {
-        setPP(URL.createObjectURL(data));
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
+  function fetcheR() {
+    return supabase.storage.from("main").download(`${link}`);
   }
+  const { isLoading, data, isError } = useQuery("pp", fetcheR);
 
-  useEffect(() => {
-    fetcheR();
-  }, []);
-
-  return <img src={pp} alt="img" />;
+  return (
+    <div>
+      {data ? <img src={URL.createObjectURL(data.data)} alt="img" /> : ""}
+    </div>
+  );
 }
 
 export default ProfilePhoto;
