@@ -1,10 +1,7 @@
-import { useEffect, useState } from "react";
 import { supabase } from "../data/supabaseClient";
 import { useQuery } from "react-query";
 
 function ProfilePhoto({ link }) {
-  const [pp, setPP] = useState("");
-
   function fetcheR() {
     return supabase.storage.from("main").download(`${link}`);
   }
