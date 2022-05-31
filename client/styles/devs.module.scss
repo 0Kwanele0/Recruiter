@@ -1,139 +1,139 @@
 .container {
- display: flex;
- flex-direction: column;
- align-items: center;
- gap: 40px;
- .filter {
-  width: 100%;
-  max-width: 800px;
-  form {
-   display: flex;
-   gap: 15px;
-   justify-content: space-between;
-   margin-top: 20px;
-   .inputContainer {
-    width: 50%;
-    position: relative;
-    ul {
-     margin-top: 2px;
-     z-index: 30;
-     width: 100%;
-     max-height: 200px;
-     overflow-y: scroll;
-     position: absolute;
-     background-color: rgb(196, 212, 226);
-     color: rgb(53, 53, 70);
-     list-style: none;
-     padding: 10px;
-     display: flex;
-     flex-direction: column;
-     box-shadow: 0 0 23px 2px #4454;
-     &::-webkit-scrollbar {
-      width: 8px;
-     }
-     /* Track */
-     &::-webkit-scrollbar-track {
-      background: #c7c9eb;
-     }
-     /* Handle */
-     &::-webkit-scrollbar-thumb {
-      background: rgb(108, 78, 216);
-      border-radius: 3px;
-      width: 5px;
-     }
-     /* Handle on hover */
-     &::-webkit-scrollbar-thumb:hover {
-      background: #555;
-     }
-     li {
-      border-collapse: collapse;
-      cursor: pointer;
-      padding: 8px 0;
-      border-bottom: 1px solid rgba(46, 46, 99, 0.329);
-      transition: all 0.2s ease;
-      &:hover {
-       color: rgb(24, 24, 141);
-      }
-     }
-    }
-    .input {
-     border-radius: 4px;
-     font-size: 18px;
-     outline: none;
-     width: 100%;
-     color: white;
-     padding: 8px;
-     background-color: transparent;
-     border: 1px solid white;
-     cursor: pointer;
-     transition: all 0.2s ease;
-     p {
-      margin: 0;
-      font-weight: 500;
-      color: #babacabe;
-     }
-     h4 {
-      margin: 0;
-      font-weight: 300;
-      color: #ffffff;
-     }
-     &:hover {
-      border-color: rgb(123, 109, 201);
-     }
-     &::placeholder {
-      color: rgb(149, 155, 180);
-      font-size: 14px;
-     }
-    }
-   }
-   button {
-    background-color: dodgerblue;
-    border: none;
-    color: white;
-    border-radius: 4px;
-    width: 25%;
-    padding: 10px 10px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    &:hover {
-     transform: translate(-1px, -1px);
-     opacity: 0.8;
-    }
-   }
-   button:nth-of-type(2) {
-    background-color: transparent;
-    border: 1px solid white;
-   }
-  }
- }
- .profiles {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   gap: 40px;
-  flex-wrap: wrap;
- }
+  .filter {
+    width: 100%;
+    max-width: 800px;
+    form {
+      display: flex;
+      gap: 15px;
+      justify-content: space-between;
+      margin-top: 20px;
+      .inputContainer {
+        width: 50%;
+        position: relative;
+        ul {
+          margin-top: 2px;
+          z-index: 30;
+          width: 100%;
+          max-height: 200px;
+          overflow-y: scroll;
+          position: absolute;
+          background-color: rgb(196, 212, 226);
+          color: rgb(53, 53, 70);
+          list-style: none;
+          padding: 10px;
+          display: flex;
+          flex-direction: column;
+          box-shadow: 0 0 23px 2px #4454;
+          &::-webkit-scrollbar {
+            width: 8px;
+          }
+          /* Track */
+          &::-webkit-scrollbar-track {
+            background: #c7c9eb;
+          }
+          /* Handle */
+          &::-webkit-scrollbar-thumb {
+            background: rgb(108, 78, 216);
+            border-radius: 3px;
+            width: 5px;
+          }
+          /* Handle on hover */
+          &::-webkit-scrollbar-thumb:hover {
+            background: #555;
+          }
+          li {
+            border-collapse: collapse;
+            cursor: pointer;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(46, 46, 99, 0.329);
+            transition: all 0.2s ease;
+            &:hover {
+              color: rgb(24, 24, 141);
+            }
+          }
+        }
+        .input {
+          border-radius: 0px;
+          font-size: 18px;
+          outline: none;
+          width: 100%;
+          color: white;
+          padding: 8px;
+          background-color: transparent;
+          border: 1px solid white;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          p {
+            margin: 0;
+            font-weight: 500;
+            color: #babacabe;
+          }
+          h4 {
+            margin: 0;
+            font-weight: 300;
+            color: #ffffff;
+          }
+          &:hover {
+            border-color: rgb(123, 109, 201);
+          }
+          &::placeholder {
+            color: rgb(149, 155, 180);
+            font-size: 14px;
+          }
+        }
+      }
+      button {
+        background-color: dodgerblue;
+        border: none;
+        color: white;
+        border-radius: 0px;
+        width: 25%;
+        padding: 10px 10px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        &:hover {
+          transform: translate(-1px, -1px);
+          opacity: 0.8;
+        }
+      }
+      button:nth-of-type(2) {
+        background-color: transparent;
+        border: 1px solid white;
+      }
+    }
+  }
+  .profiles {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
 }
 
 @media screen and (max-width: 730px) {
- .container {
-  .filter {
-   width: 100%;
-   form {
-    top: 50px;
-    width: 100%;
-    gap: 10px;
-    flex-wrap: wrap;
-    .inputContainer {
-     width: 100%;
-     .nput {
+  .container {
+    .filter {
       width: 100%;
-      border-radius: 2px;
-     }
+      form {
+        top: 50px;
+        width: 100%;
+        gap: 10px;
+        flex-wrap: wrap;
+        .inputContainer {
+          width: 100%;
+          .nput {
+            width: 100%;
+            border-radius: 2px;
+          }
+        }
+        button {
+          border-radius: 2px;
+        }
+      }
     }
-    button {
-     border-radius: 2px;
-    }
-   }
   }
- }
 }
