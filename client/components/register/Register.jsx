@@ -1,6 +1,7 @@
 import { useState, useContext, useRef } from "react";
 import { Countries } from "../../data/Countries";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 import regstyles from "../../styles/register.module.scss";
 import {
   devboxClickedHandler,
@@ -8,7 +9,7 @@ import {
   recboxClickedHandler,
   registerRecruiter,
   registerUser,
-} from "./utils/regiter";
+} from "./utils/register";
 import { registerContext } from "./utils/registerContext";
 
 function Register() {
@@ -28,6 +29,8 @@ function Register() {
 
   const { setUser, setRegistering, setLinks, setDetails } =
     useContext(registerContext);
+
+  const router = useRouter();
 
   const {
     register,
@@ -93,7 +96,7 @@ function Register() {
         setDetails
       );
     } else if (recruiterCheckbox) {
-      registerRecruiter(data, setLoading, setResponseError);
+      registerRecruiter(data, setLoading, setResponseError, router);
     } else {
       setCheckboxError(true);
     }

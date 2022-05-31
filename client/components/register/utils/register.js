@@ -32,7 +32,12 @@ export const registerUser = (
   });
 };
 
-export const registerRecruiter = (data, setLoading, setResponseError) => {
+export const registerRecruiter = (
+  data,
+  setLoading,
+  setResponseError,
+  router
+) => {
   setLoading(true);
   fetch(`${process.env.SERVER}/recruiter/register`, {
     method: "POST",
@@ -44,6 +49,7 @@ export const registerRecruiter = (data, setLoading, setResponseError) => {
       setLoading(false);
       setResponseError();
       localStorage.setItem("recruiter-x-auth-token", JSON.stringify(response));
+      router.reload();
     } else if (data.status == 401) {
       setLoading(false);
       setResponseError(response.msg);
