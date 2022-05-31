@@ -56,7 +56,7 @@ export function submitLinksHandler(
     LinksAndProfilePic(
       links,
       setLoading,
-      resume,
+      imageLink,
       user.token,
       user.user._id,
       router,
