@@ -1,6 +1,11 @@
 .footer {
   height: 200px;
-  background-color: rgb(19, 11, 27);
+  background: rgb(7, 7, 46);
+  background: linear-gradient(
+    10deg,
+    rgba(7, 7, 46, 1) 54%,
+    rgba(45, 11, 68, 1) 100%
+  );
   display: flex;
   justify-content: center;
   align-items: center;
