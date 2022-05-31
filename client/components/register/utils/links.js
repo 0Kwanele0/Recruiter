@@ -86,7 +86,7 @@ export function submitLinksHandler(
 function linksNoMedia(links, setLoading, token, id, router, setLinks) {
   const formData = { links: links };
   setLoading(true);
-  fetch(`http://localhost:3001/user/links/${id}`, {
+  fetch(`${process.env.SERVER}/user/links/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "Application/Json",
@@ -122,7 +122,7 @@ async function LinksAndResume(
     .from("main")
     .upload(resumeName, resume);
   const formData = { resume: resumeName, links: links };
-  fetch(`http://localhost:3001/user/links/${id}`, {
+  fetch(`${process.env.SERVER}/user/links/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "Application/Json",
@@ -158,7 +158,7 @@ async function LinksAndProfilePic(
     .from("main")
     .upload(imageName, imageLink);
   const formData = { profilephoto: imageName, links: links };
-  fetch(`http://localhost:3001/user/links/${id}`, {
+  fetch(`${process.env.SERVER}/user/links/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "Application/Json",
@@ -204,7 +204,7 @@ async function LinksAndMedia(
     profilephoto: imageName,
     links: links,
   };
-  fetch(`http://localhost:3001/user/links/${id}`, {
+  fetch(`${process.env.SERVER}/user/links/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "Application/Json",

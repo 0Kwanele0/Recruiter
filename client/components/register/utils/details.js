@@ -22,7 +22,7 @@ export function submitDetailsHandler(
       experience: selectedExperience,
     };
     setLoading(true);
-    fetch(`http://localhost:3001/user/details/${user.user._id}`, {
+    fetch(`${process.env.SERVER}/user/details/${user.user._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

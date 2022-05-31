@@ -8,8 +8,8 @@ dotenv.config({ path: "./vars/.env" });
 const App = express();
 App.use(express.json());
 
-App.use(cors());
-// App.use(cors({ origin: "https://devrecruiter.vercel.app" }));
+// App.use(cors());
+App.use(cors({ origin: "https://devrecruiter.vercel.app" }));
 
 mongoose.connect(process.env.MONGO_URL, {}, (err) => {
   if (!err) {

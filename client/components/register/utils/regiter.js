@@ -8,7 +8,7 @@ export const registerUser = (
   setDetails
 ) => {
   setLoading(true);
-  fetch(`http://localhost:3001/user/register`, {
+  fetch(`${process.env.SERVER}/user/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
@@ -34,7 +34,7 @@ export const registerUser = (
 
 export const registerRecruiter = (data, setLoading, setResponseError) => {
   setLoading(true);
-  fetch(`http://localhost:3001/recruiter/register`, {
+  fetch(`${process.env.SERVER}/recruiter/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),

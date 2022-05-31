@@ -33,9 +33,9 @@ function ProfileCard(props) {
                 data.data ? (
                   <img src={URL.createObjectURL(data.data)} alt="" />
                 ) : (
-                  <smaa style={{ color: "black" }}>
+                  <small style={{ color: "black" }}>
                     {props.firstname[0] + props.lastname[0]}
-                  </smaa>
+                  </small>
                 )
               ) : (
                 <></>
