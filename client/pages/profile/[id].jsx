@@ -127,8 +127,12 @@ function Profile() {
                 )}
               </div>
               <div className={mystyles.image}>
-                {imgLink && (
+                {imgLink ? (
                   <img onClick={openImagePreview} src={imgLink} alt="" />
+                ) : (
+                  <p style={{ color: "white" }}>
+                    {user.firstname[0] + user.lastname[0]}
+                  </p>
                 )}
               </div>
               <div className={mystyles.nameAndLocation}>

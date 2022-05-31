@@ -29,10 +29,20 @@ function ProfileCard(props) {
         <div className={styles.top}>
           <section className={styles.profile}>
             <div className={styles.image}>
-              {data && <img src={URL.createObjectURL(data.data)} alt="" />}
+              {data ? (
+                data.data ? (
+                  <img src={URL.createObjectURL(data.data)} alt="" />
+                ) : (
+                  <smaa style={{ color: "black" }}>
+                    {props.firstname[0] + props.lastname[0]}
+                  </smaa>
+                )
+              ) : (
+                <></>
+              )}
             </div>
             <div className={styles.name}>
-              <h3>{props.name}</h3>
+              <h3>{props.firstname + " " + props.lastname}</h3>
               <div className={styles.location}>
                 <Image src={location} alt="" width={20} height={20} />
                 <p>{props.city + ", " + props.country}</p>
