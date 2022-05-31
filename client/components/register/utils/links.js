@@ -1,5 +1,4 @@
 import { supabase } from "../../../data/supabaseClient";
-
 export function changeLinkHandler(
   e,
   setGithubLink,
@@ -31,8 +30,8 @@ export function submitLinksHandler(
   setLoading,
   imageLink,
   resume,
-  token,
-  id
+  user,
+  router
 ) {
   const links = [
     { name: "GitHub", link: githubLink },
@@ -42,20 +41,52 @@ export function submitLinksHandler(
   ];
 
   if (imageLink && resume) {
-    LinksAndMedia(links, setLoading, resume, imageLink, token, id);
+    LinksAndMedia(
+      links,
+      setLoading,
+      resume,
+      imageLink,
+      user.token,
+      user.user._id,
+      router,
+      setLinks
+    );
   } else if (imageLink && !resume) {
-    LinksAndProfilePic(links, setLoading, resume, token, id);
+    LinksAndProfilePic(
+      links,
+      setLoading,
+      resume,
+      user.token,
+      user.user._id,
+      router,
+      setLinks
+    );
   } else if (resume && !imageLink) {
-    LinksAndResume(links, setLoading, resume, token, id);
+    LinksAndResume(
+      links,
+      setLoading,
+      resume,
+      user.token,
+      user.user._id,
+      router,
+      setLinks
+    );
   } else {
-    linksNoMedia(links, setLoading, token, id);
+    linksNoMedia(
+      links,
+      setLoading,
+      user.token,
+      user.user._id,
+      router,
+      setLinks
+    );
   }
 }
 
-function linksNoMedia(links, setLoading, token, id) {
+function linksNoMedia(links, setLoading, token, id, router, setLinks) {
   const formData = { links: links };
   setLoading(true);
-  fetch(`${process.env.SERVER}/user/links/${id}`, {
+  fetch(`http://localhost:3001/user/links/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "Application/Json",
@@ -66,6 +97,8 @@ function linksNoMedia(links, setLoading, token, id) {
     const response = await data.json();
     if (data.status == 200) {
       setLoading(false);
+      router.reload();
+      setLinks(false);
     } else if (data.status == 401) {
       setLoading(false);
     } else {
@@ -74,14 +107,22 @@ function linksNoMedia(links, setLoading, token, id) {
   });
 }
 
-async function LinksAndResume(links, setLoading, resume, token, id) {
+async function LinksAndResume(
+  links,
+  setLoading,
+  resume,
+  token,
+  id,
+  router,
+  setLinks
+) {
   setLoading(true);
   const resumeName = `resumes/${id}res.pdf`;
   const { resumedata, imgerror } = await supabase.storage
     .from("main")
     .upload(resumeName, resume);
   const formData = { resume: resumeName, links: links };
-  fetch(`${process.env.SERVER}/user/links/${id}`, {
+  fetch(`http://localhost:3001/user/links/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "Application/Json",
@@ -92,6 +133,8 @@ async function LinksAndResume(links, setLoading, resume, token, id) {
     const response = await data.json();
     if (data.status == 200) {
       setLoading(false);
+      router.reload();
+      setLinks(false);
     } else if (data.status == 401) {
       setLoading(false);
     } else {
@@ -100,14 +143,22 @@ async function LinksAndResume(links, setLoading, resume, token, id) {
   });
 }
 
-async function LinksAndProfilePic(links, setLoading, imageLink, token, id) {
+async function LinksAndProfilePic(
+  links,
+  setLoading,
+  imageLink,
+  token,
+  id,
+  router,
+  setLinks
+) {
   setLoading(true);
   const imageName = `avatars/${id}pp.png`;
   const { imgdata, imgerror } = await supabase.storage
     .from("main")
     .upload(imageName, imageLink);
   const formData = { profilephoto: imageName, links: links };
-  fetch(`${process.env.SERVER}/user/links/${id}`, {
+  fetch(`http://localhost:3001/user/links/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "Application/Json",
@@ -118,6 +169,8 @@ async function LinksAndProfilePic(links, setLoading, imageLink, token, id) {
     const response = await data.json();
     if (data.status == 200) {
       setLoading(false);
+      router.reload();
+      setLinks(false);
     } else if (data.status == 401) {
       setLoading(false);
     } else {
@@ -126,7 +179,16 @@ async function LinksAndProfilePic(links, setLoading, imageLink, token, id) {
   });
 }
 
-async function LinksAndMedia(links, setLoading, resume, imageLink, token, id) {
+async function LinksAndMedia(
+  links,
+  setLoading,
+  resume,
+  imageLink,
+  token,
+  id,
+  router,
+  setLinks
+) {
   setLoading(true);
   const imageName = `avatars/${id}pp.png`;
   const resumeName = `resumes/${id}res.pdf`;
@@ -142,7 +204,7 @@ async function LinksAndMedia(links, setLoading, resume, imageLink, token, id) {
     profilephoto: imageName,
     links: links,
   };
-  fetch(`${process.env.SERVER}/user/links/${id}`, {
+  fetch(`http://localhost:3001/user/links/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "Application/Json",
@@ -153,6 +215,8 @@ async function LinksAndMedia(links, setLoading, resume, imageLink, token, id) {
     const response = await data.json();
     if (data.status == 200) {
       setLoading(false);
+      router.reload();
+      setLinks(false);
     } else if (data.status == 401) {
       setLoading(false);
     } else {

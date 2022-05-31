@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import regstyles from "../../styles/register.module.scss";
 import twitter from "../../public/assets/icons/twitter.png";
 import github from "../../public/assets/icons/github.png";
@@ -8,6 +8,8 @@ import avater from "../../public/assets/icons/avatar.png";
 import file from "../../public/assets/icons/file.png";
 import Image from "next/image";
 import { changeLinkHandler, submitLinksHandler } from "./utils/links";
+import { registerContext } from "./utils/registerContext";
+import { useRouter } from "next/router";
 
 function Links() {
   const [githubLink, setGithubLink] = useState("");
@@ -18,6 +20,9 @@ function Links() {
   const [resume, setResume] = useState();
   const [linksResponseError, setLinksResponseError] = useState();
   const [loading, setLoading] = useState(false);
+
+  const { user, setLinks } = useContext(registerContext);
+  const router = useRouter();
 
   function changeLink(e) {
     changeLinkHandler(
@@ -47,8 +52,9 @@ function Links() {
       setLoading,
       imageLink,
       resume,
-      token,
-      id
+      user,
+      router,
+      setLinks
     );
   }
 

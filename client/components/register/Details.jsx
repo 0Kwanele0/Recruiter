@@ -1,9 +1,10 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import regstyles from "../../styles/register.module.scss";
 import { submitDetailsHandler } from "./utils/details";
 import plus from "../../public/assets/icons/plus.png";
 import Image from "next/image";
 import { listedCategories, experienceList } from "../../data/Lists";
+import { registerContext } from "./utils/registerContext";
 
 function Details() {
   const [loading, setLoading] = useState(false);
@@ -14,10 +15,13 @@ function Details() {
   const [selectedExperience, setSelectedExperience] = useState();
   const [skills, setSkills] = useState([]);
   const [bio, setBio] = useState("");
-  const [detailsError, setDetailsError] = useState();
+  const [detailsError, setDetailsError] = useState(false);
   const [detailsResponseError, setDetailsResponseError] = useState();
   const [typedSkill, setTypedSkill] = useState("");
   const [exlist, setExList] = useState(false);
+
+  const { user, setDetails, setLinks, setRegistering } =
+    useContext(registerContext);
 
   function changeTypedSkill(e) {
     setTypedSkill(e.target.value);
@@ -75,6 +79,9 @@ function Details() {
       skills,
       bio,
       setLoading,
+      user,
+      setLinks,
+      setDetails,
       setDetailsError
     );
   }
@@ -160,7 +167,7 @@ function Details() {
         rows="4"
         required={true}
       ></textarea>
-      {detailsError ? <small>{detailsError}</small> : null}
+      {detailsError ? <small>{"All fields are required!"}</small> : null}
       <button type="submit">{loading ? "Loading..." : "Next"}</button>
       {detailsResponseError ? <small>{detailsResponseError}</small> : null}
     </form>
