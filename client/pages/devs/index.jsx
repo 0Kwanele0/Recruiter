@@ -222,7 +222,7 @@ function Devs(/*{ mydata }*/) {
 export default Devs;
 
 function fetcher() {
-  return fetch(`${process.env.SERVER}/user/`).then(
+  return fetch(`http://localhost:3001/user/`).then(
     async (data) => await data.json()
   );
 }
