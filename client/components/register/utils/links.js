@@ -31,7 +31,8 @@ export function submitLinksHandler(
   imageLink,
   resume,
   user,
-  router
+  router,
+  setLinks
 ) {
   const links = [
     { name: "GitHub", link: githubLink },
