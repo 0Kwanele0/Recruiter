@@ -85,7 +85,9 @@ function NavBar() {
         <>
           <div className={styles.pcNav}>
             <Link href="/">
-              <img src="assets/logo.png" alt="Recruiter" />
+              <h3 className={styles.logo}>
+                <span>R</span>ecruitor
+              </h3>
             </Link>
             <div className={styles.links}>
               <Link href="/devs">Find Developers</Link>
@@ -127,7 +129,9 @@ function NavBar() {
           </div>
           <div className={styles.mobileNav}>
             <div onClick={goHome}>
-              <img src="assets/logo.png" alt="Recruiter" />
+              <h3 className={styles.logo}>
+                <span>R</span>ecruitor
+              </h3>
             </div>
             <div className={styles.right}>
               <div onClick={openMobileMenu} className={styles.humburger}>

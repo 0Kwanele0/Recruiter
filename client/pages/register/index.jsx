@@ -19,7 +19,11 @@ function Index() {
   useEffect(() => {
     const token = localStorage.getItem("recruiter-x-auth-token");
     if (token) {
-      router.push("/developerprofile");
+      if (JSON.parse(token).user.type == "Recruiter") {
+        router.push("/recruiterprofile");
+      } else {
+        router.push("/developerprofile");
+      }
     } else {
       setNotLoggedIn(true);
     }
