@@ -165,7 +165,8 @@ function Devs(/*{ mydata }*/) {
                     return (
                       <ProfileCard
                         key={key}
-                        name={item.firstname + " " + item.lastname}
+                        firstname={item.firstname}
+                        lastname={item.lastname}
                         id={item._id}
                         photo={item.profilephoto}
                         city={item.city}
@@ -184,7 +185,8 @@ function Devs(/*{ mydata }*/) {
                       return (
                         <ProfileCard
                           key={key}
-                          name={item.firstname + " " + item.lastname}
+                          firstname={item.firstname}
+                          lastname={item.lastname}
                           id={item._id}
                           photo={item.profilephoto}
                           city={item.city}
@@ -200,7 +202,8 @@ function Devs(/*{ mydata }*/) {
                     return (
                       <ProfileCard
                         key={key}
-                        name={item.firstname + " " + item.lastname}
+                        firstname={item.firstname}
+                        lastname={item.lastname}
                         id={item._id}
                         photo={item.profilephoto}
                         city={item.city}
